@@ -80,6 +80,10 @@ textarea {
 }
 
 
+textarea {
+    height: 200px;
+}
+
 input, textarea, button {
     border-radius: 8px;
 }
@@ -94,6 +98,7 @@ button {
 input, textarea {
     border: transparent solid 1px;
     padding: 10px 5px;
+    resize: none;
 }
 
 ::placeholder {
@@ -218,10 +223,7 @@ header {
 .social {
     display: flex;
     margin-bottom: 30px;
-}
-
-.social li {
-    margin-right: 15px;
+    gap: 10px;
 }
 
 .copyright {
@@ -234,6 +236,10 @@ header {
     display: none;
     flex-direction: column;
     cursor: pointer;
+}
+
+.grow {
+    display: none;
 }
 
 /* Estilos responsivos */
@@ -267,13 +273,13 @@ nav ul li a {
 }
 /* } */
 
-
-
 #home {
     text-align: center;
     background: url(./images/back_mobile.webp);
     padding: 50px;
     background-position-y: -2px;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #home button {
@@ -318,4 +324,169 @@ nav ul li a {
     padding-left: 8px;
     padding-right: 8px;
     padding-top: 10px;
+}
+
+
+@media screen and (min-width: 768px) {
+    header {
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    nav ul {
+        display: initial;
+        position: initial;
+        margin-left: 10px;
+        margin-right: 10px;
+        display: flex;
+        flex-direction: row;
+        background-color: transparent;
+    }
+
+    nav ul li a {
+        color: #333;
+        display: block;
+        width: 100px;
+        text-align: center;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: space-around;
+    }
+
+    p, label, ul {
+        font-size: 11pt;
+    }
+
+    h1, h2 {
+        font-size: 15pt;
+        line-height: 17pt;
+    }
+
+    h3 {
+        font-size: 13pt;
+    }
+
+    footer h4 {
+        text-align: center;
+    }
+
+    .hamburger-menu {
+        display: none;
+    }
+
+    .logo {
+        width: 100px;
+        margin-left: 0px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .app-list {
+        display: grid; /* Ensure the container uses a grid layout */
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Use auto-fit to only fit the actual items */
+        align-items: center; /* Vertically center the logos within their grid cells */
+        justify-content: center; /* Center the items within the container */
+        gap: 20px; /* Add space between the logo elements */
+    }
+
+    .client-logos {
+        display: grid; /* Ensure the container uses a grid layout */
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Use auto-fit to only fit the actual items */
+        align-items: center; /* Vertically center the logos within their grid cells */
+        justify-content: center; /* Center the items within the container */
+        gap: 10px; /* Add space between the logo elements */
+        margin-top: 16px;
+    }
+
+    .app .title {
+        font-size: 12pt;
+        line-height: 14pt;
+    }
+
+    .app p {
+        font-size: 10pt;
+        line-height: 12pt;
+    }
+
+    .app img {
+        width: 100%;
+        max-height: 170px;
+        object-fit: cover;
+    }
+
+    .grow {
+        display: initial;
+        object-fit: cover;
+    }
+
+    .grow-content {
+        display: flex;
+        padding-bottom: 40px;
+    }
+
+    .grow-text {
+        padding-top: 20px;
+        padding-left: 20px;
+        padding-right: 100px;
+    }
+
+    .feature p {
+        line-height: 15pt;
+    }
+
+    .feature {
+        max-width: 470px;
+    }
+
+    .contact-container {
+        display: flex;
+    }
+
+    .feature:nth-child(0) {
+        margin-top: 40px;
+    }
+
+    .links-container {
+        display: flex;
+        justify-content: space-between;
+        padding-left: 100px;
+        padding-right: 100px;
+    }
+
+    .links-container div:nth-child(1) h4{
+        text-align: left;
+    }
+
+    .copyright {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .footer-content {
+        padding-top: 20px;
+    }
+
+    header, #apps-section, #why-choose-us, #contact, .footer-content {
+        max-width: 1320px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #home {
+        background: url(./images/back_desktop.webp);
+        background-size: cover;
+    }
+
+    #contact form, #contact p {
+        flex: 1;
+    }
+
+    #contact p {
+        padding-top: 20px;
+    }
 }
