@@ -489,4 +489,9 @@ nav ul li a {
     #contact p {
         padding-top: 20px;
     }
+
+    #contact form {
+        padding-top: 0px;
+    }
+
 }
