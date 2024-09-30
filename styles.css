@@ -157,7 +157,7 @@ header {
 .app-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 15px;
 }
 
 .app img {
@@ -181,6 +181,7 @@ header {
     font-size: 9pt;
     line-height: 12pt;
     padding-bottom: 5px;
+    min-height: 38px;
 }
 
 .client-logos {
@@ -210,6 +211,7 @@ header {
 }
 
 .submit-container {
+    padding-top: 10px;
     text-align: right;
 }
 
@@ -322,8 +324,6 @@ nav ul li a {
 
 #contact form {
     padding-top: 14px;
-    padding-left: 50px;
-    padding-right: 50px;
 }
 
 @media (max-width: 1024px) {
@@ -352,7 +352,7 @@ nav ul li a {
     nav ul li a {
         color: #333;
         display: block;
-        width: 100px;
+        width: 132px;
         text-align: center;
         height: 40px;
         display: flex;
@@ -414,7 +414,7 @@ nav ul li a {
 
     .app img {
         width: 100%;
-        max-height: 170px;
+        max-height: 200px;
         object-fit: cover;
     }
 
