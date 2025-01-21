@@ -287,6 +287,7 @@ nav ul li a {
 }
 
 #apps-section h2,
+#articles-section h2,
 #why-choose-us h2,
 #contact h2 {
     margin-bottom: 10px;
@@ -421,6 +422,48 @@ nav ul li a {
 .app-list {
     display: grid;
     gap: 10px;
+}
+
+#article {
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.8;
+    padding: 20px;
+}
+
+.article-card {
+    gap: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    max-width: 230px;
+}
+.article-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.article-card-content {
+    flex: 1;
+}
+.article-card-content h3 {
+    font-size: 14pt;
+    margin-bottom: 8px;
+}
+.article-card-content p {
+    font-size: 10pt;
+    margin-bottom: 10px;
+}
+.article-card-content button {
+    background-color: var(--darkest-color);
+    color: var(--clearer-color);
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
 @media screen and (min-width: 768px) {
@@ -564,6 +607,7 @@ nav ul li a {
 
     header,
     #apps-section,
+    #articles-section,
     #why-choose-us,
     #contact,
     .footer-content {
@@ -597,6 +641,7 @@ nav ul li a {
 @media screen and (min-width: 992px) {
     header,
     #apps-section,
+    #articles-section,
     #why-choose-us,
     #contact,
     .footer-content {
@@ -611,6 +656,7 @@ nav ul li a {
 @media screen and (min-width: 1200px) {
     header,
     #apps-section,
+    #articles-section,
     #why-choose-us,
     #contact,
     .footer-content {
@@ -625,6 +671,7 @@ nav ul li a {
 @media screen and (min-width: 1400px) {
     header,
     #apps-section,
+    #articles-section,
     #why-choose-us,
     #contact,
     .footer-content {
