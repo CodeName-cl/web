@@ -1,4 +1,3 @@
-
 /* CSS Reset */
 * {
     margin: 0;
@@ -83,7 +82,9 @@ textarea {
     height: 200px;
 }
 
-input, textarea, button {
+input,
+textarea,
+button {
     border-radius: 8px;
 }
 
@@ -94,14 +95,16 @@ button {
     padding: 10px;
 }
 
-input, textarea {
+input,
+textarea {
     border: transparent solid 1px;
     padding: 10px 5px;
     resize: none;
 }
 
 ::placeholder {
-    color: #979DAC; /* Change this to your desired color */
+    color: #979DAC;
+    /* Change this to your desired color */
 }
 
 footer {
@@ -117,11 +120,14 @@ footer h4 {
     padding-bottom: 10px;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     font-family: 'Inter Tight', Arial, Helvetica, sans-serif;
 }
 
-h1, h2 {
+h1,
+h2 {
     font-size: 13pt;
     line-height: 15pt;
 }
@@ -130,7 +136,9 @@ h3 {
     font-size: 12pt;
 }
 
-p, label, ul {
+p,
+label,
+ul {
     font-size: 9pt;
 }
 
@@ -155,8 +163,7 @@ header {
 
 .app-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 }
 
 .app img {
@@ -186,7 +193,8 @@ header {
 .client-logos {
     display: grid;
     gap: 10px;
-    grid-template-columns: repeat(6, 1fr); /* For large screens: 1 row with 6 elements */
+    grid-template-columns: repeat(6, 1fr);
+    /* For large screens: 1 row with 6 elements */
 }
 
 .client-logos img {
@@ -200,7 +208,8 @@ header {
     padding-right: 8px;
     display: flex;
     margin-top: 15px;
-    margin-bottom: 15px;}
+    margin-bottom: 15px;
+}
 
 .feature img {
     height: 100%;
@@ -242,9 +251,11 @@ nav ul {
     display: none;
     flex-direction: column;
     width: 100%;
-    background-color: #fff; /* Opcional: color de fondo del menú desplegable */
+    background-color: #fff;
+    /* Opcional: color de fondo del menú desplegable */
     position: absolute;
-    top: 60px; /* Ajusta según la altura de tu header */
+    top: 60px;
+    /* Ajusta según la altura de tu header */
     left: 0;
 }
 
@@ -265,14 +276,19 @@ nav ul li {
 nav ul li a {
     color: #333;
 }
+
 /* } */
 
-#apps-section, #why-choose-us, #contact {
+#apps-section,
+#why-choose-us,
+#contact {
     padding-left: 10px;
     padding-right: 10px;
 }
 
-#apps-section h2, #why-choose-us h2, #contact h2 {
+#apps-section h2,
+#why-choose-us h2,
+#contact h2 {
     margin-bottom: 10px;
 }
 
@@ -317,7 +333,8 @@ nav ul li a {
     padding-bottom: 50px;
 }
 
-#contact input, #contact textarea {
+#contact input,
+#contact textarea {
     width: 100%;
 }
 
@@ -325,9 +342,128 @@ nav ul li a {
     padding-top: 14px;
 }
 
+/* Estilo general de la tarjeta */
+.app-card {
+    display: flex;
+    align-items: flex-start;
+    /* Alineación superior */
+    width: 100%;
+    /* Ocupar todo el contenedor */
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.3s ease;
+}
+
+.app-card:hover .icon-container {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
+}
+
+.app-card:hover .app-name {
+    text-decoration: underline;
+    /* Subraya el título al hover */
+}
+
+/* Contenedor del ícono */
+.icon-container {
+    width: 50px;
+    /* Cuadrado exacto */
+    height: 50px;
+    /* Cuadrado exacto */
+    flex: 0 0 auto;
+    /* Evita que el ícono se redimensione */
+    background-color: #f8f9fa;
+    /* Fondo claro */
+    border-radius: 8px;
+    /* Bordes redondeados */
+    overflow: hidden;
+    /* Asegurar que el ícono no se salga */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+}
+
+/* Ícono */
+.app-icon {
+    width: 100%;
+    /* Ocupar todo el contenedor */
+    height: 100%;
+    /* Ocupar todo el contenedor */
+    object-fit: cover;
+    /* Ajustado */
+}
+
+/* Contenido de la tarjeta */
+.app-content {
+    flex-grow: 1;
+}
+
+.app-name {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.app-rating {
+    font-size: 11px;
+    color: #666;
+}
+
+.app-description {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+    line-height: 1.2em;
+}
+
+.app-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+    .app-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .app-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1025px) {
+    .app-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .app-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .app-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 1024px) {
     .client-logos {
-        grid-template-columns: repeat(3, 1fr); /* For smaller screens: 2 rows with 3 elements */
+        grid-template-columns: repeat(3, 1fr);
+        /* For smaller screens: 2 rows with 3 elements */
+    }
+}
+
+@media (min-width: 1025px) {
+    .app-list {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
@@ -360,11 +496,14 @@ nav ul li a {
         justify-content: space-around;
     }
 
-    p, label, ul {
+    p,
+    label,
+    ul {
         font-size: 11pt;
     }
 
-    h1, h2 {
+    h1,
+    h2 {
         font-size: 15pt;
         line-height: 17pt;
     }
@@ -390,14 +529,19 @@ nav ul li a {
 
     .app-list {
         grid-template-columns: repeat(4, 1fr);
-        gap: 20px; /* Add space between the logo elements */
+        gap: 20px;
+        /* Add space between the logo elements */
     }
 
     .client-logos {
-        display: grid; /* Ensure the container uses a grid layout */
-        align-items: center; /* Vertically center the logos within their grid cells */
-        justify-content: center; /* Center the items within the container */
-        gap: 10px; /* Add space between the logo elements */
+        display: grid;
+        /* Ensure the container uses a grid layout */
+        align-items: center;
+        /* Vertically center the logos within their grid cells */
+        justify-content: center;
+        /* Center the items within the container */
+        gap: 10px;
+        /* Add space between the logo elements */
         margin-top: 16px;
     }
 
@@ -455,7 +599,7 @@ nav ul li a {
         padding-right: 100px;
     }
 
-    .links-container div:nth-child(1) h4{
+    .links-container div:nth-child(1) h4 {
         text-align: left;
     }
 
@@ -468,7 +612,11 @@ nav ul li a {
         padding-top: 20px;
     }
 
-    header, #apps-section, #why-choose-us, #contact, .footer-content {
+    header,
+    #apps-section,
+    #why-choose-us,
+    #contact,
+    .footer-content {
         max-width: 1320px;
         margin-left: auto;
         margin-right: auto;
@@ -481,7 +629,8 @@ nav ul li a {
         background-size: cover;
     }
 
-    #contact form, #contact p {
+    #contact form,
+    #contact p {
         flex: 1;
     }
 
