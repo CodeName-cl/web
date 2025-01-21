@@ -163,7 +163,7 @@ header {
 
 .app-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, 100%)
 }
 
 .app img {
@@ -420,51 +420,7 @@ nav ul li a {
 
 .app-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 10px;
-}
-
-@media (max-width: 768px) {
-    .app-list {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-    .app-list {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (min-width: 1025px) {
-    .app-list {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .app-list {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-    .app-list {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 1024px) {
-    .client-logos {
-        grid-template-columns: repeat(3, 1fr);
-        /* For smaller screens: 2 rows with 3 elements */
-    }
-}
-
-@media (min-width: 1025px) {
-    .app-list {
-        grid-template-columns: repeat(3, 1fr);
-    }
 }
 
 @media screen and (min-width: 768px) {
@@ -525,12 +481,6 @@ nav ul li a {
         margin-left: 0px;
         padding-top: 10px;
         padding-bottom: 10px;
-    }
-
-    .app-list {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-        /* Add space between the logo elements */
     }
 
     .client-logos {
@@ -617,7 +567,7 @@ nav ul li a {
     #why-choose-us,
     #contact,
     .footer-content {
-        max-width: 1320px;
+        max-width: 720px;
         margin-left: auto;
         margin-right: auto;
         padding-left: 10px;
@@ -642,4 +592,46 @@ nav ul li a {
         padding-top: 0px;
     }
 
+}
+
+@media screen and (min-width: 992px) {
+    header,
+    #apps-section,
+    #why-choose-us,
+    #contact,
+    .footer-content {
+        max-width: 960px;
+    }
+
+    .app-list {
+        grid-template-columns: repeat(auto-fill, 49%)
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    header,
+    #apps-section,
+    #why-choose-us,
+    #contact,
+    .footer-content {
+        max-width: 1140px;
+    }
+
+    .app-list {
+        grid-template-columns: repeat(auto-fill, 32%)
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    header,
+    #apps-section,
+    #why-choose-us,
+    #contact,
+    .footer-content {
+        max-width: 1320px;
+    }
+
+    .app-list {
+        grid-template-columns: repeat(auto-fill, 24%)
+    }
 }
