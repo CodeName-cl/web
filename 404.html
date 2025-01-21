@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 404 - Página no encontrada</title>
+
+    <style>
+        button,footer{color:var(--clearer-color)}
+        body,nav ul li a{color:#333}
+        #home,#why-choose-us h3,header,nav ul li{text-align:center}
+        .app-card,a{text-decoration:none}
+        .app .title,.app-name,.copyright,button,label,nav ul li{font-weight:700}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body,html{height:100%;font-family:Roboto,Arial,Helvetica,sans-serif}
+        body{line-height:1.6;background-color:#f0f0f0}
+        img{max-width:100%;height:auto}
+        a{color:inherit}
+        ::placeholder{color:#979dac}
+        :root{--darkest-color:#001233;--clearer-color:#f0f0f0;--border-color:#979DAC}
+        main{display:flex;flex-direction:column;align-items:center;justify-content:center;height:80vh;text-align:center}
+        h1{font-family:'Inter Tight',Arial,Helvetica,sans-serif;font-size:20pt;margin-bottom:10px}
+        p{font-size:11pt;margin-bottom:20px}
+        .btn-home{background-color:var(--darkest-color);color:var(--clearer-color);padding:10px 20px;border:none;border-radius:8px;cursor:pointer;font-weight:700}
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="/">
+            <svg class="logo" width="100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104.2 46.06">
+                <!-- ...existing code... -->
+            </svg>
+        </a>
+    </header>
+
+    <main>
+        <h1>404 - Página no encontrada</h1>
+        <p>Lo sentimos, no pudimos encontrar la página que buscabas.</p>
+        <button class="btn-home" onclick="location.href='/'">Volver al Inicio</button>
+    </main>
+
+    <footer>
+        <p>© 2024 Codename.cl</p>
+    </footer>
+</body>
+
+</html>
