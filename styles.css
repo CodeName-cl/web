@@ -32,7 +32,7 @@ video {
 }
 
 a {
-    text-decoration: none;
+    /* text-decoration: none; */
     /* Elimina el subrayado de los enlaces */
     color: inherit;
     /* Mantiene el color del enlace igual al texto circundante */
@@ -152,6 +152,10 @@ section {
 
 header {
     text-align: center;
+}
+
+header a {
+    text-decoration: none;
 }
 
 .logo {
@@ -307,6 +311,7 @@ nav ul li a {
 }
 
 #home button {
+    font-size: 14pt;
     margin-top: 50px;
     padding-left: 30px;
     padding-right: 30px;
@@ -403,17 +408,17 @@ nav ul li a {
 }
 
 .app-name {
-    font-size: 14px;
+    font-size: 13pt;
     font-weight: bold;
 }
 
 .app-rating {
-    font-size: 11px;
+    font-size: 10pt;
     color: #666;
 }
 
 .app-description {
-    font-size: 12px;
+    font-size: 10pt;
     color: #666;
     margin: 0;
     line-height: 1.2em;
@@ -428,7 +433,24 @@ nav ul li a {
     max-width: 700px;
     margin: 0 auto;
     line-height: 1.8;
-    padding: 20px;
+    padding: 30px;
+}
+
+#article p {
+    margin-bottom: 20px;
+    line-height: 1.3em;
+    color: #444;
+}
+
+#article h1,
+#article h2,
+#article h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+#article h2 {
+    font-size: 13pt;
 }
 
 .article-card {
@@ -450,20 +472,51 @@ nav ul li a {
     flex: 1;
 }
 .article-card-content h3 {
-    font-size: 14pt;
+    font-size: 13pt;
     margin-bottom: 8px;
+    line-height: 1.3em;
 }
 .article-card-content p {
     font-size: 10pt;
     margin-bottom: 10px;
+    line-height: 1.2em;
 }
-.article-card-content button {
-    background-color: var(--darkest-color);
-    color: var(--clearer-color);
-    padding: 8px 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+.article-card-content a {
+    text-align: right;
+    width: 100%;
+    font-size: 11pt;
+    font-weight: bold;
+    display: block;
+}
+
+.btn-call-to-action {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.btn-call-to-action:hover {
+    transform: translateY(-3px) scale(1.07);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.footer-content a {
+    text-decoration: none;
+}
+
+#breadcrumb nav[aria-label="breadcrumb"] ol {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#breadcrumb nav[aria-label="breadcrumb"] li {
+    margin-right: 8px;
+}
+
+#breadcrumb nav[aria-label="breadcrumb"] li+li::before {
+    content: ">";
+    margin-right: 8px;
+    color: #666;
 }
 
 @media screen and (min-width: 768px) {
@@ -498,7 +551,7 @@ nav ul li a {
     p,
     label,
     ul {
-        font-size: 11pt;
+        font-size: 12pt;
     }
 
     h1,
@@ -610,6 +663,7 @@ nav ul li a {
     #articles-section,
     #why-choose-us,
     #contact,
+    #breadcrumb,
     .footer-content {
         max-width: 720px;
         margin-left: auto;
@@ -644,6 +698,7 @@ nav ul li a {
     #articles-section,
     #why-choose-us,
     #contact,
+    #breadcrumb,
     .footer-content {
         max-width: 960px;
     }
@@ -659,6 +714,7 @@ nav ul li a {
     #articles-section,
     #why-choose-us,
     #contact,
+    #breadcrumb,
     .footer-content {
         max-width: 1140px;
     }
@@ -674,11 +730,12 @@ nav ul li a {
     #articles-section,
     #why-choose-us,
     #contact,
+    #breadcrumb,
     .footer-content {
         max-width: 1320px;
     }
 
     .app-list {
-        grid-template-columns: repeat(auto-fill, 24%)
+        grid-template-columns: repeat(auto-fill, 32%)
     }
 }
