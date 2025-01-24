@@ -40,8 +40,14 @@ a {
 
 ul,
 ol {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+header ul,
+footer ul {
     list-style: none;
-    /* Elimina los puntos y números de listas */
+    padding-left: 0;
 }
 
 table {
@@ -436,7 +442,7 @@ nav ul li a {
     padding: 30px;
 }
 
-#article p {
+#article p, #article li {
     margin-bottom: 20px;
     line-height: 1.3em;
     color: #444;
@@ -517,6 +523,10 @@ nav ul li a {
     content: ">";
     margin-right: 8px;
     color: #666;
+}
+
+.cls-1 {
+    fill: #333;
 }
 
 @media screen and (min-width: 768px) {
@@ -737,5 +747,47 @@ nav ul li a {
 
     .app-list {
         grid-template-columns: repeat(auto-fill, 32%)
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #333;
+        color: #f0f0f0;
+    }
+
+    nav ul li a {
+        color: #ddd;
+    }
+
+    .app-card, .article-card {
+        background-color: transparent;
+        color: #f0f0f0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 1);
+    }
+
+    .icon-container {
+        background-color: #555;
+    }
+
+    input, textarea, button {
+        background-color: #555;
+        color: #f0f0f0;
+    }
+
+    .app-description, p, li {
+        color: #ffffff;
+    }
+
+    #article p, #article li {
+        color: #ddd;
+    }
+
+    .logo .cls-1 {
+        fill: #ddd;
+    }
+
+    ::placeholder {
+        color: #bbb;
     }
 }
