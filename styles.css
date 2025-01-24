@@ -765,6 +765,10 @@ nav ul li a {
         color: #f0f0f0;
     }
 
+    .article-card {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 1);
+    }
+
     .icon-container {
         background-color: #555;
     }
