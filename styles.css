@@ -763,7 +763,6 @@ nav ul li a {
     .app-card, .article-card {
         background-color: transparent;
         color: #f0f0f0;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 1);
     }
 
     .icon-container {
