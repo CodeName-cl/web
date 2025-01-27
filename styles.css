@@ -11,6 +11,7 @@ body {
     height: 100%;
     /* Hace que el body ocupe toda la altura del viewport */
     font-family: 'Roboto', Arial, Arial, Helvetica, sans-serif;
+    font-weight: 300;
     /* Define una fuente base */
 }
 
@@ -211,6 +212,7 @@ header a {
     width: 100%;
     object-fit: cover;
     height: 100%;
+    border-radius: 10px;
 }
 
 .feature {
@@ -253,6 +255,7 @@ header a {
 
 .grow {
     display: none;
+    border-radius: 10px;
 }
 
 /* Estilos responsivos */
@@ -396,6 +399,7 @@ nav ul li a {
     justify-content: center;
     align-items: center;
     margin-right: 15px;
+    margin-top: 5px;
 }
 
 /* Ícono */
@@ -446,6 +450,7 @@ nav ul li a {
     margin-bottom: 20px;
     line-height: 1.3em;
     color: #444;
+    text-align: justify;
 }
 
 #article h1,
@@ -629,7 +634,7 @@ nav ul li a {
 
     .grow-text {
         padding-top: 20px;
-        padding-right: 100px;
+        padding-right: 50px;
     }
 
     .feature p {
@@ -752,7 +757,7 @@ nav ul li a {
 
 @media (prefers-color-scheme: dark) {
     body {
-        background-color: #333;
+        background-color: #555;
         color: #f0f0f0;
     }
 
@@ -766,7 +771,7 @@ nav ul li a {
     }
 
     .article-card {
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
     }
 
     .icon-container {
@@ -774,12 +779,12 @@ nav ul li a {
     }
 
     input, textarea, button {
-        background-color: #555;
+        background-color: #666;
         color: #f0f0f0;
     }
 
     .app-description, p, li {
-        color: #ffffff;
+        color: #ddd;
     }
 
     #article p, #article li {
