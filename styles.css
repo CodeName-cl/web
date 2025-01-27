@@ -105,7 +105,7 @@ button {
 input,
 textarea {
     border: transparent solid 1px;
-    padding: 10px 5px;
+    padding: 15px 15px;
     resize: none;
 }
 
@@ -301,6 +301,7 @@ nav ul li a {
 
 #apps-section h2,
 #articles-section h2,
+#newsletter-section h2,
 #why-choose-us h2,
 #contact h2 {
     margin-bottom: 10px;
@@ -534,6 +535,14 @@ nav ul li a {
     fill: #333;
 }
 
+#newsletter-section iframe {
+    border: none;
+}
+
+.bKIcfo {
+    border: none!important;
+}
+
 @media screen and (min-width: 768px) {
     header {
         text-align: left;
@@ -633,7 +642,6 @@ nav ul li a {
     }
 
     .grow-text {
-        padding-top: 20px;
         padding-right: 50px;
     }
 
@@ -676,6 +684,7 @@ nav ul li a {
     header,
     #apps-section,
     #articles-section,
+    #newsletter-section,
     #why-choose-us,
     #contact,
     #breadcrumb,
@@ -711,6 +720,7 @@ nav ul li a {
     header,
     #apps-section,
     #articles-section,
+    #newsletter-section,
     #why-choose-us,
     #contact,
     #breadcrumb,
@@ -727,6 +737,7 @@ nav ul li a {
     header,
     #apps-section,
     #articles-section,
+    #newsletter-section,
     #why-choose-us,
     #contact,
     #breadcrumb,
@@ -743,6 +754,7 @@ nav ul li a {
     header,
     #apps-section,
     #articles-section,
+    #newsletter-section,
     #why-choose-us,
     #contact,
     #breadcrumb,
