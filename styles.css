@@ -1,3 +1,17 @@
+:root {
+    --color-00: #252422;
+    --color-01: #403d39;
+    --color-02: #ccc5b9;
+    --color-03: #fffcf2;
+    --color-04: #f0f0f0;
+    --color-05: #eb5e28;
+
+    --border-radius: 8px;
+    /* --color-00: #001233;
+    --color-03: #f0f0f0;
+    --border-color: #979DAC; */
+}
+
 /* CSS Reset */
 * {
     margin: 0;
@@ -18,9 +32,9 @@ body {
 body {
     line-height: 1.6;
     /* Altura de línea más cómoda */
-    background-color: #f0f0f0;
+    background-color: var(--color-04);
     /* Fondo gris claro */
-    color: #333;
+    color: var(--color-00);
     /* Color de texto predeterminado */
 }
 
@@ -73,16 +87,12 @@ textarea {
     font-family: inherit;
     /* Mantiene la fuente del input/button igual al resto del sitio */
     outline: none;
+    background-color: var(--color-04);
+    border: var(--color-00) solid 1px;
     /* Elimina el contorno predeterminado al hacer foco */
 }
 
 /* CSS Reset */
-
-:root {
-    --darkest-color: #001233;
-    --clearer-color: #f0f0f0;
-    --border-color: #979DAC;
-}
 
 
 textarea {
@@ -92,19 +102,18 @@ textarea {
 input,
 textarea,
 button {
-    border-radius: 8px;
+    border-radius: var(--border-radius);
 }
 
 button {
-    background-color: var(--darkest-color);
-    color: var(--clearer-color);
+    background-color: var(--color-00);
+    color: var(--color-03);
     font-weight: bold;
     padding: 10px;
 }
 
 input,
 textarea {
-    border: transparent solid 1px;
     padding: 15px 15px;
     resize: none;
 }
@@ -115,8 +124,8 @@ textarea {
 }
 
 footer {
-    background-color: var(--darkest-color);
-    color: var(--clearer-color);
+    background-color: var(--color-00);
+    color: var(--color-03);
     padding-left: 15px;
     padding-right: 15px;
     padding-bottom: 10px;
@@ -261,7 +270,8 @@ header a {
 
 .grow {
     display: none;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
+    border: var(--color-00) solid 1px;
 }
 
 /* Estilos responsivos */
@@ -320,10 +330,12 @@ nav ul li a {
 #home {
     text-align: center;
     /* background: url(./images/back_mobile.webp); */
-    padding: 50px;
+    padding: 150px 50px;
     background-position-y: -2px;
     background-repeat: no-repeat;
     background-size: cover;
+    background-color: var(--color-00);
+    color: var(--color-03);
 }
 
 #home button {
@@ -333,7 +345,8 @@ nav ul li a {
     padding-right: 30px;
     padding-top: 13px;
     padding-bottom: 13px;
-    background: #0466C8;
+    border: var(--color-01) solid 1px;
+    background: var(--color-05);
 }
 
 
@@ -396,9 +409,9 @@ nav ul li a {
     /* Cuadrado exacto */
     flex: 0 0 auto;
     /* Evita que el ícono se redimensione */
-    background-color: #f8f9fa;
+    background-color: var(--color-03);
     /* Fondo claro */
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     /* Bordes redondeados */
     overflow: hidden;
     /* Asegurar que el ícono no se salga */
@@ -431,12 +444,12 @@ nav ul li a {
 
 .app-rating {
     font-size: 10pt;
-    color: #666;
+    color: var(--color-01);
 }
 
 .app-description {
     font-size: 10pt;
-    color: #666;
+    color: var(--color-01);
     margin: 0;
     line-height: 1.2em;
 }
@@ -456,7 +469,7 @@ nav ul li a {
 #article p, #article li {
     margin-bottom: 20px;
     line-height: 1.3em;
-    color: #444;
+    color: var(--color-01);
     text-align: justify;
 }
 
@@ -473,18 +486,19 @@ nav ul li a {
 
 .article-card {
     gap: 15px;
-    background-color: #fff;
-    border-radius: 8px;
+    background-color: var(--color-04);
+    border-radius: var(--border-radius);
     padding: 15px;
     margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: var(--color-00) solid 1px;
     max-width: 230px;
 }
 .article-card img {
     width: 120px;
     height: 120px;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
 }
 .article-card-content {
     flex: 1;
@@ -534,11 +548,11 @@ nav ul li a {
 #breadcrumb nav[aria-label="breadcrumb"] li+li::before {
     content: ">";
     margin-right: 8px;
-    color: #666;
+    color: var(--color-01);
 }
 
 .cls-1 {
-    fill: #333;
+    fill: var(--color-01);
 }
 
 #newsletter-section iframe {
@@ -567,7 +581,7 @@ nav ul li a {
     }
 
     nav ul li a {
-        color: #333;
+        color: var(--color-01);
         display: block;
         width: 132px;
         text-align: center;
@@ -773,7 +787,7 @@ nav ul li a {
     }
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
     body {
         background-color: #555;
         color: #f0f0f0;
@@ -816,4 +830,4 @@ nav ul li a {
     ::placeholder {
         color: #bbb;
     }
-}
+} */
