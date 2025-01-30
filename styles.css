@@ -484,6 +484,12 @@ nav ul li a {
     font-size: 13pt;
 }
 
+#articles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
 .article-card {
     gap: 15px;
     background-color: var(--color-04);
@@ -492,7 +498,8 @@ nav ul li a {
     margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     border: var(--color-00) solid 1px;
-    max-width: 230px;
+    max-width: calc(50% - 20px);
+    flex: 1 1 calc(50% - 20px);
 }
 .article-card img {
     width: 120px;
@@ -787,6 +794,11 @@ nav ul li a {
         padding-left: 20px;
         padding-bottom: 0;
     }
+
+    .article-card {
+        flex: 1 1 calc(33.33% - 20px);
+        max-width: calc(33.33% - 20px);
+    }
 }
 
 @media screen and (min-width: 992px) {
@@ -805,6 +817,11 @@ nav ul li a {
 
     .app-list {
         grid-template-columns: repeat(auto-fill, 49%)
+    }
+
+    .article-card {
+        flex: 1 1 calc(20% - 20px);
+        max-width: calc(20% - 20px);
     }
 }
 
