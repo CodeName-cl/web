@@ -460,7 +460,7 @@ nav ul li a {
 }
 
 #article {
-    max-width: 700px;
+    max-width: 100%;
     margin: 0 auto;
     line-height: 1.8;
     padding: 30px;
@@ -510,8 +510,10 @@ nav ul li a {
 }
 .article-card-content p {
     font-size: 10pt;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     line-height: 1.2em;
+    height: 127px;
+    overflow: hidden;
 }
 .article-card-content a {
     text-align: right;
@@ -561,6 +563,41 @@ nav ul li a {
 
 .bKIcfo {
     border: none!important;
+}
+
+#articles-section>a {
+    background-color: var(--color-00);
+    color: var(--color-03);
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    display: block;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 11pt;
+}
+
+.article-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.article-content {
+    order: 2;
+}
+
+.article-sidebar {
+    order: 1;
+    padding-left: 0;
+    padding-bottom: 20px;
+    flex: 1 1 25%;
+    padding-top: 20px;
+}
+
+.article-sidebar p {
+    margin-bottom: 5px!important;
 }
 
 @media screen and (min-width: 768px) {
@@ -708,7 +745,9 @@ nav ul li a {
     #why-choose-us,
     #contact,
     #breadcrumb,
-    .footer-content {
+    .footer-content,
+    #toc,
+    #article {
         max-width: 720px;
         margin-left: auto;
         margin-right: auto;
@@ -734,6 +773,20 @@ nav ul li a {
         padding-top: 0px;
     }
 
+    .article-container {
+        flex-direction: row;
+    }
+
+    .article-content {
+        order: 1;
+        flex: 3 1 75%;
+    }
+
+    .article-sidebar {
+        order: 2;
+        padding-left: 20px;
+        padding-bottom: 0;
+    }
 }
 
 @media screen and (min-width: 992px) {
@@ -744,7 +797,9 @@ nav ul li a {
     #why-choose-us,
     #contact,
     #breadcrumb,
-    .footer-content {
+    .footer-content,
+    #toc,
+    #article {
         max-width: 960px;
     }
 
@@ -761,7 +816,9 @@ nav ul li a {
     #why-choose-us,
     #contact,
     #breadcrumb,
-    .footer-content {
+    .footer-content,
+    #toc,
+    #article {
         max-width: 1140px;
     }
 
@@ -778,7 +835,8 @@ nav ul li a {
     #why-choose-us,
     #contact,
     #breadcrumb,
-    .footer-content {
+    .footer-content,
+    #toc {
         max-width: 1320px;
     }
 
