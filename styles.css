@@ -595,6 +595,10 @@ nav ul li a {
     order: 2;
 }
 
+.article-content h3 {
+    font-size: 12pt;
+}
+
 .article-sidebar {
     order: 1;
     padding-left: 0;
