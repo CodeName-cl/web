@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- DNS Prefetch + Preconnect for Google Fonts -->
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- DNS Prefetch + Preconnect for Google Tag Manager -->
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+            rel="stylesheet">
+    </noscript>
+
+
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5CWP9SPQ');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Configura el envío unificado en Ship Smart para Shopify. Centraliza costos de despacho y optimiza tu logística.">
+    <meta name="keywords"
+        content="Shopify, aplicaciones Shopify, optimización de tiendas online, herramientas Shopify, automatización de tiendas Shopify">
+
+    <meta name="color-scheme" content="light dark">
+    <title>Envío Unificado en Ship Smart: Configuración y Consideraciones</title>
+
+    <style>
+        #home,
+        #why-choose-us h3,
+        header,
+        nav ul li {
+            text-align: center
+        }
+
+        :root {
+            --color-00: #252422;
+            --color-01: #403d39;
+            --color-02: #ccc5b9;
+            --color-03: #fffcf2;
+            --color-04: #f0f0f0;
+            --color-05: #eb5e28;
+            --border-radius: 8px
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body,
+        html {
+            height: 100%;
+            font-family: Roboto, Arial, Arial, Helvetica, sans-serif;
+            font-weight: 300
+        }
+
+        .app .title,
+        .app-name,
+        .copyright,
+        button,
+        label,
+        nav ul li {
+            font-weight: 700
+        }
+
+        body {
+            line-height: 1.6;
+            background-color: var(--color-04);
+            color: var(--color-00)
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            height: auto
+        }
+
+        a {
+            color: inherit
+        }
+
+        ol,
+        ul {
+            list-style: disc;
+            padding-left: 20px
+        }
+
+        footer ul,
+        header ul {
+            list-style: none;
+            padding-left: 0
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%
+        }
+
+        button {
+            cursor: pointer;
+            background: 0 0;
+            border: none
+        }
+
+        button,
+        input,
+        textarea {
+            font-family: inherit;
+            outline: 0;
+            background-color: var(--color-04);
+            border: var(--color-00) solid 1px;
+            border-radius: var(--border-radius)
+        }
+
+        #home,
+        button,
+        footer {
+            background-color: var(--color-00);
+            color: var(--color-03)
+        }
+
+        textarea {
+            height: 200px
+        }
+
+        button {
+            padding: 10px
+        }
+
+        input,
+        textarea {
+            padding: 15px;
+            resize: none
+        }
+
+        .logo,
+        footer,
+        footer h4 {
+            padding-bottom: 10px
+        }
+
+        ::placeholder {
+            color: #979dac
+        }
+
+        footer {
+            padding-left: 15px;
+            padding-right: 15px
+        }
+
+        footer h4 {
+            padding-top: 30px
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Inter Tight', Arial, Helvetica, sans-serif
+        }
+
+        h1,
+        h2 {
+            font-size: 13pt;
+            line-height: 15pt
+        }
+
+        .article-content h3,
+        h3 {
+            font-size: 12pt
+        }
+
+        .app p,
+        label,
+        p,
+        ul {
+            font-size: 9pt
+        }
+
+        section {
+            padding-top: 50px
+        }
+
+        .footer-content a,
+        header a {
+            text-decoration: none
+        }
+
+        .logo {
+            width: 100px;
+            margin-left: -60px;
+            padding-top: 10px
+        }
+
+        #contact input,
+        #contact textarea,
+        .app button,
+        .app img,
+        .app-card,
+        nav ul {
+            width: 100%
+        }
+
+        .app-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 100%)
+        }
+
+        .app .title {
+            font-size: 10pt;
+            line-height: 12pt;
+            padding-top: 5px
+        }
+
+        .app button {
+            padding-top: 8px;
+            padding-bottom: 8px
+        }
+
+        .app p {
+            line-height: 12pt;
+            padding-bottom: 5px;
+            min-height: 38px
+        }
+
+        .client-logos {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(6, 1fr)
+        }
+
+        .client-logos img {
+            width: 100%;
+            object-fit: cover;
+            height: 100%;
+            border-radius: 10px;
+            transition: transform .3s ease-in-out, box-shadow .3s ease-in-out
+        }
+
+        .client-logos img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, .2)
+        }
+
+        .feature {
+            padding-left: 8px;
+            padding-right: 8px;
+            display: flex;
+            margin-top: 15px;
+            margin-bottom: 15px
+        }
+
+        .feature img,
+        .icon-container {
+            margin-right: 15px;
+            margin-top: 5px
+        }
+
+        .feature img {
+            height: 100%;
+            margin-left: 10px
+        }
+
+        .submit-container {
+            padding-top: 10px;
+            text-align: right
+        }
+
+        .social {
+            display: flex;
+            margin-bottom: 30px;
+            gap: 10px
+        }
+
+        #shadow-host-companion,
+        .grow,
+        nav ul {
+            display: none
+        }
+
+        #apps-section h2,
+        #articles-section h2,
+        #contact h2,
+        #newsletter-section h2,
+        #why-choose-us h2,
+        .app-card {
+            margin-bottom: 10px
+        }
+
+        .hamburger-menu {
+            float: left;
+            padding: 20px;
+            display: none;
+            flex-direction: column;
+            cursor: pointer
+        }
+
+        .grow {
+            border-radius: var(--border-radius);
+            border: var(--color-00) solid 1px
+        }
+
+        .app-card,
+        .hamburger-menu,
+        nav ul.show {
+            display: flex
+        }
+
+        nav ul {
+            flex-direction: column;
+            background-color: #fff;
+            position: absolute;
+            top: 60px;
+            left: 0
+        }
+
+        nav ul li {
+            padding: 15px 0
+        }
+
+        nav ul li a {
+            color: #333
+        }
+
+        #apps-section,
+        #contact,
+        #why-choose-us {
+            padding-left: 10px;
+            padding-right: 10px
+        }
+
+        #why-choose-us h3 {
+            margin-bottom: 8px
+        }
+
+        #home {
+            padding: 150px 50px;
+            background-position-y: -2px;
+            background-repeat: no-repeat;
+            background-size: cover
+        }
+
+        #home button {
+            font-size: 14pt;
+            margin-top: 50px;
+            padding: 13px 30px;
+            border: var(--color-01) solid 1px;
+            background: var(--color-05)
+        }
+
+        .article-card,
+        .icon-container {
+            border-radius: var(--border-radius)
+        }
+
+        #why-choose-us>p {
+            padding: 8px;
+            line-height: 11pt;
+            font-size: 10pt
+        }
+
+        #article h2,
+        .app-name {
+            font-size: 13pt
+        }
+
+        #contact {
+            padding-bottom: 50px
+        }
+
+        #contact form {
+            padding-top: 14px
+        }
+
+        #articles-section>a,
+        .app-card {
+            text-decoration: none;
+            padding: 10px 15px
+        }
+
+        .app-card {
+            align-items: flex-start;
+            color: inherit;
+            transition: background-color .3s
+        }
+
+        .app-card:hover .icon-container {
+            transform: translateY(-5px);
+            transition: transform .3s
+        }
+
+        .app-card:hover .app-name {
+            text-decoration: underline
+        }
+
+        .icon-container {
+            width: 50px;
+            height: 50px;
+            flex: 0 0 auto;
+            background-color: var(--color-03);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center
+        }
+
+        .app-icon {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .app-content {
+            flex-grow: 1
+        }
+
+        .app-description,
+        .app-rating {
+            font-size: 10pt;
+            color: var(--color-01)
+        }
+
+        .app-description {
+            margin: 0;
+            line-height: 1.2em
+        }
+
+        .app-list {
+            display: grid;
+            gap: 10px
+        }
+
+        #article {
+            max-width: 100%;
+            margin: 0 auto;
+            line-height: 1.8;
+            padding: 30px
+        }
+
+        #article li,
+        #article p {
+            margin-bottom: 20px;
+            line-height: 1.3em;
+            color: var(--color-01);
+            text-align: justify
+        }
+
+        #article h1,
+        #article h2,
+        #article h3 {
+            margin-top: 20px;
+            margin-bottom: 10px
+        }
+
+        #articles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px
+        }
+
+        .article-card {
+            gap: 15px;
+            background-color: var(--color-04);
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
+            border: var(--color-00) solid 1px;
+            max-width: calc(50% - 20px);
+            flex: 1 1 calc(50% - 20px)
+        }
+
+        .article-card img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: var(--border-radius)
+        }
+
+        .article-card-content {
+            flex: 1
+        }
+
+        .article-card-content h3 {
+            font-size: 13pt;
+            margin-bottom: 8px;
+            line-height: 1.3em
+        }
+
+        .article-card-content p {
+            font-size: 10pt;
+            margin-bottom: 20px;
+            line-height: 1.2em;
+            height: 127px;
+            overflow: hidden
+        }
+
+        #articles-section>a,
+        .article-card-content a {
+            font-weight: 700;
+            display: block;
+            font-size: 11pt
+        }
+
+        .article-card-content a {
+            text-align: right;
+            width: 100%
+        }
+
+        .btn-call-to-action {
+            transition: transform .2s ease-in-out, box-shadow .2s ease-in-out
+        }
+
+        .btn-call-to-action:hover {
+            transform: translateY(-3px) scale(1.07);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .3)
+        }
+
+        #breadcrumb nav[aria-label=breadcrumb] ol {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            padding: 0;
+            margin: 0
+        }
+
+        #breadcrumb nav[aria-label=breadcrumb] li {
+            margin-right: 8px
+        }
+
+        #breadcrumb nav[aria-label=breadcrumb] li+li::before {
+            content: ">";
+            margin-right: 8px;
+            color: var(--color-01)
+        }
+
+        .cls-1 {
+            fill: var(--color-01)
+        }
+
+        #newsletter-section iframe {
+            border: none
+        }
+
+        .bKIcfo {
+            border: none !important
+        }
+
+        #articles-section>a {
+            background-color: var(--color-00);
+            color: var(--color-03);
+            border-radius: var(--border-radius);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .article-container {
+            display: flex;
+            flex-direction: column
+        }
+
+        .article-content {
+            order: 2
+        }
+
+        .article-sidebar {
+            order: 1;
+            padding-left: 0;
+            padding-bottom: 20px;
+            flex: 1 1 25%;
+            padding-top: 20px
+        }
+
+        .article-sidebar p {
+            margin-bottom: 5px !important
+        }
+
+        @media screen and (min-width:768px) {
+
+            .app .title,
+            label,
+            p,
+            ul {
+                font-size: 12pt
+            }
+
+            .app img,
+            .grow {
+                object-fit: cover
+            }
+
+            .links-container div:first-child h4,
+            header {
+                text-align: left
+            }
+
+            .copyright,
+            footer h4,
+            nav ul li a {
+                text-align: center
+            }
+
+            header {
+                display: flex;
+                justify-content: space-between
+            }
+
+            nav ul {
+                display: initial;
+                position: initial;
+                margin-left: 10px;
+                margin-right: 10px;
+                display: flex;
+                flex-direction: row;
+                background-color: transparent
+            }
+
+            nav ul li a {
+                color: var(--color-01);
+                display: block;
+                width: 132px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: space-around
+            }
+
+            h1,
+            h2 {
+                font-size: 15pt;
+                line-height: 17pt
+            }
+
+            h3 {
+                font-size: 13pt
+            }
+
+            .hamburger-menu {
+                display: none
+            }
+
+            .logo {
+                width: 100px;
+                margin-left: 0;
+                padding-top: 10px;
+                padding-bottom: 10px
+            }
+
+            .client-logos {
+                display: grid;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                margin-top: 16px
+            }
+
+            .app .title {
+                line-height: 14pt
+            }
+
+            .app p {
+                font-size: 10pt;
+                line-height: 12pt
+            }
+
+            .app img {
+                width: 100%;
+                max-height: 200px
+            }
+
+            .grow {
+                display: initial
+            }
+
+            .grow-content {
+                display: flex;
+                padding-bottom: 40px
+            }
+
+            .grow-text {
+                padding-right: 50px
+            }
+
+            .feature p {
+                line-height: 15pt
+            }
+
+            .feature {
+                max-width: 470px
+            }
+
+            .contact-container {
+                display: flex
+            }
+
+            .feature:nth-child(0) {
+                margin-top: 40px
+            }
+
+            .links-container {
+                display: flex;
+                justify-content: space-between;
+                padding-left: 100px;
+                padding-right: 100px
+            }
+
+            .copyright {
+                margin-top: 50px
+            }
+
+            #contact p,
+            .footer-content {
+                padding-top: 20px
+            }
+
+            #apps-section,
+            #article,
+            #articles-section,
+            #breadcrumb,
+            #contact,
+            #newsletter-section,
+            #toc,
+            #why-choose-us,
+            .footer-content,
+            header {
+                max-width: 720px;
+                margin-left: auto;
+                margin-right: auto;
+                padding-left: 10px;
+                padding-right: 10px
+            }
+
+            #home {
+                background-size: cover
+            }
+
+            #contact form,
+            #contact p {
+                flex: 1
+            }
+
+            #contact form {
+                padding-top: 0
+            }
+
+            .article-container {
+                flex-direction: row
+            }
+
+            .article-content {
+                order: 1;
+                flex: 3 1 75%
+            }
+
+            .article-sidebar {
+                order: 2;
+                padding-left: 20px;
+                padding-bottom: 0
+            }
+
+            .article-card {
+                flex: 1 1 calc(33.33% - 20px);
+                max-width: calc(33.33% - 20px)
+            }
+        }
+
+        @media screen and (min-width:992px) {
+
+            #apps-section,
+            #article,
+            #articles-section,
+            #breadcrumb,
+            #contact,
+            #newsletter-section,
+            #toc,
+            #why-choose-us,
+            .footer-content,
+            header {
+                max-width: 960px
+            }
+
+            .app-list {
+                grid-template-columns: repeat(auto-fill, 49%)
+            }
+
+            .article-card {
+                flex: 1 1 calc(20% - 20px);
+                max-width: calc(20% - 20px)
+            }
+        }
+
+        @media screen and (min-width:1200px) {
+
+            #apps-section,
+            #article,
+            #articles-section,
+            #breadcrumb,
+            #contact,
+            #newsletter-section,
+            #toc,
+            #why-choose-us,
+            .footer-content,
+            header {
+                max-width: 1140px
+            }
+
+            .app-list {
+                grid-template-columns: repeat(auto-fill, 32%)
+            }
+        }
+
+        @media screen and (min-width:1400px) {
+
+            #apps-section,
+            #articles-section,
+            #breadcrumb,
+            #contact,
+            #newsletter-section,
+            #toc,
+            #why-choose-us,
+            .footer-content,
+            header {
+                max-width: 1320px
+            }
+
+            .app-list {
+                grid-template-columns: repeat(auto-fill, 32%)
+            }
+        }
+    </style>
+    <!-- <link rel="stylesheet" href="/styles.css"> -->
+
+
+    <style>
+        .article-content img {
+            border: var(--color-03) solid 1px;
+            border-radius: var(--border-radius);
+        }
+
+        .article-content small {
+            display: block;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <meta property="og:title" content="Envío Unificado en Ship Smart: Configuración y Consideraciones">
+    <meta property="og:description"
+        content="Configura el envío unificado en Ship Smart para Shopify. Centraliza costos de despacho y optimiza tu logística.">
+    <meta property="og:image" content="https://codename.cl/images/docs/ship-smart-getting-started/ship-smart.webp">
+    <meta property="og:url" content="https://codename.cl/docs/ship-smart-configuracion-inicial">
+    <meta property="og:type" content="article">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Envío Unificado en Ship Smart: Configuración y Consideraciones">
+    <meta name="twitter:description"
+        content="Configura el envío unificado en Ship Smart para Shopify. Centraliza costos de despacho y optimiza tu logística.">
+    <meta name="twitter:image" content="https://codename.cl/images/docs/ship-smart-getting-started/ship-smart.webp">
+
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CWP9SPQ" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <header>
+
+        <a href="/">
+            <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104.2 46.06">
+                <g>
+                    <path class="cls-1"
+                        d="M8.89,21.54c-1.56,0-2.89-.32-4.01-.96-1.12-.64-2.04-1.49-2.76-2.54-.72-1.05-1.26-2.19-1.6-3.42-.35-1.23-.52-2.42-.52-3.57v-.61c0-1.28.18-2.54.53-3.78.35-1.24.9-2.36,1.63-3.36.73-1,1.65-1.8,2.75-2.4,1.1-.6,2.39-.89,3.86-.89,1.57,0,2.97.35,4.18,1.05,1.22.7,2.2,1.67,2.93,2.93.74,1.26,1.17,2.71,1.3,4.37h-4.38c-.11-.71-.35-1.32-.71-1.84s-.82-.93-1.39-1.21c-.57-.29-1.21-.43-1.93-.43-.68,0-1.28.14-1.83.42-.54.28-1,.67-1.37,1.19-.37.51-.65,1.13-.85,1.86-.2.73-.29,1.54-.29,2.46s.1,1.73.29,2.46c.2.73.49,1.35.87,1.87s.85.92,1.4,1.19c.55.27,1.18.4,1.89.4,1.1,0,2.03-.32,2.79-.95.76-.63,1.22-1.48,1.38-2.54h4.38c-.14,1.53-.57,2.92-1.3,4.19-.72,1.27-1.7,2.27-2.92,3.03-1.23.75-2.67,1.13-4.34,1.13Z" />
+                    <path class="cls-1"
+                        d="M27.37,21.54c-1.57,0-2.94-.32-4.1-.96-1.16-.64-2.13-1.49-2.9-2.54-.77-1.05-1.34-2.19-1.72-3.42s-.57-2.42-.57-3.57v-.61c0-1.28.2-2.54.59-3.78.39-1.24.98-2.36,1.77-3.36.79-1,1.76-1.8,2.91-2.4,1.15-.6,2.49-.89,4.02-.89s2.84.3,3.99.89c1.16.6,2.12,1.4,2.91,2.4.79,1.01,1.38,2.13,1.78,3.36.4,1.24.6,2.5.6,3.78v.61c0,1.15-.19,2.34-.58,3.57-.39,1.23-.96,2.37-1.73,3.42-.77,1.05-1.74,1.9-2.9,2.54-1.16.64-2.52.96-4.08.96ZM27.37,16.69c.75,0,1.43-.15,2.03-.45.6-.3,1.11-.72,1.53-1.26.42-.54.75-1.17.97-1.88s.33-1.49.33-2.33c0-.89-.11-1.7-.34-2.43-.23-.73-.55-1.35-.98-1.87-.42-.52-.94-.92-1.53-1.2-.6-.28-1.26-.42-2-.42s-1.43.14-2.03.42c-.6.28-1.11.68-1.53,1.2-.42.52-.75,1.14-.97,1.87-.22.72-.33,1.53-.33,2.43,0,.84.11,1.61.33,2.33.22.72.54,1.34.97,1.88.42.54.94.96,1.53,1.26.6.3,1.27.45,2.03.45Z" />
+                    <path class="cls-1"
+                        d="M38.54,21.09V.44h4.38v20.65h-4.38ZM42.46,21.09v-4.86h2.83c.74,0,1.4-.13,1.99-.38s1.09-.61,1.5-1.09c.41-.47.72-1.05.94-1.73.22-.68.33-1.45.33-2.3s-.11-1.68-.33-2.36c-.22-.68-.53-1.25-.94-1.7-.41-.45-.91-.8-1.5-1.03s-1.25-.35-1.99-.35h-2.83V.44h2.64c1.56,0,2.92.26,4.09.78,1.17.52,2.15,1.24,2.93,2.16.79.92,1.37,1.99,1.77,3.2.39,1.21.59,2.49.59,3.85v.61c0,1.25-.2,2.47-.59,3.67-.39,1.2-.98,2.28-1.77,3.24-.79.96-1.76,1.72-2.93,2.29-1.17.57-2.53.85-4.09.85h-2.64Z" />
+                    <path class="cls-1"
+                        d="M56.11,20.95V.58h4.24v20.37h-4.24ZM59.89,4.82V.58h7.12v4.24h-7.12ZM59.89,12.72v-4.24h6.76v4.24h-6.76ZM59.89,20.95v-4.24h7.26v4.24h-7.26Z" />
+                </g>
+                <g>
+                    <path class="cls-1" d="M.15,43.21l3.95-18.05h3.57l-3.95,18.05H.15Z" />
+                    <path class="cls-1"
+                        d="M9.39,41.92v-15.68h5.8l4.62,12.5h.67l-.38.39v-12.89h3.31v15.68h-5.83l-4.62-12.5h-.67l.38-.39v12.89h-3.27Z" />
+                    <path class="cls-1"
+                        d="M24.47,41.92l4.45-15.68h5.66l4.6,15.68h-3.65l-3.57-12.89,1.01.43h-2.51l1.03-.43-3.48,12.89h-3.53Z" />
+                    <path class="cls-1"
+                        d="M40.57,41.92v-15.68h4.9l2.85,8.27h.38l2.83-8.27h5v15.68h-3.5v-13.39l.55.04-3.57,10.18h-3.21l-3.59-10.18.59-.04v13.39h-3.23Z" />
+                    <path class="cls-1"
+                        d="M58.69,41.92v-15.68h3.42v15.68h-3.42ZM61.73,29.5v-3.27h5.74v3.27h-5.74ZM61.73,35.58v-3.27h5.45v3.27h-5.45ZM61.73,41.92v-3.27h5.85v3.27h-5.85Z" />
+                </g>
+            </svg>
+        </a>
+
+        <div class="hamburger-menu">
+            <!-- Logo de Codename -->
+            <img src="/images/icons/burger.webp" alt="Menú hamburguesa en Codename">
+        </div>
+
+        <nav>
+            <ul>
+                <!-- <li><a href="#home">Inicio</a></li> -->
+                <li><a href="/#apps-section">Aplicaciones</a></li>
+                <li><a href="/#why-choose-us">¿Por qué elegirnos?</a></li>
+                <li><a href="/#contact">Contacto</a></li>
+                <li><a href="/docs">Docs</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <main>
+        <section id="breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/docs">Docs</a></li>
+                    <li>Iniciando con Ship Smart</li>
+                </ol>
+            </nav>
+        </section>
+
+        <!-- <nav id="toc">
+            <h2>Índice</h2>
+            <ul>
+                <li><a href="#seleccion-plan">1. Selección de Plan</a></li>
+                <li><a href="#pantalla-inicio">2. Pantalla de Inicio</a></li>
+                <li><a href="#configuracion-tarifas">3. Configuración de Tarifas</a></li>
+                <li><a href="#precios-personalizados">4. Modificación de Precios</a></li>
+                <li><a href="#subir-archivo-csv">5. Subida y Guardado del CSV</a></li>
+            </ul>
+        </nav> -->
+
+        <section id="article" class="article-container">
+            <div class="article-content">
+                <h1>Envío Unificado en Ship Smart</h1>
+
+                <p>El envío unificado es una funcionalidad de nuestro tarifario que permite a los comerciantes
+                    seleccionar una bodega central para calcular los costos de despacho. Esto garantiza que, incluso si
+                    un pedido involucra múltiples bodegas, los costos se calculen desde un único punto de origen.</p>
+
+                <h2>Configuración del Envío Unificado</h2>
+
+                <p>Para activar el envío unificado en Ship Smart, sigue estos pasos:</p>
+
+                <h3>1. Activar Envío Unificado:</h3>
+                <p>Dirígete a la sección de tarifas personalizadas y activa la opción de envío unificado, ubicada en la
+                    tercera posición.</p>
+                <img src="ship-smart-envio-unificado/image.png" alt="Configuración de Envío Unificado" />
+
+                <h3>2. Seleccionar Perfil de Centralización:</h3>
+                <p>Inmediatamente debajo, selecciona el perfil que servirá como punto central para calcular los costos
+                    de despacho.</p>
+                <img src="ship-smart-envio-unificado/image-1.png" alt="Selección de Perfil" />
+
+                <h3>3. Desactivación de Otros Perfiles:</h3>
+                <p>Una vez seleccionado un perfil, los demás se desactivarán automáticamente. Aunque estos perfiles
+                    tengan tarifas configuradas, solo se aplicará el perfil centralizado.</p>
+                <img src="ship-smart-envio-unificado/image-2.png" alt="Desactivación de Perfiles" />
+
+                <h3>4. Definir Título y Descripción del Envío:</h3>
+                <p>El título y la descripción del envío serán los que estén definidos en el perfil seleccionado.</p>
+                <img src="ship-smart-envio-unificado/image-3.png" alt="Configuración de Título y Descripción" />
+
+                <p>Siguiendo estos pasos, podrás configurar el envío unificado para garantizar que a tus clientes no se
+                    les cobre doble despacho en sus pedidos.</p>
+
+                <hr />
+
+                <h2>Consideraciones Importantes</h2>
+
+                <p>Para implementar esta funcionalidad, se han aprovechado al máximo las opciones que ofrece Shopify.
+                    Sin embargo, en ciertos casos extremos, podría no funcionar correctamente.</p>
+
+                <h3>Caso Identificado</h3>
+
+                <p>Un escenario detectado en el que pueden producirse errores ocurre cuando un usuario:</p>
+                <ol>
+                    <li>Llega al checkout e ingresa su dirección de despacho.</li>
+                    <li>Regresa inmediatamente al carrito de compras para agregar más productos.</li>
+                    <li>Vuelve al checkout en menos de 10 segundos.</li>
+                </ol>
+
+                <p>Debido a que Shopify ofrece un margen de hasta 10 segundos para recalcular los costos de despacho,
+                    este comportamiento puede generar una anomalía en la estimación del costo de envío. Según nuestros
+                    registros, la probabilidad de que ocurra este caso es baja, pero es importante tenerlo en cuenta al
+                    contratar Ship Smart.</p>
+
+                <h3>Solución Recomendada</h3>
+
+                <p>Se puede mitigar este problema modificando el tema de Shopify para detectar si un usuario ha
+                    regresado al carrito tras haber estado en el checkout. En estos casos, se recomienda deshabilitar el
+                    botón de acceso al checkout hasta que se cumpla el margen de 10 segundos.</p>
+
+                <p>A continuación, se presenta un ejemplo de código JavaScript para implementar esta solución:</p>
+
+                <pre><code class="language-javascript">
+const isCheckoutReferred = document.referrer.indexOf("checkouts");
+const checkoutButton = document.getElementById("checkout");
+
+if (!isCheckoutReferred) return;
+
+checkoutButton.disabled = true;
+setTimeout(() => {
+    checkoutButton.disabled = false;
+}, 10000);
+        </code></pre>
+            </div>
+            <aside class="article-sidebar">
+                <p><strong>Autor:</strong></p>
+                <p><a href="https://rickyoncode.com" target="_blank">@rickyoncode</a></p>
+                <p><strong>Fecha de modificación:</strong></p>
+                <p>06 de Febrero de 2025</p>
+            </aside>
+        </section>
+
+        <section id="contact">
+            <h2>¿Tienes Preguntas? Estamos Aquí para Ayudarte</h2>
+
+            <div class="contact-container">
+                <p>
+                    Si tienes preguntas sobre nuestras aplicaciones o necesitas soporte, no dudes en contactarnos.
+                    Estamos aquí para ayudarte a optimizar tu tienda Shopify.
+                </p>
+
+                <form id="contactForm">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" name="name" placeholder="Escribe tu nombre" required />
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="usuario@email.com" required />
+                    <label for="message">Mensaje</label>
+                    <textarea id="message" name="message" placeholder="Escribe tu mensaje..." required></textarea>
+                    <div class="submit-container">
+                        <button type="submit">Enviar mensaje</button>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="links-container">
+                <div>
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="/">Inicio</a></li>
+                        <li><a href="/#apps-section">Aplicaciones</a></li>
+                        <li><a href="/#why-choose-us">¿Por qué elegirnos?</a></li>
+                        <li><a href="/#contact">Contacto</a></li>
+                        <li><a href="/docs">Docs</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Redes Sociales</h4>
+                    <ul class="social">
+                        <li><a href="https://instagram.com" target="_blank">
+                                <!-- Imagen de Instagram -->
+                                <img src="/images/instagram.webp" alt="Icono de Instagram de Codename">
+                            </a></li>
+                        <li><a href="https://linkedin.com" target="_blank">
+                                <!-- Imagen de LinkedIn -->
+                                <img src="/images/linkedin.webp" alt="Icono de LinkedIn de Codename">
+
+                            </a>
+                        </li>
+                        <li><a href="https://facebook.com" target="_blank">
+                                <!-- Imagen de Facebook -->
+                                <img src="/images/facebook.webp" alt="Icono de Facebook de Codename">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <p class="copyright">Copyright: © 2024 Codename.cl - Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript para el menú hamburguesa -->
+    <script>
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navLinks = document.querySelector('nav ul');
+
+        // Función para toggle del menú
+        function toggleMenu() {
+            navLinks.classList.toggle('show');
+        }
+
+        // Abrir/cerrar menú al hacer clic en el icono hamburguesa
+        hamburger.addEventListener('click', (event) => {
+            event.stopPropagation(); // Evita que el clic se propague al documento
+            toggleMenu();
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        const navItems = document.querySelectorAll('nav ul li a');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navLinks.classList.remove('show');
+            });
+        });
+
+        // Cerrar menú al hacer clic fuera de él
+        document.addEventListener('click', (event) => {
+            const isClickInsideNav = navLinks.contains(event.target);
+            const isClickOnHamburger = hamburger.contains(event.target);
+
+            if (!isClickInsideNav && !isClickOnHamburger) {
+                navLinks.classList.remove('show');
+            }
+        });
+    </script>
+
+
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent the form from submitting the traditional way
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            let isValid = true;
+
+            // // Name validation
+            // if (name === "") {
+            //     document.getElementById('nameError').classList.remove('hidden');
+            //     isValid = false;
+            // } else {
+            //     document.getElementById('nameError').classList.add('hidden');
+            // }
+
+            // // Email validation
+            // const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            // if (!emailPattern.test(email)) {
+            //     document.getElementById('emailError').classList.remove('hidden');
+            //     isValid = false;
+            // } else {
+            //     document.getElementById('emailError').classList.add('hidden');
+            // }
+
+            // // Message validation
+            // if (message === "") {
+            //     document.getElementById('messageError').classList.remove('hidden');
+            //     isValid = false;
+            // } else {
+            //     document.getElementById('messageError').classList.add('hidden');
+            // }
+
+            // If all fields are valid, submit the form
+            if (isValid) {
+                const formData = new FormData(this);
+                const jsonData = {
+                    "fields": {
+                        "1279": formData.get("email"),
+                        "1280": formData.get("name"),
+                        "1281": formData.get("message"),
+                    },
+                    "subscribe": true,
+                    "mc-SMSPHONE-ack": false
+                }
+
+                fetch(
+                    'https://proxy-mailchimp-66181581846.us-central1.run.app/proxy?site=codename',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(jsonData)
+                    }).then(response => {
+                        // Handle success
+                    }).catch(error => {
+                        // Handle error
+                    });
+
+                // Replace the form content with a success message
+                document.getElementById('contactForm').innerHTML = `
+            <div class="p-4 rounded">
+                <p>¡Formulario enviado con éxito! Nos pondremos en contacto contigo pronto.</p>
+            </div>`;
+            }
+        });
+    </script>
+</body>
+
+</html>
