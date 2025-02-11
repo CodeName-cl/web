@@ -3,12 +3,12 @@
     --color-01: #403d39;
     --color-02: #ccc5b9;
     --color-03: #fffcf2;
-    --color-04: #f0f0f0;
+    --color-04: #fafafa;
     --color-05: #eb5e28;
 
     --border-radius: 8px;
     /* --color-00: #001233;
-    --color-03: #f0f0f0;
+    --color-03: #fafafa;
     --border-color: #979DAC; */
 }
 
@@ -868,7 +868,7 @@ nav ul li a {
 /* @media (prefers-color-scheme: dark) {
     body {
         background-color: #555;
-        color: #f0f0f0;
+        color: #fafafa;
     }
 
     nav ul li a {
@@ -877,7 +877,7 @@ nav ul li a {
 
     .app-card, .article-card {
         background-color: transparent;
-        color: #f0f0f0;
+        color: #fafafa;
     }
 
     .article-card {
@@ -890,7 +890,7 @@ nav ul li a {
 
     input, textarea, button {
         background-color: #666;
-        color: #f0f0f0;
+        color: #fafafa;
     }
 
     .app-description, p, li {
