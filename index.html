@@ -275,17 +275,13 @@ section { padding: 80px 20px; }
         radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
     pointer-events: none;
 }
-#home::after {
-    content: '';
+#gravity-grid {
     position: absolute;
     inset: 0;
-    background-image:
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 64px 64px;
     pointer-events: none;
+    z-index: 0;
 }
-#home > * { position: relative; z-index: 1; }
+#home > *:not(#gravity-grid) { position: relative; z-index: 1; }
 #home h1 {
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 800;
@@ -935,6 +931,7 @@ button:focus-visible {
 
     <main id="main-content">
         <section id="home">
+            <canvas id="gravity-grid"></canvas>
             <h1>Optimiza tu Tienda Shopify con Nuestras Aplicaciones</h1>
             <p>Soluciones diseñadas para hacer crecer tu negocio.</p>
             <button onclick="location.href='#apps-section'" class="btn-call-to-action">Explora Nuestras Apps</button>
@@ -1358,6 +1355,228 @@ button:focus-visible {
         }, observerOptions);
 
         fadeElements.forEach(el => fadeObserver.observe(el));
+    </script>
+
+    <script>
+        // Gravity Grid Effect
+        (function() {
+            const canvas = document.getElementById('gravity-grid');
+            const ctx = canvas.getContext('2d');
+            const hero = document.getElementById('home');
+
+            let width, height;
+            let mouse = { x: -1000, y: -1000 };
+            let gridPoints = [];
+            const gridSpacing = 55;
+            const influenceRadius = 220;
+            const maxDisplacement = 25;
+
+            // Particles
+            let particles = [];
+            const particleCount = 40;
+            const particleSpeed = 0.8;
+
+            function resize() {
+                width = hero.offsetWidth;
+                height = hero.offsetHeight;
+                canvas.width = width;
+                canvas.height = height;
+                initGrid();
+                initParticles();
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(createParticle());
+                }
+            }
+
+            function createParticle(fromBottom = false) {
+                return {
+                    x: Math.random() * width,
+                    y: fromBottom ? height + 10 : Math.random() * height,
+                    size: Math.random() * 2 + 1,
+                    speedY: -(Math.random() * particleSpeed + 0.3),
+                    speedX: (Math.random() - 0.5) * 0.3,
+                    opacity: Math.random() * 0.3 + 0.1
+                };
+            }
+
+            function updateParticles() {
+                for (let p of particles) {
+                    // Base movement (float up)
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+
+                    // Attraction to mouse
+                    if (mouse.x > 0 && mouse.y > 0) {
+                        const dx = mouse.x - p.x;
+                        const dy = mouse.y - p.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < influenceRadius * 1.5) {
+                            const force = (1 - distance / (influenceRadius * 1.5)) * 0.5;
+                            p.x += dx * force * 0.02;
+                            p.y += dy * force * 0.02;
+                        }
+                    }
+
+                    // Reset particle when it goes off top
+                    if (p.y < -10) {
+                        Object.assign(p, createParticle(true));
+                    }
+                }
+            }
+
+            function drawParticles() {
+                for (let p of particles) {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+                    ctx.fill();
+                }
+            }
+
+            function initGrid() {
+                gridPoints = [];
+                const cols = Math.ceil(width / gridSpacing) + 1;
+                const rows = Math.ceil(height / gridSpacing) + 1;
+
+                for (let i = 0; i < cols; i++) {
+                    for (let j = 0; j < rows; j++) {
+                        gridPoints.push({
+                            originX: i * gridSpacing,
+                            originY: j * gridSpacing,
+                            x: i * gridSpacing,
+                            y: j * gridSpacing
+                        });
+                    }
+                }
+            }
+
+            function getPoint(col, row) {
+                const cols = Math.ceil(width / gridSpacing) + 1;
+                const index = col * (Math.ceil(height / gridSpacing) + 1) + row;
+                return gridPoints[index];
+            }
+
+            function updatePoints() {
+                const particleInfluence = 70;
+                const particleDisplacement = 12;
+
+                for (let point of gridPoints) {
+                    let targetX = point.originX;
+                    let targetY = point.originY;
+
+                    // Mouse attraction
+                    const dx = mouse.x - point.originX;
+                    const dy = mouse.y - point.originY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < influenceRadius) {
+                        const force = (1 - distance / influenceRadius) * maxDisplacement;
+                        const angle = Math.atan2(dy, dx);
+                        targetX += Math.cos(angle) * force;
+                        targetY += Math.sin(angle) * force;
+                    }
+
+                    // Particle deformation (smaller effect)
+                    for (let p of particles) {
+                        const pdx = p.x - point.originX;
+                        const pdy = p.y - point.originY;
+                        const pdist = Math.sqrt(pdx * pdx + pdy * pdy);
+
+                        if (pdist < particleInfluence && pdist > 0) {
+                            const pforce = (1 - pdist / particleInfluence) * particleDisplacement;
+                            const pangle = Math.atan2(pdy, pdx);
+                            targetX += Math.cos(pangle) * pforce;
+                            targetY += Math.sin(pangle) * pforce;
+                        }
+                    }
+
+                    // Smooth interpolation to target
+                    point.x += (targetX - point.x) * 0.15;
+                    point.y += (targetY - point.y) * 0.15;
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, width, height);
+
+                // Draw glow at mouse position
+                if (mouse.x > 0 && mouse.y > 0) {
+                    const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, influenceRadius);
+                    gradient.addColorStop(0, 'rgba(99, 102, 241, 0.06)');
+                    gradient.addColorStop(0.5, 'rgba(99, 102, 241, 0.02)');
+                    gradient.addColorStop(1, 'rgba(99, 102, 241, 0)');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(mouse.x - influenceRadius, mouse.y - influenceRadius, influenceRadius * 2, influenceRadius * 2);
+                }
+
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.035)';
+                ctx.lineWidth = 1;
+
+                const cols = Math.ceil(width / gridSpacing) + 1;
+                const rows = Math.ceil(height / gridSpacing) + 1;
+
+                // Draw horizontal lines
+                for (let j = 0; j < rows; j++) {
+                    ctx.beginPath();
+                    for (let i = 0; i < cols; i++) {
+                        const point = getPoint(i, j);
+                        if (point) {
+                            if (i === 0) {
+                                ctx.moveTo(point.x, point.y);
+                            } else {
+                                ctx.lineTo(point.x, point.y);
+                            }
+                        }
+                    }
+                    ctx.stroke();
+                }
+
+                // Draw vertical lines
+                for (let i = 0; i < cols; i++) {
+                    ctx.beginPath();
+                    for (let j = 0; j < rows; j++) {
+                        const point = getPoint(i, j);
+                        if (point) {
+                            if (j === 0) {
+                                ctx.moveTo(point.x, point.y);
+                            } else {
+                                ctx.lineTo(point.x, point.y);
+                            }
+                        }
+                    }
+                    ctx.stroke();
+                }
+            }
+
+            function animate() {
+                updatePoints();
+                updateParticles();
+                draw();
+                drawParticles();
+                requestAnimationFrame(animate);
+            }
+
+            hero.addEventListener('mousemove', (e) => {
+                const rect = hero.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            });
+
+            hero.addEventListener('mouseleave', () => {
+                mouse.x = -1000;
+                mouse.y = -1000;
+            });
+
+            window.addEventListener('resize', resize);
+
+            resize();
+            animate();
+        })();
     </script>
 </body>
 
