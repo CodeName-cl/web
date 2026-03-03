@@ -1,0 +1,128 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ContactForm from "@components/ContactForm.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+
+<BaseLayout
+  title="Blog | Codename"
+  description="Artículos sobre Shopify, eCommerce, optimización de tiendas online e inteligencia artificial aplicada al comercio electrónico."
+>
+  <section id="articles-section">
+    <h2>Artículos</h2>
+    <div id="articles" class="fade-in">
+      {
+        posts.map((post) => (
+          <a href={`/blog/${post.id}`} class="article-card">
+            <img src={post.data.image} alt={post.data.title} />
+            <div class="article-card-content">
+              <h3>{post.data.title}</h3>
+              <p>{post.data.description}</p>
+              <span class="read-more">Leer más</span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <ContactForm />
+</BaseLayout>
+
+<style>
+  #articles-section {
+    padding-top: 50px;
+  }
+  #articles-section h2 {
+    margin-bottom: 24px;
+  }
+  #articles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .article-card {
+    display: flex;
+    gap: 15px;
+    background-color: var(--surface);
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: inherit;
+    flex: 1 1 calc(50% - 20px);
+    max-width: calc(50% - 20px);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .article-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .article-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+  }
+  .article-card-content {
+    flex: 1;
+  }
+  .article-card-content h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    line-height: 1.3em;
+  }
+  .article-card-content p {
+    font-size: 0.875rem;
+    margin-bottom: 20px;
+    line-height: 1.4em;
+    height: 127px;
+    overflow: hidden;
+  }
+  .read-more {
+    font-weight: 700;
+    display: block;
+    font-size: 0.9375rem;
+    text-align: right;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 768px) {
+    #articles-section {
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .article-card {
+      flex: 1 1 calc(33.33% - 20px);
+      max-width: calc(33.33% - 20px);
+    }
+  }
+  @media screen and (min-width: 992px) {
+    #articles-section {
+      max-width: 960px;
+    }
+    .article-card {
+      flex: 1 1 calc(20% - 20px);
+      max-width: calc(20% - 20px);
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    #articles-section {
+      max-width: 1140px;
+    }
+  }
+  @media screen and (min-width: 1400px) {
+    #articles-section {
+      max-width: 1320px;
+    }
+  }
+</style>
