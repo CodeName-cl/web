@@ -55,6 +55,9 @@ jobs:
           # Copy built static files
           cp -r /tmp/dist-output/. .
 
+          # Disable Jekyll so _astro/ dir is served
+          touch .nojekyll
+
           # Stage everything
           git add -A
 
