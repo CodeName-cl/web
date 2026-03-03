@@ -1,25 +1,27 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy PR
 
 on:
   push:
-    branches: [master]
+    branches: [dev]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
+  pull-requests: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: deploy
+  cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout dev
         uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -33,18 +35,52 @@ jobs:
       - name: Build Astro
         run: npm run build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
+      - name: Prepare deploy branch
+        run: |
+          DEV_SHA=$(git rev-parse --short HEAD)
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Save build output
+          cp -r dist /tmp/dist-output
+
+          # Create deploy branch from master
+          git fetch origin master
+          git checkout -B deploy/latest origin/master
+
+          # Remove all tracked files
+          git rm -rf . > /dev/null 2>&1 || true
+
+          # Copy built static files
+          cp -r /tmp/dist-output/. .
+
+          # Stage everything
+          git add -A
+
+          # Check if there are actual changes
+          if git diff --cached --quiet; then
+            echo "NO_CHANGES=true" >> $GITHUB_ENV
+            echo "No changes to deploy"
+          else
+            git commit -m "build: static site from dev@${DEV_SHA}"
+            git push -f origin deploy/latest
+            echo "NO_CHANGES=false" >> $GITHUB_ENV
+          fi
+
+      - name: Create or update PR
+        if: env.NO_CHANGES != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          EXISTING_PR=$(gh pr list --head deploy/latest --base master --state open --json number --jq '.[0].number' 2>/dev/null || echo "")
+
+          if [ -z "$EXISTING_PR" ]; then
+            gh pr create \
+              --title "Deploy: update static site" \
+              --body "Auto-generated from \`dev\` branch. Contains built static files only." \
+              --head deploy/latest \
+              --base master
+          else
+            echo "PR #${EXISTING_PR} updated with latest build."
+          fi
