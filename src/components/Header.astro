@@ -129,7 +129,6 @@
   .logo {
     width: 100px;
     padding: 12px 0;
-    margin-left: -60px;
   }
 
   nav ul {
@@ -191,9 +190,6 @@
     .header-content {
       max-width: 720px;
     }
-    .logo {
-      margin-left: 0;
-    }
     .hamburger-menu {
       display: none;
     }
@@ -219,6 +215,24 @@
     nav ul li a:hover {
       background: rgba(255, 255, 255, 0.1);
       color: #ffffff;
+    }
+  }
+
+  @media screen and (min-width: 992px) {
+    .header-content {
+      max-width: 960px;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .header-content {
+      max-width: 1140px;
+    }
+  }
+
+  @media screen and (min-width: 1400px) {
+    .header-content {
+      max-width: 1320px;
     }
   }
 </style>
