@@ -1,0 +1,130 @@
+---
+---
+
+<section id="contact" class="fade-in">
+  <h2>¿Tienes preguntas? Estamos aquí para ayudarte</h2>
+
+  <div class="contact-container">
+    <p>
+      Si tienes preguntas sobre nuestras aplicaciones o necesitas soporte, no
+      dudes en contactarnos. Estamos aquí para ayudarte a optimizar tu tienda
+      Shopify.
+    </p>
+
+    <form id="contactForm">
+      <label for="name">Nombre</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Escribe tu nombre"
+        required
+      />
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="usuario@email.com"
+        required
+      />
+      <label for="message">Mensaje</label>
+      <textarea
+        id="message"
+        name="message"
+        placeholder="Escribe tu mensaje..."
+        required></textarea>
+      <div class="submit-container">
+        <button type="submit">Enviar mensaje</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script is:inline>
+  document
+    .getElementById("contactForm")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const jsonData = {
+        fields: {
+          1279: formData.get("email"),
+          1280: formData.get("name"),
+          1281: formData.get("message"),
+        },
+        subscribe: true,
+        "mc-SMSPHONE-ack": false,
+      };
+
+      fetch(
+        "https://proxy-mailchimp-66181581846.us-central1.run.app/proxy?site=codename",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(jsonData),
+        }
+      )
+        .then((response) => {})
+        .catch((error) => {});
+
+      document.getElementById("contactForm").innerHTML = `
+      <div class="p-4 rounded">
+        <p>¡Formulario enviado con éxito! Nos pondremos en contacto contigo pronto.</p>
+      </div>`;
+    });
+</script>
+
+<style>
+  #contact {
+    padding-bottom: 80px;
+  }
+  #contact h2 {
+    margin-bottom: 24px;
+  }
+  #contact > .contact-container > p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+  #contact form {
+    margin-top: 24px;
+  }
+  #contact button {
+    margin-top: 16px;
+    padding: 14px 28px;
+    background: var(--gradient-accent);
+    color: white;
+    border: none;
+    min-height: 52px;
+    box-shadow: 0 4px 14px rgba(235, 94, 40, 0.3);
+  }
+  #contact button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(235, 94, 40, 0.4);
+  }
+  .submit-container {
+    padding-top: 8px;
+    text-align: right;
+  }
+  #contact {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  @media screen and (min-width: 768px) {
+    .contact-container {
+      display: flex;
+      gap: 40px;
+    }
+    #contact > .contact-container > p {
+      flex: 1;
+      padding-top: 0;
+    }
+    #contact form {
+      flex: 1;
+      margin-top: 0;
+    }
+  }
+</style>

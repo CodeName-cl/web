@@ -1,0 +1,129 @@
+---
+---
+
+<footer>
+  <div class="footer-content">
+    <div class="links-container">
+      <div>
+        <p class="footer-heading">Enlaces Rápidos</p>
+        <ul>
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/#apps-section">Aplicaciones</a></li>
+          <li><a href="/#why-choose-us">¿Por qué elegirnos?</a></li>
+          <li><a href="/#contact">Contacto</a></li>
+          <li><a href="/docs">Documentación</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-heading">Redes Sociales</p>
+        <ul class="social">
+          <li>
+            <a href="https://instagram.com" target="_blank">
+              <img src="/images/instagram.webp" alt="Instagram de Codename" />
+            </a>
+          </li>
+          <li>
+            <a href="https://linkedin.com" target="_blank">
+              <img src="/images/linkedin.webp" alt="LinkedIn de Codename" />
+            </a>
+          </li>
+          <li>
+            <a href="https://facebook.com" target="_blank">
+              <img src="/images/facebook.webp" alt="Facebook de Codename" />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="copyright">
+      Copyright: &copy; {new Date().getFullYear()} Codename.cl - Todos los derechos
+      reservados.
+    </p>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+    color: #e2e8f0;
+    padding: 60px 20px 40px;
+  }
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-content a {
+    text-decoration: none;
+  }
+  .footer-heading {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+    margin-bottom: 16px;
+    padding-top: 24px;
+  }
+  footer ul li {
+    margin-bottom: 0;
+  }
+  footer ul li a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 0;
+    color: #cbd5e1;
+    font-size: 0.9375rem;
+    transition: color 0.2s;
+  }
+  footer ul li a:hover {
+    color: #ffffff;
+  }
+  .social {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    transition: all 0.2s;
+  }
+  .social a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+  .social img {
+    width: 24px;
+    height: 24px;
+  }
+  .copyright {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 400;
+  }
+
+  @media screen and (min-width: 768px) {
+    .links-container {
+      display: flex;
+      justify-content: space-between;
+    }
+    .footer-heading {
+      padding-top: 0;
+    }
+    .copyright {
+      margin-top: 60px;
+    }
+  }
+</style>

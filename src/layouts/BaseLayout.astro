@@ -1,0 +1,560 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description = "Descubre nuestras aplicaciones Shopify que transforman tu tienda, mejoran tus conversiones y te ayudan a crecer.",
+  ogImage = "https://codename.cl/logo.png",
+  ogType = "website",
+  canonicalUrl,
+} = Astro.props;
+
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="Shopify, aplicaciones Shopify, optimización de tiendas online, herramientas Shopify, automatización de tiendas Shopify"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:type" content={ogType} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- DNS Prefetch + Preconnect -->
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+
+    <!-- Google Fonts -->
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+    <!-- Google Tag Manager -->
+    <script is:inline>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-5CWP9SPQ");
+    </script>
+
+    <title>{title}</title>
+
+    <!-- Structured Data slot -->
+    <slot name="structured-data" />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Saltar al contenido</a>
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-5CWP9SPQ"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe>
+    </noscript>
+
+    <Header />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <!-- Intersection Observer for fade-in animations -->
+    <script is:inline>
+      const fadeElements = document.querySelectorAll(".fade-in");
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+      const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+      fadeElements.forEach((el) => fadeObserver.observe(el));
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Modern CSS Variables */
+  :root {
+    /* Colors */
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #818cf8;
+    --accent: #eb5e28;
+    --accent-dark: #d4501f;
+    --accent-light: #f97316;
+
+    /* Neutrals */
+    --background: #fafafa;
+    --surface: #ffffff;
+    --border: rgba(0, 0, 0, 0.08);
+    --border-hover: rgba(0, 0, 0, 0.15);
+
+    /* Text */
+    --text: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+
+    /* Dark */
+    --dark-bg: #0f172a;
+    --dark-surface: #1e293b;
+    --dark-text: #f1f5f9;
+
+    /* Legacy mapping */
+    --color-00: var(--text);
+    --color-01: var(--text-secondary);
+    --color-02: #ccc5b9;
+    --color-03: #fffcf2;
+    --color-04: var(--background);
+    --color-05: var(--accent);
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08),
+      0 2px 4px -2px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08),
+      0 4px 6px -4px rgba(0, 0, 0, 0.06);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 8px 10px -6px rgba(0, 0, 0, 0.06);
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    --gradient-accent: linear-gradient(135deg, #eb5e28 0%, #f97316 100%);
+    --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+
+    --border-radius: 14px;
+    --border-radius-lg: 20px;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+  body,
+  html {
+    height: 100%;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+  }
+  body {
+    font-size: 16px;
+    line-height: 1.7;
+    background-color: var(--background);
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  /* Typography */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Inter Tight", system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    color: var(--text);
+  }
+  h1 {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+  }
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 24px;
+  }
+  h3 {
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+  }
+  p,
+  ul {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  ol,
+  ul {
+    list-style: disc;
+    padding-left: 20px;
+  }
+  footer ul,
+  header ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  /* Buttons */
+  button {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 14px 28px;
+    border-radius: var(--border-radius);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  button,
+  input,
+  textarea {
+    font-family: inherit;
+    outline: none;
+  }
+  code {
+    padding: 10px;
+    display: block;
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+    border-radius: var(--border-radius);
+  }
+
+  /* Forms */
+  input,
+  textarea {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1rem;
+    background-color: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--border-radius);
+    color: var(--text);
+    resize: none;
+    transition: all 0.2s ease;
+  }
+  input:hover,
+  textarea:hover {
+    border-color: var(--border-hover);
+  }
+  input:focus,
+  textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+  }
+  textarea {
+    min-height: 150px;
+  }
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    margin-top: 16px;
+  }
+  ::placeholder {
+    color: var(--text-muted);
+  }
+
+  /* Sections */
+  section {
+    padding: 80px 20px;
+  }
+
+  /* SVG Logo */
+  .cls-1 {
+    fill: rgba(255, 255, 255, 0.9);
+    transition: fill 0.3s ease;
+  }
+
+  /* Animations */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+      opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger animations for cards */
+  .fade-in.visible .app-card,
+  .fade-in.visible .article-card,
+  .fade-in.visible .feature {
+    animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+  }
+  .fade-in.visible .app-card:nth-child(1),
+  .fade-in.visible .article-card:nth-child(1),
+  .fade-in.visible .feature:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .fade-in.visible .app-card:nth-child(2),
+  .fade-in.visible .article-card:nth-child(2),
+  .fade-in.visible .feature:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  .fade-in.visible .app-card:nth-child(3),
+  .fade-in.visible .article-card:nth-child(3),
+  .fade-in.visible .feature:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+  .fade-in.visible .app-card:nth-child(4),
+  .fade-in.visible .article-card:nth-child(4) {
+    animation-delay: 0.25s;
+  }
+  .fade-in.visible .app-card:nth-child(5),
+  .fade-in.visible .article-card:nth-child(5) {
+    animation-delay: 0.3s;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Focus states for accessibility */
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+  a:focus-visible,
+  button:focus-visible {
+    border-radius: 4px;
+  }
+
+  /* Skip link for keyboard navigation */
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 0 0 8px 8px;
+    z-index: 9999;
+    transition: top 0.2s;
+    font-weight: 600;
+  }
+  .skip-link:focus {
+    top: 0;
+  }
+
+  /* Utility: hide companion */
+  #shadow-host-companion {
+    display: none;
+  }
+
+  /* Breadcrumb */
+  #breadcrumb nav[aria-label="breadcrumb"] ol {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  #breadcrumb nav[aria-label="breadcrumb"] li {
+    margin-right: 8px;
+  }
+  #breadcrumb nav[aria-label="breadcrumb"] li + li::before {
+    content: ">";
+    margin-right: 8px;
+    color: var(--text-muted);
+  }
+
+  /* Article Page */
+  #article {
+    max-width: 100%;
+    margin: 0 auto;
+    line-height: 1.8;
+    padding: 30px;
+  }
+  #article li,
+  #article p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    text-align: justify;
+  }
+  #article h1,
+  #article h2,
+  #article h3 {
+    margin-top: 32px;
+    margin-bottom: 16px;
+  }
+  #article h2 {
+    font-size: 1.5rem;
+  }
+  .article-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .article-content {
+    order: 2;
+  }
+  .article-content h3 {
+    font-size: 1.25rem;
+  }
+  .article-sidebar {
+    order: 1;
+    padding-left: 0;
+    padding-bottom: 20px;
+    flex: 1 1 25%;
+    padding-top: 20px;
+  }
+  .article-sidebar p {
+    margin-bottom: 5px !important;
+  }
+
+  /* ========== TABLET (768px+) ========== */
+  @media screen and (min-width: 768px) {
+    .article-container {
+      flex-direction: row;
+    }
+    .article-content {
+      order: 1;
+      flex: 3 1 75%;
+    }
+    .article-sidebar {
+      order: 2;
+      padding-left: 20px;
+      padding-bottom: 0;
+    }
+
+    #apps-section,
+    #article,
+    #articles-section,
+    #breadcrumb,
+    #contact,
+    #newsletter-section,
+    #toc,
+    #why-choose-us,
+    .footer-content {
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+
+  /* ========== DESKTOP (992px+) ========== */
+  @media screen and (min-width: 992px) {
+    #apps-section,
+    #article,
+    #articles-section,
+    #breadcrumb,
+    #contact,
+    #newsletter-section,
+    #toc,
+    #why-choose-us,
+    .footer-content,
+    .header-content {
+      max-width: 960px;
+    }
+  }
+
+  /* ========== LARGE DESKTOP (1200px+) ========== */
+  @media screen and (min-width: 1200px) {
+    #apps-section,
+    #article,
+    #articles-section,
+    #breadcrumb,
+    #contact,
+    #newsletter-section,
+    #toc,
+    #why-choose-us,
+    .footer-content,
+    .header-content {
+      max-width: 1140px;
+    }
+  }
+
+  /* ========== XL DESKTOP (1400px+) ========== */
+  @media screen and (min-width: 1400px) {
+    #apps-section,
+    #articles-section,
+    #breadcrumb,
+    #contact,
+    #newsletter-section,
+    #toc,
+    #why-choose-us,
+    .footer-content,
+    .header-content {
+      max-width: 1320px;
+    }
+  }
+</style>
