@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 concurrency:
   group: deploy
@@ -68,19 +67,6 @@ jobs:
             echo "NO_CHANGES=false" >> $GITHUB_ENV
           fi
 
-      - name: Create or update PR
+      - name: Summary
         if: env.NO_CHANGES != 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          EXISTING_PR=$(gh pr list --head deploy/latest --base master --state open --json number --jq '.[0].number' 2>/dev/null || echo "")
-
-          if [ -z "$EXISTING_PR" ]; then
-            gh pr create \
-              --title "Deploy: update static site" \
-              --body "Auto-generated from \`dev\` branch. Contains built static files only." \
-              --head deploy/latest \
-              --base master
-          else
-            echo "PR #${EXISTING_PR} updated with latest build."
-          fi
+        run: echo "Pushed deploy/latest — ready to merge into master."
