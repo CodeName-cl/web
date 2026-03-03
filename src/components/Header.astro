@@ -105,10 +105,6 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: rgba(15, 23, 42, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
     width: 100%;
   }
@@ -119,11 +115,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-  header :global(.scrolled) {
-    background: rgba(255, 255, 255, 0.95);
-    border-bottom: 1px solid var(--border);
-    box-shadow: var(--shadow-md);
   }
 
   .logo {
@@ -156,12 +147,7 @@
     padding: 16px 20px;
     font-weight: 500;
     font-size: 0.9375rem;
-    color: var(--text-secondary);
     transition: all 0.2s ease;
-  }
-  nav ul li a:hover {
-    background: rgba(99, 102, 241, 0.06);
-    color: var(--primary);
   }
 
   .hamburger-menu {
@@ -176,13 +162,9 @@
     cursor: pointer;
     transition: background 0.2s;
   }
-  .hamburger-menu:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
   .hamburger-menu img {
     width: 24px;
     height: 24px;
-    filter: brightness(0) invert(1);
     transition: filter 0.3s ease;
   }
 
@@ -210,11 +192,6 @@
       border-radius: 10px;
       width: auto;
       height: 44px;
-      color: rgba(255, 255, 255, 0.9);
-    }
-    nav ul li a:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
     }
   }
 
@@ -238,7 +215,44 @@
 </style>
 
 <style is:global>
-  /* Header scrolled state - global because JS adds class dynamically */
+  /*
+   * Header appearance — ALL color/background props live here (global)
+   * because JS toggles .scrolled, and scoped styles would win on specificity.
+   */
+  header {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  header a {
+    text-decoration: none;
+  }
+  nav ul li a {
+    color: var(--text-secondary);
+  }
+  nav ul li a:hover {
+    background: rgba(99, 102, 241, 0.06);
+    color: var(--primary);
+  }
+  .hamburger-menu:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .hamburger-menu img {
+    filter: brightness(0) invert(1);
+  }
+
+  @media screen and (min-width: 768px) {
+    nav ul li a {
+      color: rgba(255, 255, 255, 0.9);
+    }
+    nav ul li a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+  }
+
+  /* Scrolled state */
   header.scrolled {
     background: rgba(255, 255, 255, 0.95);
     border-bottom: 1px solid var(--border);
@@ -259,9 +273,6 @@
   }
   header.scrolled .hamburger-menu:hover {
     background: rgba(0, 0, 0, 0.05);
-  }
-  header a {
-    text-decoration: none;
   }
 
   /* Nav show state - global because JS toggles class */
