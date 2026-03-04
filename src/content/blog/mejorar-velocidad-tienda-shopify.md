@@ -2,7 +2,9 @@
 title: "4 Estrategias infalibles para mejorar la velocidad de tu tienda Shopify"
 description: "Descubre cómo aumentar la velocidad de tu tienda online en Shopify con 4 estrategias clave. Reduce tiempos de carga, optimiza imágenes y mejora el rendimiento de tu sitio web."
 date: 2025-01-30
-author: "@rickyoncode"
+author:
+  name: "Ricardo Alfaro"
+  url: "https://www.linkedin.com/in/rickyoncode"
 image: "/images/blog/mejorar-velocidad-tienda-shopify/person-navigating-a-website.jpg"
 tags: ["shopify", "velocidad", "optimización", "rendimiento", "ecommerce"]
 ---

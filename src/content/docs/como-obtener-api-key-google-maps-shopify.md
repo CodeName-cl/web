@@ -2,7 +2,9 @@
 title: "Consigue tu API Key de Google Maps para Shopify"
 description: "Sigue esta guía paso a paso para obtener tu clave API de Google Maps y activar el autocompletado de direcciones en tu tienda Shopify."
 date: 2025-04-16
-author: "@rickyoncode"
+author:
+  name: "Ricardo Alfaro"
+  url: "https://www.linkedin.com/in/rickyoncode"
 image: "/images/docs/ship-smart-getting-started/ship-smart.webp"
 tags: ["shopify", "google-maps", "api-key", "locfix"]
 ---

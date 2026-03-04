@@ -2,7 +2,9 @@
 title: "Configuración inicial de Ship Smart"
 description: "Aprende a configurar Ship Smart en Shopify en pocos pasos. Personaliza tarifas y mejora la logística de tu tienda online."
 date: 2024-02-01
-author: "@rickyoncode"
+author:
+  name: "Ricardo Alfaro"
+  url: "https://www.linkedin.com/in/rickyoncode"
 image: "/images/docs/ship-smart-getting-started/ship-smart.webp"
 tags: ["shopify", "ship-smart", "configuración", "envíos"]
 ---

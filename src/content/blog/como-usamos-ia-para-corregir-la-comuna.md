@@ -2,7 +2,9 @@
 title: "Cómo usamos IA para corregir la comuna"
 description: "Explicamos cómo aplicamos IA para corregir comunas mal escritas y mejorar los cálculos de costos de envío en Shopify."
 date: 2025-02-11
-author: "@rickyoncode"
+author:
+  name: "Ricardo Alfaro"
+  url: "https://www.linkedin.com/in/rickyoncode"
 image: "/images/blog/como-usamos-ia-para-completar-la-comuna/alina-grubnyak-ZiQkhI7417A-unsplash.jpg"
 tags: ["shopify", "inteligencia artificial", "envíos", "ship smart", "locfix"]
 ---

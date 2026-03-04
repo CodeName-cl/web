@@ -2,7 +2,9 @@
 title: "Configuración inicial: Billboost Boleta o Factura"
 description: "Configura la aplicación Billboost Boleta o Factura en Shopify. Añade campos personalizados en checkout y optimiza tu facturación."
 date: 2025-03-31
-author: "@rickyoncode"
+author:
+  name: "Ricardo Alfaro"
+  url: "https://www.linkedin.com/in/rickyoncode"
 image: "/images/docs/ship-smart-getting-started/ship-smart.webp"
 tags: ["shopify", "billboost", "boleta", "factura", "checkout"]
 ---

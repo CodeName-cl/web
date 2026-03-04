@@ -37,8 +37,9 @@ const dateFormatted = post.data.date.toLocaleDateString("es-CL", {
         headline: post.data.title,
         description: post.data.description,
         author: {
-          "@type": "Organization",
-          name: "Codename",
+          "@type": "Person",
+          name: post.data.author.name,
+          url: post.data.author.url,
         },
         publisher: {
           "@type": "Organization",
@@ -72,7 +73,7 @@ const dateFormatted = post.data.date.toLocaleDateString("es-CL", {
     <aside class="article-sidebar">
       <p><strong>Autor:</strong></p>
       <p>
-        <a href="https://rickyoncode.com" target="_blank">{post.data.author}</a>
+        <a href={post.data.author.url} target="_blank" rel="noopener noreferrer">{post.data.author.name}</a>
       </p>
       <p><strong>Fecha de modificación:</strong></p>
       <p>{dateFormatted}</p>

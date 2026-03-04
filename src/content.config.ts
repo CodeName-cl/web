@@ -7,7 +7,10 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.date(),
-    author: z.string(),
+    author: z.object({
+      name: z.string(),
+      url: z.string().url(),
+    }),
     image: z.string(),
     tags: z.array(z.string()).default([]),
   }),
@@ -19,7 +22,10 @@ const docs = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.date(),
-    author: z.string(),
+    author: z.object({
+      name: z.string(),
+      url: z.string().url(),
+    }),
     image: z.string(),
     tags: z.array(z.string()).default([]),
   }),
