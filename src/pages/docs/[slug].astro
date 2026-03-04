@@ -1,0 +1,83 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ContactForm from "@components/ContactForm.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("docs");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const dateFormatted = post.data.date.toLocaleDateString("es-CL", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<BaseLayout
+  title={`${post.data.title} | Codename`}
+  description={post.data.description}
+  ogImage={`https://codename.cl${post.data.image}`}
+  ogType="article"
+  canonicalUrl={`https://codename.cl/docs/${post.id}`}
+>
+  <Fragment slot="structured-data">
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        headline: post.data.title,
+        description: post.data.description,
+        author: {
+          "@type": "Organization",
+          name: "Codename",
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Codename",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://codename.cl/logo.png",
+          },
+        },
+        datePublished: post.data.date.toISOString().split("T")[0],
+        image: `https://codename.cl${post.data.image}`,
+      })}
+    />
+  </Fragment>
+
+  <section id="breadcrumb">
+    <nav aria-label="breadcrumb">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/docs">Documentación</a></li>
+        <li>{post.data.title}</li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="article" class="article-container">
+    <div class="article-content">
+      <h1>{post.data.title}</h1>
+      <Content />
+    </div>
+    <aside class="article-sidebar">
+      <p><strong>Autor:</strong></p>
+      <p>
+        <a href="https://rickyoncode.com" target="_blank">{post.data.author}</a>
+      </p>
+      <p><strong>Fecha de modificación:</strong></p>
+      <p>{dateFormatted}</p>
+    </aside>
+  </section>
+
+  <ContactForm />
+</BaseLayout>
