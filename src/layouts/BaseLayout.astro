@@ -43,7 +43,7 @@ import Footer from "@components/Footer.astro";
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <link rel="canonical" href={canonicalUrl ?? Astro.url.href} />
 
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
