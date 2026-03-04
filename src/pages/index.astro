@@ -3,7 +3,20 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import ContactForm from "@components/ContactForm.astro";
 import Newsletter from "@components/Newsletter.astro";
 import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 import growImage from "../assets/images/grow.webp";
+
+const blogPosts = (await getCollection("blog"))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 5);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString("es-CL", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
 ---
 
 <BaseLayout
@@ -336,71 +349,20 @@ import growImage from "../assets/images/grow.webp";
   <section id="articles-section" class="fade-in">
     <h2>Blog</h2>
     <div id="articles">
-      <div class="article-card">
-        <div class="article-card-content">
-          <h3>Selector de Boleta o Factura en Shopify</h3>
-          <p>
-            Explicamos cómo agregar la opción de boleta o factura en Shopify y
-            los pasos necesarios para implementarlo.
-          </p>
-          <a href="/blog/boleta-o-factura-shopify">Leer más</a>
-        </div>
-      </div>
-
-      <div class="article-card">
-        <div class="article-card-content">
-          <h3>Cómo usamos IA para corregir la comuna</h3>
-          <p>
-            Descubre cómo usamos IA para corregir la comuna en Shopify,
-            mejorando la precisión en los costos de envío y optimizando la
-            experiencia del usuario.
-          </p>
-          <a href="/blog/como-usamos-ia-para-corregir-la-comuna"
-            >Leer más</a
-          >
-        </div>
-      </div>
-
-      <div class="article-card">
-        <div class="article-card-content">
-          <h3>Envío Unificado con Ship Smart</h3>
-          <p>
-            Reduce costos de envío y mejora la experiencia del cliente con el
-            Envío Unificado de Ship Smart en Shopify. Descubre cómo funciona y
-            cómo configurarlo.
-          </p>
-          <a href="/blog/envio-unificado-shopify">Leer más</a>
-        </div>
-      </div>
-
-      <div class="article-card">
-        <div class="article-card-content">
-          <h3>Cómo usar IA para analizar datos de tu tienda Shopify</h3>
-          <p>
-            Descubre cómo utilicé DeepSeek para analizar las ventas de mi tienda
-            Shopify en segundos. Aprende sobre sus ventajas, limitaciones y lo
-            que nos enseña sobre el razonamiento estructurado.
-          </p>
-          <a href="/blog/usar-deepseek-en-ecommerce">Leer más</a>
-        </div>
-      </div>
-
-      <div class="article-card">
-        <div class="article-card-content">
-          <h3>
-            Estrategias infalibles para mejorar la velocidad de tu tienda
-            Shopify
-          </h3>
-          <p>
-            La velocidad de carga de tu tienda Shopify es crucial para ofrecer
-            una experiencia positiva a tus clientes. Un sitio rápido no solo
-            mejora la satisfacción del usuario, sino que también impacta
-            directamente en tus conversiones y en tu posición en los resultados
-            de búsqueda de Google.
-          </p>
-          <a href="/blog/mejorar-velocidad-tienda-shopify">Leer más</a>
-        </div>
-      </div>
+      {
+        blogPosts.map((post) => (
+          <div class="article-card">
+            <div class="article-card-content">
+              <h3>{post.data.title}</h3>
+              <time class="article-card-date" datetime={post.data.date.toISOString()}>
+                {formatDate(post.data.date)}
+              </time>
+              <p>{post.data.description}</p>
+              <a href={`/blog/${post.id}`}>Leer más &rarr;</a>
+            </div>
+          </div>
+        ))
+      }
     </div>
 
     <a href="/blog">Ver Blog</a>
@@ -910,8 +872,14 @@ import growImage from "../assets/images/grow.webp";
   }
   .article-card-content h3 {
     font-size: 1.0625rem;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
     line-height: 1.4;
+  }
+  .article-card-date {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-bottom: 12px;
   }
   .article-card-content p {
     font-size: 0.9375rem;
