@@ -765,6 +765,7 @@ function formatDate(date: Date) {
   #why-choose-us {
     padding-top: 48px;
     padding-bottom: 48px;
+    overflow-x: hidden;
   }
   #why-choose-us h2 {
     margin-bottom: 24px;
@@ -787,9 +788,14 @@ function formatDate(date: Date) {
     line-height: 1.65;
   }
   .grow {
-    display: none;
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    margin: 8px auto 0;
     border-radius: var(--border-radius-lg);
     border: 1px solid var(--border);
+    object-fit: cover;
   }
   .feature {
     display: flex;
@@ -836,6 +842,10 @@ function formatDate(date: Date) {
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     margin-top: 24px;
+  }
+  .client-logos a {
+    min-width: 0;
+    overflow: hidden;
   }
   .client-logos img {
     width: 100%;
@@ -952,31 +962,26 @@ function formatDate(date: Date) {
       margin-top: 48px;
     }
 
+    /* Tablet: mantener columna para que el texto use todo el ancho (mejor lectura en iPad) */
     .grow-content {
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 40px;
-      padding-bottom: 40px;
-    }
-    .grow-text {
-      flex: 1;
-      min-width: 0;
+      gap: 32px;
+      padding-bottom: 24px;
     }
     .grow-text > p {
       margin-bottom: 20px;
     }
     .grow {
       display: block;
-      flex: 0 0 320px;
-      max-width: none;
-      margin: 0;
-      min-height: 0;
-      max-height: 400px;
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      margin: 0 auto;
       object-fit: cover;
     }
 
+    /* Tablet: 3 columnas para evitar overflow en iPad; 6 columnas desde 992px */
     .client-logos {
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
     }
 
@@ -988,6 +993,10 @@ function formatDate(date: Date) {
 
   /* ========== DESKTOP (992px+) ========== */
   @media screen and (min-width: 992px) {
+    .client-logos {
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+    }
     .app-list {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -1001,6 +1010,25 @@ function formatDate(date: Date) {
   @media screen and (min-width: 1200px) {
     .app-list {
       grid-template-columns: repeat(3, 1fr);
+    }
+    /* Dos columnas solo en pantallas grandes para mejor proporción */
+    .grow-content {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 40px;
+      padding-bottom: 40px;
+    }
+    .grow-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .grow {
+      flex: 0 0 320px;
+      max-width: none;
+      width: auto;
+      margin: 0;
+      min-height: 0;
+      max-height: 400px;
     }
     .article-card {
       flex: 1 1 calc(20% - 13px);
