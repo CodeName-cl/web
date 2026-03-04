@@ -2,6 +2,8 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ContactForm from "@components/ContactForm.astro";
 import Newsletter from "@components/Newsletter.astro";
+import { Image } from "astro:assets";
+import growImage from "../assets/images/grow.webp";
 ---
 
 <BaseLayout
@@ -292,10 +294,12 @@ import Newsletter from "@components/Newsletter.astro";
         </div>
       </div>
 
-      <img
+      <Image
         class="grow"
-        src="/images/grow.webp"
+        src={growImage}
         alt="Crecimiento de tiendas Shopify con las apps de Codename"
+        width={560}
+        height={420}
       />
     </div>
 
@@ -802,15 +806,22 @@ import Newsletter from "@components/Newsletter.astro";
     margin-top: 48px;
   }
   .grow-content {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
   .grow-text {
-    margin-bottom: 32px;
+    margin-bottom: 0;
   }
   .grow {
-    display: none;
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    margin: 0 auto;
     border-radius: var(--border-radius-lg);
     border: 1px solid var(--border);
+    object-fit: cover;
   }
   .feature {
     display: flex;
@@ -848,10 +859,22 @@ import Newsletter from "@components/Newsletter.astro";
     gap: 12px;
     margin-top: 24px;
   }
+  .client-logos a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    padding: 12px 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+  }
   .client-logos img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    max-height: 72px;
+    max-width: 160px;
+    object-fit: contain;
     border-radius: var(--border-radius);
     transition:
       transform 0.3s ease,
@@ -950,25 +973,35 @@ import Newsletter from "@components/Newsletter.astro";
     }
 
     .grow-content {
-      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
       gap: 40px;
       padding-bottom: 40px;
     }
     .grow-text {
       flex: 1;
-      padding-right: 0;
-      margin-bottom: 0;
+      min-width: 0;
     }
     .grow {
-      display: block;
       flex: 0 0 280px;
-      object-fit: cover;
+      width: 280px;
+      max-width: none;
+      margin: 0;
+      min-height: 200px;
       max-height: 320px;
     }
 
     .client-logos {
       grid-template-columns: repeat(6, 1fr);
       gap: 16px;
+    }
+    .client-logos a {
+      min-height: 120px;
+      padding: 16px 12px;
+    }
+    .client-logos img {
+      max-height: 88px;
+      max-width: 180px;
     }
 
     .article-card {
@@ -981,6 +1014,14 @@ import Newsletter from "@components/Newsletter.astro";
   @media screen and (min-width: 992px) {
     .app-list {
       grid-template-columns: repeat(2, 1fr);
+    }
+    .client-logos a {
+      min-height: 140px;
+      padding: 20px 16px;
+    }
+    .client-logos img {
+      max-height: 100px;
+      max-width: 200px;
     }
     .article-card {
       flex: 1 1 calc(33.33% - 12px);

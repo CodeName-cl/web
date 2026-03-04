@@ -61,41 +61,46 @@
 </header>
 
 <script is:inline>
-  // Hamburger menu toggle
-  const hamburger = document.querySelector(".hamburger-menu");
-  const navLinks = document.querySelector("nav ul");
+  document.addEventListener("DOMContentLoaded", function () {
+    var hamburger = document.querySelector(".hamburger-menu");
+    var navLinks = document.querySelector("header nav ul");
+    if (!hamburger || !navLinks) return;
 
-  function toggleMenu() {
-    navLinks.classList.toggle("show");
-  }
-
-  hamburger.addEventListener("click", (event) => {
-    event.stopPropagation();
-    toggleMenu();
-  });
-
-  const navItems = document.querySelectorAll("nav ul li a");
-  navItems.forEach((item) => {
-    item.addEventListener("click", () => {
-      navLinks.classList.remove("show");
-    });
-  });
-
-  document.addEventListener("click", (event) => {
-    const isClickInsideNav = navLinks.contains(event.target);
-    const isClickOnHamburger = hamburger.contains(event.target);
-    if (!isClickInsideNav && !isClickOnHamburger) {
-      navLinks.classList.remove("show");
+    function toggleMenu() {
+      navLinks.classList.toggle("show");
     }
-  });
 
-  // Sticky header scroll behavior
-  const header = document.querySelector("header");
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 50) {
-      header.classList.add("scrolled");
-    } else {
-      header.classList.remove("scrolled");
+    hamburger.addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      toggleMenu();
+    });
+
+    var navItems = document.querySelectorAll("header nav ul li a");
+    navItems.forEach(function (item) {
+      item.addEventListener("click", function () {
+        navLinks.classList.remove("show");
+      });
+    });
+
+    document.addEventListener("click", function (event) {
+      var isClickInsideNav = navLinks.contains(event.target);
+      var isClickOnHamburger = hamburger.contains(event.target);
+      if (!isClickInsideNav && !isClickOnHamburger) {
+        navLinks.classList.remove("show");
+      }
+    });
+
+    // Sticky header scroll behavior
+    var header = document.querySelector("header");
+    if (header) {
+      window.addEventListener("scroll", function () {
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
     }
   });
 </script>
@@ -122,12 +127,23 @@
     padding: 12px 0;
   }
 
+  /* Hamburger en la esquina derecha: no dejar que el nav ocupe espacio en móvil */
+  header nav {
+    flex: 0 0 0;
+    width: 0;
+    overflow: visible;
+  }
+
+  .hamburger-menu {
+    margin-left: auto;
+  }
+
   nav ul {
     display: none;
     list-style: none;
     padding: 0;
   }
-  nav ul :global(.show) {
+  nav ul:global(.show) {
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -151,7 +167,6 @@
   }
 
   .hamburger-menu {
-    float: left;
     padding: 16px;
     display: flex;
     align-items: center;
@@ -171,6 +186,11 @@
   @media screen and (min-width: 768px) {
     .header-content {
       max-width: 720px;
+    }
+    header nav {
+      flex: initial;
+      width: auto;
+      overflow: visible;
     }
     .hamburger-menu {
       display: none;
