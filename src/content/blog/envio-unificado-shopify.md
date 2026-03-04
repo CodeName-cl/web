@@ -3,7 +3,7 @@ title: "Envío Unificado con Ship Smart"
 description: "Reduce costos de envío y mejora la experiencia del cliente con el Envío Unificado de Ship Smart en Shopify. Descubre cómo funciona y cómo configurarlo."
 date: 2025-02-10
 author:
-  name: "Ricardo Alfaro"
+  name: "Ricardo Silva"
   url: "https://www.linkedin.com/in/rickyoncode"
 image: "/images/blog/envio-unificado-shopify/shipping.jpg"
 tags: ["shopify", "envíos", "ship smart", "logística", "ecommerce"]

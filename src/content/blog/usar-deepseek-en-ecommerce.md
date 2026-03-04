@@ -3,7 +3,7 @@ title: "Cómo usar IA para analizar datos de tu tienda Shopify"
 description: "Descubre cómo usar inteligencia artificial para analizar datos de ventas en Shopify. Experimentamos con DeepSeek para extraer insights valiosos."
 date: 2025-01-29
 author:
-  name: "Ricardo Alfaro"
+  name: "Ricardo Silva"
   url: "https://www.linkedin.com/in/rickyoncode"
 image: "/images/blog/usar-deepseek-en-ecommerce/deepseek.jpg"
 tags: ["shopify", "inteligencia artificial", "deepseek", "análisis de datos", "ecommerce"]

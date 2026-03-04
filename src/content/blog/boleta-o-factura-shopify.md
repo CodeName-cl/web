@@ -3,7 +3,7 @@ title: "Selector de Boleta o Factura en Shopify"
 description: "Explicamos cómo agregar la opción de boleta o factura en Shopify y los pasos necesarios para implementarlo."
 date: 2025-02-12
 author:
-  name: "Ricardo Alfaro"
+  name: "Ricardo Silva"
   url: "https://www.linkedin.com/in/rickyoncode"
 image: "/images/blog/boleta-o-factura-shopify/adrien-delforge-CrHG_ZYn1Dw-unsplash.jpg"
 tags: ["shopify", "boleta", "factura", "checkout", "billboost"]
