@@ -838,17 +838,14 @@ function formatDate(date: Date) {
   /* Client Logos */
   .client-logos {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-    align-items: center;
-    justify-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
     margin-top: 24px;
   }
   .client-logos img {
     width: 100%;
-    height: auto;
-    max-height: 72px;
-    object-fit: contain;
+    height: 100%;
+    object-fit: cover;
     border-radius: var(--border-radius);
     transition:
       transform 0.3s ease,
