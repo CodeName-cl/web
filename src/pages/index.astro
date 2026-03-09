@@ -659,26 +659,27 @@ function formatDate(date: Date) {
   }
   #home button {
     margin-top: 40px;
-    padding: 16px 32px;
+    padding: 12px 32px;
     font-size: 1.0625rem;
-    font-weight: 600;
+    font-weight: 700;
     background: var(--gradient-accent);
     color: white;
     border: none;
     border-radius: var(--border-radius);
+    text-transform: uppercase;
     box-shadow:
-      0 4px 14px rgba(235, 94, 40, 0.4),
+      0 4px 14px rgba(235, 94, 40, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.15);
     min-height: 52px;
   }
   #home button:hover {
-    transform: translateY(-3px);
+    transform: scale(1.02);
     box-shadow:
-      0 8px 25px rgba(235, 94, 40, 0.5),
+      0 8px 25px rgba(235, 94, 40, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.15);
   }
   #home button:active {
-    transform: translateY(-1px);
+    transform: scale(0.98);
   }
   .btn-call-to-action {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -706,7 +707,7 @@ function formatDate(date: Date) {
     display: flex;
     align-items: flex-start;
     gap: 16px;
-    padding: 20px;
+    padding: 24px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--border-radius-lg);
@@ -715,8 +716,8 @@ function formatDate(date: Date) {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .app-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--border-hover);
+    transform: scale(1.02);
+    border-color: rgba(99, 102, 241, 0.3);
     box-shadow: var(--shadow-lg);
   }
   .icon-container {
@@ -876,7 +877,8 @@ function formatDate(date: Date) {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .article-card:hover {
-    transform: translateY(-4px);
+    transform: scale(1.02);
+    border-color: rgba(99, 102, 241, 0.3);
     box-shadow: var(--shadow-lg);
   }
   .article-card-content {
@@ -933,18 +935,22 @@ function formatDate(date: Date) {
     align-items: center;
     justify-content: center;
     margin: 32px auto 0;
-    padding: 14px 28px;
+    padding: 12px 24px;
     background: var(--gradient-accent);
     color: white;
-    font-weight: 600;
+    font-weight: 700;
+    text-transform: uppercase;
     border-radius: var(--border-radius);
     width: fit-content;
     box-shadow: 0 4px 14px rgba(235, 94, 40, 0.3);
     transition: all 0.2s ease;
   }
   #articles-section > a:hover {
-    transform: translateY(-2px);
+    transform: scale(1.02);
     box-shadow: 0 6px 20px rgba(235, 94, 40, 0.4);
+  }
+  #articles-section > a:active {
+    transform: scale(0.98);
   }
 
   /* ========== TABLET (768px+) ========== */
