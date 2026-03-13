@@ -1,9 +1,19 @@
 ---
+import type { Lang } from "@i18n/ui";
+import { useTranslations, getLocalePath } from "@i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "es" } = Astro.props;
+const t = useTranslations(lang);
+const home = getLocalePath("/", lang);
 ---
 
 <header>
   <div class="header-content">
-    <a href="/">
+    <a href={home}>
       <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104.2 46.06">
         <g>
           <path
@@ -51,10 +61,10 @@
 
     <nav>
       <ul>
-        <li><a href="/#apps-section">Aplicaciones</a></li>
-        <li><a href="/#why-choose-us">¿Por qué elegirnos?</a></li>
-        <li><a href="/#contact">Contacto</a></li>
-        <li><a href="/docs">Documentación</a></li>
+        <li><a href={`${home}#apps-section`}>{t("nav.apps")}</a></li>
+        <li><a href={`${home}#why-choose-us`}>{t("nav.why")}</a></li>
+        <li><a href={`${home}#contact`}>{t("nav.contact")}</a></li>
+        <li><a href={getLocalePath("/docs", lang)}>{t("nav.docs")}</a></li>
       </ul>
     </nav>
   </div>

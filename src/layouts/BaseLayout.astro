@@ -1,38 +1,46 @@
 ---
+import type { Lang } from "@i18n/ui";
+import { useTranslations } from "@i18n/utils";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+
 interface Props {
   title: string;
+  lang?: Lang;
   description?: string;
   ogImage?: string;
   ogType?: string;
   canonicalUrl?: string;
+  alternateEs?: string;
+  alternateEn?: string;
 }
 
 const {
   title,
-  description = "Descubre nuestras aplicaciones Shopify que transforman tu tienda, mejoran tus conversiones y te ayudan a crecer.",
+  lang = "es",
+  description,
   ogImage = "https://codename.cl/logo.png",
   ogType = "website",
   canonicalUrl,
+  alternateEs,
+  alternateEn,
 } = Astro.props;
 
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
+const t = useTranslations(lang);
+const desc = description || t("meta.description");
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <meta
-      name="keywords"
-      content="Shopify, aplicaciones Shopify, optimización de tiendas online, herramientas Shopify, automatización de tiendas Shopify"
-    />
+    <meta name="description" content={desc} />
+    <meta name="keywords" content={t("meta.keywords")} />
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={desc} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalUrl ?? Astro.url.href} />
@@ -40,10 +48,13 @@ import Footer from "@components/Footer.astro";
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={desc} />
     <meta name="twitter:image" content={ogImage} />
 
     <link rel="canonical" href={canonicalUrl ?? Astro.url.href} />
+
+    {alternateEs && <link rel="alternate" hreflang="es" href={alternateEs} />}
+    {alternateEn && <link rel="alternate" hreflang="en" href={alternateEn} />}
 
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
@@ -83,11 +94,27 @@ import Footer from "@components/Footer.astro";
 
     <title>{title}</title>
 
+    <!-- Language detection redirect -->
+    <script is:inline>
+      (function () {
+        if (document.cookie.indexOf("lang_pref=") !== -1) return;
+        var isEnglish =
+          (navigator.language || navigator.userLanguage || "").substring(0, 2) === "en";
+        if (isEnglish && window.location.pathname.indexOf("/en") !== 0) {
+          document.cookie = "lang_pref=en;path=/;max-age=31536000;SameSite=Lax";
+          window.location.replace("/en" + window.location.pathname);
+        } else {
+          document.cookie =
+            "lang_pref=es;path=/;max-age=31536000;SameSite=Lax";
+        }
+      })();
+    </script>
+
     <!-- Structured Data slot -->
     <slot name="structured-data" />
   </head>
   <body>
-    <a href="#main-content" class="skip-link">Saltar al contenido</a>
+    <a href="#main-content" class="skip-link">{t("skip")}</a>
 
     <!-- Google Tag Manager (noscript) -->
     <noscript>
@@ -98,13 +125,13 @@ import Footer from "@components/Footer.astro";
         style="display:none;visibility:hidden"></iframe>
     </noscript>
 
-    <Header />
+    <Header lang={lang} />
 
     <main id="main-content">
       <slot />
     </main>
 
-    <Footer />
+    <Footer lang={lang} />
 
     <!-- Intersection Observer for fade-in animations -->
     <script is:inline>

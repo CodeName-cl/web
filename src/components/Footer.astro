@@ -1,22 +1,32 @@
 ---
+import type { Lang } from "@i18n/ui";
+import { useTranslations, getLocalePath } from "@i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "es" } = Astro.props;
+const t = useTranslations(lang);
+const home = getLocalePath("/", lang);
 ---
 
 <footer>
   <div class="footer-content">
     <div class="links-container">
       <div>
-        <p class="footer-heading">Enlaces Rápidos</p>
+        <p class="footer-heading">{t("footer.quickLinks")}</p>
         <ul>
-          <li><a href="/">Inicio</a></li>
-          <li><a href="/#apps-section">Aplicaciones</a></li>
-          <li><a href="/#why-choose-us">¿Por qué elegirnos?</a></li>
-          <li><a href="/#contact">Contacto</a></li>
-          <li><a href="/docs">Documentación</a></li>
+          <li><a href={home}>{t("breadcrumb.home")}</a></li>
+          <li><a href={`${home}#apps-section`}>{t("nav.apps")}</a></li>
+          <li><a href={`${home}#why-choose-us`}>{t("nav.why")}</a></li>
+          <li><a href={`${home}#contact`}>{t("nav.contact")}</a></li>
+          <li><a href={getLocalePath("/docs", lang)}>{t("nav.docs")}</a></li>
         </ul>
       </div>
 
       <div>
-        <p class="footer-heading">Redes Sociales</p>
+        <p class="footer-heading">{t("footer.social")}</p>
         <ul class="social">
           <li>
             <a href="https://www.instagram.com/codename.cl" target="_blank" rel="noopener noreferrer">
@@ -33,8 +43,7 @@
     </div>
 
     <p class="copyright">
-      Copyright: &copy; {new Date().getFullYear()} Codename.cl - Todos los derechos
-      reservados.
+      Copyright: &copy; {new Date().getFullYear()} Codename.cl - {t("footer.copyright")}
     </p>
   </div>
 </footer>

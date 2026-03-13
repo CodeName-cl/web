@@ -4,9 +4,11 @@ import ContactForm from "@components/ContactForm.astro";
 import Newsletter from "@components/Newsletter.astro";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
+import { getLocaleFromPostId } from "@i18n/utils";
 import growImage from "../assets/images/grow.webp";
 
 const blogPosts = (await getCollection("blog"))
+  .filter((post) => getLocaleFromPostId(post.id).locale === "es")
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 5);
 
@@ -358,7 +360,7 @@ function formatDate(date: Date) {
                 {formatDate(post.data.date)}
               </time>
               <p>{post.data.description}</p>
-              <a href={`/blog/${post.id}`}>Leer más</a>
+              <a href={`/blog/${getLocaleFromPostId(post.id).slug}`}>Leer más</a>
             </div>
           </div>
         ))

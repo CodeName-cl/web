@@ -4,13 +4,13 @@ import ContactForm from "@components/ContactForm.astro";
 import { getCollection, render } from "astro:content";
 import { useTranslations, getLocaleFromPostId } from "@i18n/utils";
 
-const lang = "es";
+const lang = "en";
 const t = useTranslations(lang);
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
   return posts
-    .filter((post) => getLocaleFromPostId(post.id).locale === "es")
+    .filter((post) => getLocaleFromPostId(post.id).locale === "en")
     .map((post) => {
       const { slug } = getLocaleFromPostId(post.id);
       return {
@@ -24,7 +24,7 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const { slug } = getLocaleFromPostId(post.id);
 
-const dateFormatted = post.data.date.toLocaleDateString("es-CL", {
+const dateFormatted = post.data.date.toLocaleDateString("en-US", {
   year: "numeric",
   month: "long",
   day: "numeric",
@@ -37,7 +37,7 @@ const dateFormatted = post.data.date.toLocaleDateString("es-CL", {
   description={post.data.description}
   ogImage={`https://codename.cl${post.data.image}`}
   ogType="article"
-  canonicalUrl={`https://codename.cl/blog/${slug}`}
+  canonicalUrl={`https://codename.cl/en/blog/${slug}`}
 >
   <Fragment slot="structured-data">
     <script
@@ -69,8 +69,8 @@ const dateFormatted = post.data.date.toLocaleDateString("es-CL", {
   <section id="breadcrumb">
     <nav aria-label="breadcrumb">
       <ol>
-        <li><a href="/">{t("breadcrumb.home")}</a></li>
-        <li><a href="/blog">{t("blog.title")}</a></li>
+        <li><a href="/en">{t("breadcrumb.home")}</a></li>
+        <li><a href="/en/blog">{t("blog.title")}</a></li>
         <li>{post.data.title}</li>
       </ol>
     </nav>

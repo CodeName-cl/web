@@ -1,41 +1,48 @@
 ---
+import type { Lang } from "@i18n/ui";
+import { useTranslations } from "@i18n/utils";
+
+interface Props {
+  lang?: Lang;
+}
+
+const { lang = "es" } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <section id="contact" class="fade-in">
-  <h2>¿Tienes preguntas? Estamos aquí para ayudarte</h2>
+  <h2>{t("contact.title")}</h2>
 
   <div class="contact-container">
     <p>
-      Si tienes preguntas sobre nuestras aplicaciones o necesitas soporte, no
-      dudes en contactarnos. Estamos aquí para ayudarte a optimizar tu tienda
-      Shopify.
+      {t("contact.description")}
     </p>
 
-    <form id="contactForm">
-      <label for="name">Nombre</label>
+    <form id="contactForm" data-success-message={t("contact.success")}>
+      <label for="name">{t("contact.name")}</label>
       <input
         type="text"
         id="name"
         name="name"
-        placeholder="Escribe tu nombre"
+        placeholder={t("contact.namePlaceholder")}
         required
       />
-      <label for="email">Email</label>
+      <label for="email">{t("contact.email")}</label>
       <input
         type="email"
         id="email"
         name="email"
-        placeholder="usuario@email.com"
+        placeholder={t("contact.emailPlaceholder")}
         required
       />
-      <label for="message">Mensaje</label>
+      <label for="message">{t("contact.message")}</label>
       <textarea
         id="message"
         name="message"
-        placeholder="Escribe tu mensaje..."
+        placeholder={t("contact.messagePlaceholder")}
         required></textarea>
       <div class="submit-container">
-        <button type="submit">Enviar mensaje</button>
+        <button type="submit">{t("contact.submit")}</button>
       </div>
     </form>
   </div>
@@ -69,10 +76,9 @@
         .then((response) => {})
         .catch((error) => {});
 
-      document.getElementById("contactForm").innerHTML = `
-      <div class="p-4 rounded">
-        <p>¡Formulario enviado con éxito! Nos pondremos en contacto contigo pronto.</p>
-      </div>`;
+      var successMessage = this.getAttribute("data-success-message");
+      document.getElementById("contactForm").innerHTML =
+        '<div class="p-4 rounded"><p>' + successMessage + "</p></div>";
     });
 </script>
 
