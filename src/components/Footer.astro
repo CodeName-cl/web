@@ -13,9 +13,14 @@ const home = getLocalePath("/", lang);
 
 <footer>
   <div class="footer-content">
+    <div class="footer-slug">
+      <span class="mono-tag"><strong>EOF</strong> / END OF TRANSMISSION</span>
+      <span class="mono-tag right">REV. 2026.04 / CLASSIFIED: PUBLIC</span>
+    </div>
+
     <div class="links-container">
-      <div>
-        <p class="footer-heading">{t("footer.quickLinks")}</p>
+      <div class="footer-col">
+        <p class="footer-heading"><span class="col-no">§ 01</span>&nbsp;&nbsp;{t("footer.quickLinks")}</p>
         <ul>
           <li><a href={home}>{t("breadcrumb.home")}</a></li>
           <li><a href={`${home}#apps-section`}>{t("nav.apps")}</a></li>
@@ -25,16 +30,16 @@ const home = getLocalePath("/", lang);
         </ul>
       </div>
 
-      <div>
-        <p class="footer-heading">{t("footer.social")}</p>
+      <div class="footer-col">
+        <p class="footer-heading"><span class="col-no">§ 02</span>&nbsp;&nbsp;{t("footer.social")}</p>
         <ul class="social">
           <li>
-            <a href="https://www.instagram.com/codename.cl" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/codename.cl" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <img src="/images/instagram.webp" alt="Instagram de Codename" />
             </a>
           </li>
           <li>
-            <a href="https://www.linkedin.com/company/102651292" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/company/102651292" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <img src="/images/linkedin.webp" alt="LinkedIn de Codename" />
             </a>
           </li>
@@ -42,34 +47,99 @@ const home = getLocalePath("/", lang);
       </div>
     </div>
 
+    <div class="footer-mark" aria-hidden="true">
+      <a href={home} class="mark-logo" aria-label="Codename">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104.2 46.06">
+          <g>
+            <path class="cls-1" d="M8.89,21.54c-1.56,0-2.89-.32-4.01-.96-1.12-.64-2.04-1.49-2.76-2.54-.72-1.05-1.26-2.19-1.6-3.42-.35-1.23-.52-2.42-.52-3.57v-.61c0-1.28.18-2.54.53-3.78.35-1.24.9-2.36,1.63-3.36.73-1,1.65-1.8,2.75-2.4,1.1-.6,2.39-.89,3.86-.89,1.57,0,2.97.35,4.18,1.05,1.22.7,2.2,1.67,2.93,2.93.74,1.26,1.17,2.71,1.3,4.37h-4.38c-.11-.71-.35-1.32-.71-1.84s-.82-.93-1.39-1.21c-.57-.29-1.21-.43-1.93-.43-.68,0-1.28.14-1.83.42-.54.28-1,.67-1.37,1.19-.37.51-.65,1.13-.85,1.86-.2.73-.29,1.54-.29,2.46s.1,1.73.29,2.46c.2.73.49,1.35.87,1.87s.85.92,1.4,1.19c.55.27,1.18.4,1.89.4,1.1,0,2.03-.32,2.79-.95.76-.63,1.22-1.48,1.38-2.54h4.38c-.14,1.53-.57,2.92-1.3,4.19-.72,1.27-1.7,2.27-2.92,3.03-1.23.75-2.67,1.13-4.34,1.13Z"/>
+            <path class="cls-1" d="M27.37,21.54c-1.57,0-2.94-.32-4.1-.96-1.16-.64-2.13-1.49-2.9-2.54-.77-1.05-1.34-2.19-1.72-3.42s-.57-2.42-.57-3.57v-.61c0-1.28.2-2.54.59-3.78.39-1.24.98-2.36,1.77-3.36.79-1,1.76-1.8,2.91-2.4,1.15-.6,2.49-.89,4.02-.89s2.84.3,3.99.89c1.16.6,2.12,1.4,2.91,2.4.79,1.01,1.38,2.13,1.78,3.36.4,1.24.6,2.5.6,3.78v.61c0,1.15-.19,2.34-.58,3.57-.39,1.23-.96,2.37-1.73,3.42-.77,1.05-1.74,1.9-2.9,2.54-1.16.64-2.52.96-4.08.96ZM27.37,16.69c.75,0,1.43-.15,2.03-.45.6-.3,1.11-.72,1.53-1.26.42-.54.75-1.17.97-1.88s.33-1.49.33-2.33c0-.89-.11-1.7-.34-2.43-.23-.73-.55-1.35-.98-1.87-.42-.52-.94-.92-1.53-1.2-.6-.28-1.26-.42-2-.42s-1.43.14-2.03.42c-.6.28-1.11.68-1.53,1.2-.42.52-.75,1.14-.97,1.87-.22.72-.33,1.53-.33,2.43,0,.84.11,1.61.33,2.33.22.72.54,1.34.97,1.88.42.54.94.96,1.53,1.26.6.3,1.27.45,2.03.45Z"/>
+            <path class="cls-1" d="M38.54,21.09V.44h4.38v20.65h-4.38ZM42.46,21.09v-4.86h2.83c.74,0,1.4-.13,1.99-.38s1.09-.61,1.5-1.09c.41-.47.72-1.05.94-1.73.22-.68.33-1.45.33-2.3s-.11-1.68-.33-2.36c-.22-.68-.53-1.25-.94-1.7-.41-.45-.91-.8-1.5-1.03s-1.25-.35-1.99-.35h-2.83V.44h2.64c1.56,0,2.92.26,4.09.78,1.17.52,2.15,1.24,2.93,2.16.79.92,1.37,1.99,1.77,3.2.39,1.21.59,2.49.59,3.85v.61c0,1.25-.2,2.47-.59,3.67-.39,1.2-.98,2.28-1.77,3.24-.79.96-1.76,1.72-2.93,2.29-1.17.57-2.53.85-4.09.85h-2.64Z"/>
+            <path class="cls-1" d="M56.11,20.95V.58h4.24v20.37h-4.24ZM59.89,4.82V.58h7.12v4.24h-7.12ZM59.89,12.72v-4.24h6.76v4.24h-6.76ZM59.89,20.95v-4.24h7.26v4.24h-7.26Z"/>
+          </g>
+          <g>
+            <path class="cls-1" d="M.15,43.21l3.95-18.05h3.57l-3.95,18.05H.15Z"/>
+            <path class="cls-1" d="M9.39,41.92v-15.68h5.8l4.62,12.5h.67l-.38.39v-12.89h3.31v15.68h-5.83l-4.62-12.5h-.67l.38-.39v12.89h-3.27Z"/>
+            <path class="cls-1" d="M24.47,41.92l4.45-15.68h5.66l4.6,15.68h-3.65l-3.57-12.89,1.01.43h-2.51l1.03-.43-3.48,12.89h-3.53Z"/>
+            <path class="cls-1" d="M40.57,41.92v-15.68h4.9l2.85,8.27h.38l2.83-8.27h5v15.68h-3.5v-13.39l.55.04-3.57,10.18h-3.21l-3.59-10.18.59-.04v13.39h-3.23Z"/>
+            <path class="cls-1" d="M58.69,41.92v-15.68h3.42v15.68h-3.42ZM61.73,29.5v-3.27h5.74v3.27h-5.74ZM61.73,35.58v-3.27h5.45v3.27h-5.45ZM61.73,41.92v-3.27h5.85v3.27h-5.85Z"/>
+          </g>
+        </svg>
+      </a>
+      <span class="mark-meta">STGO · CL &nbsp;/&nbsp; 33.45°S 70.67°W</span>
+    </div>
+
     <p class="copyright">
-      Copyright: &copy; {new Date().getFullYear()} Codename.cl - {t("footer.copyright")}
+      <span class="copy-dot">●</span>
+      &copy; {new Date().getFullYear()} Codename.cl &nbsp;/&nbsp; {t("footer.copyright")}
     </p>
   </div>
 </footer>
 
 <style>
   footer {
-    background: linear-gradient(180deg, #020617 0%, #010310 100%);
-    color: #e2e8f0;
-    padding: 60px 20px 40px;
+    background: var(--brand-black);
+    color: var(--text-on-dark-muted);
+    padding: 64px 20px 32px;
+    position: relative;
   }
   .footer-content {
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
   }
   .footer-content a {
     text-decoration: none;
   }
+
+  /* Top slug — transmission strip */
+  .footer-slug {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 32px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--rule-on-dark-soft);
+  }
+  .mono-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate-500);
+  }
+  .mono-tag strong {
+    color: var(--indigo);
+    font-weight: 600;
+  }
+
+  /* Columns */
+  .links-container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .footer-col {
+    min-width: 0;
+  }
   .footer-heading {
     font-size: 0.8125rem;
     font-weight: 600;
-    text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #94a3b8;
+    text-transform: uppercase;
+    color: var(--slate-400);
     margin-bottom: 16px;
-    padding-top: 24px;
+    display: flex;
+    align-items: baseline;
   }
+  .col-no {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--indigo);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+  }
+
   footer ul li {
     margin-bottom: 0;
   }
@@ -78,17 +148,18 @@ const home = getLocalePath("/", lang);
     align-items: center;
     min-height: 44px;
     padding: 10px 0;
-    color: #cbd5e1;
+    color: var(--slate-300);
     font-size: 0.9375rem;
     transition: color 0.2s;
   }
   footer ul li a:hover {
     color: #ffffff;
   }
+
   .social {
     display: flex;
     gap: 10px;
-    margin-bottom: 24px;
+    margin-top: 8px;
   }
   .social a {
     display: flex;
@@ -97,7 +168,7 @@ const home = getLocalePath("/", lang);
     width: 44px;
     height: 44px;
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
+    border-radius: var(--border-radius);
     transition: all 0.2s;
   }
   .social a:hover {
@@ -108,26 +179,74 @@ const home = getLocalePath("/", lang);
     width: 24px;
     height: 24px;
   }
+
+  /* Wordmark strip — real SVG logo */
+  .footer-mark {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 48px 0 24px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule-on-dark-soft);
+  }
+  .mark-logo {
+    display: inline-flex;
+    align-items: center;
+    transition: opacity 0.2s;
+  }
+  .mark-logo:hover {
+    opacity: 0.85;
+  }
+  .mark-logo svg {
+    width: 140px;
+    height: auto;
+    display: block;
+  }
+  .mark-logo .cls-1 {
+    fill: rgba(255, 255, 255, 0.95);
+  }
+  .mark-meta {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate-500);
+  }
+
   .copyright {
-    margin-top: 48px;
+    font-size: 0.8125rem;
+    color: var(--slate-500);
     padding-top: 24px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    text-align: center;
-    color: #64748b;
-    font-size: 0.875rem;
+    border-top: 1px solid var(--rule-on-dark-soft);
     font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .copy-dot {
+    color: var(--orange);
+    font-size: 0.625rem;
+    animation: pulse-dot 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 0.45; }
+    50% { opacity: 1; }
   }
 
   @media screen and (min-width: 768px) {
     .links-container {
-      display: flex;
+      flex-direction: row;
       justify-content: space-between;
+      gap: 48px;
     }
-    .footer-heading {
-      padding-top: 0;
+    .footer-mark {
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
     }
-    .copyright {
-      margin-top: 60px;
+    .mark-logo svg {
+      width: 120px;
     }
   }
 </style>

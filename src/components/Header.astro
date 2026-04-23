@@ -12,8 +12,13 @@ const home = getLocalePath("/", lang);
 ---
 
 <header>
+  <div class="header-meta" aria-hidden="true">
+    <span class="hm-left">CODENAME.CL / OPS SINCE 2023</span>
+    <span class="hm-mid">TRANSMISSION: LIVE</span>
+    <span class="hm-right">STGO&nbsp;·&nbsp;CL&nbsp;&mdash;&nbsp;33.45°S&nbsp;70.67°W</span>
+  </div>
   <div class="header-content">
-    <a href={home}>
+    <a href={home} aria-label="Codename — home">
       <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104.2 46.06">
         <g>
           <path
@@ -120,8 +125,30 @@ const home = getLocalePath("/", lang);
     position: sticky;
     top: 0;
     z-index: 1000;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease, border-color 0.3s ease;
     width: 100%;
+  }
+  .header-meta {
+    display: none;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--slate-500);
+    padding: 7px 24px;
+    border-bottom: 1px solid var(--rule-on-dark-soft);
+    background: var(--brand-black);
+  }
+  .header-meta .hm-mid strong,
+  .header-meta .hm-left strong {
+    color: var(--indigo);
+    font-weight: 600;
+  }
+  .hm-mid::before,
+  .hm-right::before {
+    content: "/ ";
+    opacity: 0.45;
+    margin-right: 4px;
   }
   .header-content {
     max-width: 100%;
@@ -133,8 +160,15 @@ const home = getLocalePath("/", lang);
   }
 
   .logo {
-    width: 100px;
-    padding: 12px 0;
+    width: 104px;
+    padding: 14px 0;
+  }
+  @media screen and (min-width: 768px) {
+    .header-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+    }
   }
 
   /* Hamburger en la esquina derecha: no dejar que el nav ocupe espacio en móvil */
@@ -183,7 +217,7 @@ const home = getLocalePath("/", lang);
     justify-content: center;
     width: 48px;
     height: 48px;
-    border-radius: 12px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     transition: background 0.2s;
   }
@@ -250,20 +284,20 @@ const home = getLocalePath("/", lang);
    * because JS toggles .scrolled, and scoped styles would win on specificity.
    */
   header {
-    background: rgba(2, 6, 23, 0.85);
+    background: rgba(2, 6, 23, 0.88);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--rule-on-dark-soft);
   }
   header a {
     text-decoration: none;
   }
   nav ul li a {
-    color: var(--text-secondary);
+    color: var(--text);
   }
   nav ul li a:hover {
-    background: rgba(99, 102, 241, 0.06);
-    color: var(--primary);
+    background: var(--indigo-soft);
+    color: var(--indigo);
   }
   .hamburger-menu:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -282,21 +316,24 @@ const home = getLocalePath("/", lang);
     }
   }
 
-  /* Scrolled state */
+  /* Scrolled state — light surface reveal */
   header.scrolled {
     background: rgba(255, 255, 255, 0.95);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--rule);
     box-shadow: var(--shadow-md);
   }
+  header.scrolled .header-meta {
+    background: var(--brand-black);
+  }
   header.scrolled .cls-1 {
-    fill: var(--text-secondary);
+    fill: var(--text);
   }
   header.scrolled nav ul li a {
-    color: var(--text-secondary);
+    color: var(--text);
   }
   header.scrolled nav ul li a:hover {
-    background: rgba(99, 102, 241, 0.08);
-    color: var(--primary);
+    background: var(--indigo-soft);
+    color: var(--indigo);
   }
   header.scrolled .hamburger-menu img {
     filter: none;
@@ -305,7 +342,7 @@ const home = getLocalePath("/", lang);
     background: rgba(0, 0, 0, 0.05);
   }
 
-  /* Nav show state - global because JS toggles class */
+  /* Nav show state (mobile dropdown) */
   nav ul.show {
     display: flex;
     flex-direction: column;
@@ -314,15 +351,15 @@ const home = getLocalePath("/", lang);
     left: 0;
     right: 0;
     background: var(--surface);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--rule);
     box-shadow: var(--shadow-lg);
     z-index: 100;
   }
   nav ul.show li a {
-    color: var(--text-secondary);
+    color: var(--text);
   }
   nav ul.show li a:hover {
-    background: rgba(99, 102, 241, 0.06);
-    color: var(--primary);
+    background: var(--indigo-soft);
+    color: var(--indigo);
   }
 </style>
