@@ -1,0 +1,130 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const updatedAt = "8 de noviembre de 2026";
+---
+
+<BaseLayout
+  title="Política de privacidad | Codename"
+  description="Cómo Codename trata los datos personales en su login (accounts.codename.cl) y en los productos que lo usan."
+  canonicalUrl="https://codename.cl/privacidad"
+  langRedirect={false}
+>
+  <section id="breadcrumb">
+    <nav aria-label="breadcrumb">
+      <ol>
+        <li><a href="/">Inicio</a></li>
+        <li>Política de privacidad</li>
+      </ol>
+    </nav>
+  </section>
+
+  <section id="article" class="article-container">
+    <div class="article-content">
+      <h1>Política de privacidad</h1>
+      <p>
+        Esta política explica qué datos personales trata Codename cuando inicias sesión con el login de
+        Codename, para qué los usa y cómo puedes ejercer tus derechos.
+      </p>
+
+      <h2>1. Responsable</h2>
+      <p>
+        El responsable del tratamiento es Codename, razón social <strong>[COMPLETAR]</strong>, RUT
+        <strong>[COMPLETAR]</strong>. Para cualquier consulta sobre esta política escríbenos a
+        <a href="mailto:soporte@codename.cl">soporte@codename.cl</a>.
+      </p>
+
+      <h2>2. Alcance</h2>
+      <p>
+        Esta política cubre el login de Codename, en accounts.codename.cl, y su uso desde los
+        productos de Codename que lo integran. Hoy son DevFlow (df.codename.cl) y el panel
+        interno de administración de LocFix.
+      </p>
+      <p>
+        Cada producto puede tener una política propia para los datos que maneja después del login. Esta
+        política no reemplaza la de las apps de Codename para Shopify, que tienen la suya.
+      </p>
+
+      <h2>3. Datos que obtenemos al iniciar sesión con Google</h2>
+      <ul>
+        <li>El identificador de tu cuenta de Google.</li>
+        <li>Tu email verificado.</li>
+        <li>Tu nombre.</li>
+        <li>La URL de tu foto de perfil.</li>
+      </ul>
+      <p>
+        No pedimos otros permisos de Google, y no accedemos a tu Gmail, a tu Drive ni a tus contactos.
+      </p>
+
+      <h2>4. Datos técnicos</h2>
+      <ul>
+        <li>
+          Una cookie de sesión de accounts.codename.cl. Dura 7 días, es HttpOnly y
+          Secure, y solo sirve para mantener tu sesión iniciada.
+        </li>
+        <li>
+          Códigos de un solo uso, que entregan tu identidad al producto en el que inicias sesión. Vencen a
+          los 60 segundos.
+        </li>
+        <li>Contadores de intentos, que usamos para limitar abusos.</li>
+        <li>Logs del servidor, para operar el servicio y resolver problemas.</li>
+      </ul>
+
+      <h2>5. Para qué usamos tus datos</h2>
+      <p>
+        Usamos tus datos para autenticarte y para entregar tu identidad (identificador, email, nombre y foto)
+        solo al producto de Codename en el que inicias sesión.
+      </p>
+      <p>
+        No vendemos tus datos y no los usamos para publicidad. Tampoco los compartimos con terceros, salvo
+        con los proveedores de infraestructura que necesitamos para operar el servicio.
+      </p>
+
+      <h2>6. Dónde se guardan</h2>
+      <p>
+        Los datos se guardan en Google Cloud, en la región us-central1, en Estados Unidos. Esto
+        implica una transferencia internacional de datos fuera de Chile. Al usar el login, tus datos se tratan
+        en esa ubicación con las medidas de seguridad de esta política.
+      </p>
+
+      <h2>7. Cuánto tiempo los guardamos</h2>
+      <p>
+        Guardamos los datos de tu cuenta mientras esté activa. La sesión y los códigos de un solo uso vencen
+        solos. Puedes pedir que borremos tu cuenta escribiendo a
+        <a href="mailto:soporte@codename.cl">soporte@codename.cl</a>.
+      </p>
+
+      <h2>8. Tus derechos</h2>
+      <p>
+        Puedes ejercer tus derechos de acceso, rectificación, cancelación u oposición según la Ley 19.628 de
+        Chile y su reforma, la Ley 21.719. Para hacerlo, escribe a
+        <a href="mailto:soporte@codename.cl">soporte@codename.cl</a>.
+      </p>
+      <p>
+        También puedes revocar en cualquier momento el acceso del login de Codename a tu cuenta de Google
+        desde
+        <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer"
+          >myaccount.google.com/permissions</a
+        >.
+      </p>
+
+      <h2>9. Uso de datos de Google</h2>
+      <p>
+        El uso y la transferencia de la información recibida de las API de Google cumplen con la
+        <a
+          href="https://developers.google.com/terms/api-services-user-data-policy"
+          target="_blank"
+          rel="noopener noreferrer">Google API Services User Data Policy</a
+        >, incluidos los requisitos de Limited Use.
+      </p>
+
+      <h2>10. Cambios a esta política</h2>
+      <p>
+        Si cambiamos esta política, publicaremos la versión nueva en esta página y actualizaremos la fecha de
+        abajo. Si el cambio es importante, te avisaremos por email o al iniciar sesión.
+        <strong>[COMPLETAR: confirmar cómo se avisan los cambios]</strong>
+      </p>
+      <p><strong>Última actualización:</strong> {updatedAt}.</p>
+    </div>
+  </section>
+</BaseLayout>

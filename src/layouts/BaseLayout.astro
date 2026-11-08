@@ -13,6 +13,8 @@ interface Props {
   canonicalUrl?: string;
   alternateEs?: string;
   alternateEn?: string;
+  /** Desactívalo en páginas sin versión en inglés, para que no redirijan a un 404. */
+  langRedirect?: boolean;
 }
 
 const {
@@ -24,6 +26,7 @@ const {
   canonicalUrl,
   alternateEs,
   alternateEn,
+  langRedirect = true,
 } = Astro.props;
 
 const t = useTranslations(lang);
@@ -95,6 +98,7 @@ const desc = description || t("meta.description");
     <title>{title}</title>
 
     <!-- Language detection redirect -->
+    {langRedirect && (
     <script is:inline>
       (function () {
         if (document.cookie.indexOf("lang_pref=") !== -1) return;
@@ -109,6 +113,7 @@ const desc = description || t("meta.description");
         }
       })();
     </script>
+    )}
 
     <!-- Structured Data slot -->
     <slot name="structured-data" />
