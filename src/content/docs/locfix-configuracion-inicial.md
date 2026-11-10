@@ -68,6 +68,10 @@ Elige **LocFix AI** como proveedor y guarda. A partir de ahora las sugerencias q
 
 ![Elegir LocFix AI como proveedor de autocompletado](/docs/locfix-configuracion-inicial/04-autocompletado.webp)
 
+Así se ve en el checkout: el comprador escribe la calle y elige una dirección real con su comuna.
+
+![Sugerencias de LocFix en el checkout](/docs/locfix-configuracion-inicial/03-sugerencias.webp)
+
 <h2 id="paso-4"><span class="doc-step">4</span> Crea tu API key de Google (servidor)</h2>
 
 <p class="doc-where"><a href="https://console.cloud.google.com/">console.cloud.google.com</a> → APIs y servicios</p>
