@@ -19,7 +19,7 @@ tags: ["shopify", "locfix", "checkout", "direcciones", "google-maps"]
   <div>
     <span class="doc-label">Qué necesitas</span>
     <ul>
-      <li>Shopify con checkout personalizable (Checkout Extensibility)</li>
+      <li>Shopify con la pantalla de pago personalizable (en <b>Configuración → Pantalla de pago</b> aparece el botón <b>Editar</b>)</li>
       <li>Cuenta de Google Cloud con facturación activa (solo para autocompletado y mapa)</li>
     </ul>
   </div>
@@ -48,27 +48,29 @@ Al abrir la app verás tu plan. Haz clic en **Empezar plan Starter** y aprueba e
 
 <h2 id="paso-2"><span class="doc-step">2</span> Agrega la validación de dirección al checkout</h2>
 
-<p class="doc-where">Configuración → Checkout → Personalizar → paso <b>Información</b></p>
+<p class="doc-where">Configuración → Pantalla de pago → <b>Editar</b> → <b>Apps</b> (ícono de cuadrados)</p>
 
 <video class="doc-video doc-video-inline" controls playsinline preload="metadata" poster="/docs/locfix-configuracion-inicial/poster-correccion.webp"><source src="/docs/locfix-configuracion-inicial/video-correccion.mp4" type="video/mp4" /></video>
 
-1. Bajo la dirección de despacho, haz clic en **Agregar bloque de app**.
-2. Elige **check-direction-extension** (validación de dirección de LocFix).
+1. En el editor, abre **Apps** y busca **check-direction**.
+2. Toca **⊕** en **check-direction-extension** (LocFix AI) y déjalo bajo **Entrega → Dirección de entrega**.
 3. Haz clic en **Guardar**.
 
 ![Agregar el bloque de validación de LocFix en el editor del checkout](/docs/locfix-configuracion-inicial/02-bloque-validacion.webp)
 
 Con esto la validación ya funciona: si el comprador escribe *Nunoa*, LocFix la corrige a *Ñuñoa*; si la comuna no existe en la región elegida, le pide revisarla antes de continuar. **No necesita API key.**
 
-<div class="doc-callout tip"><b>Personaliza los mensajes.</b> En la barra lateral del bloque puedes cambiar cada texto que ve el comprador (dirección válida, comuna inválida, sugerencia, error) y activar la casilla «Confirmo que mi dirección es correcta».</div>
+<div class="doc-callout tip"><b>Opcional: personaliza los mensajes.</b> Haz clic en el bloque <b>check-direction-extension</b> y, en <b>Configuración del bloque</b>, cambia cada texto que ve el comprador (carga, dirección válida, comuna inválida, sugerencia, error) o activa «Confirmar dirección ingresada». Si un campo queda vacío, se usa el mensaje por defecto.</div>
+
+![Mensajes personalizables del bloque de validación](/docs/locfix-configuracion-inicial/02b-mensajes.webp)
 
 <h2 id="paso-3"><span class="doc-step">3</span> Activa LocFix como autocompletado</h2>
 
-<p class="doc-where">Configuración → Checkout → <b>Autocompletado de direcciones</b></p>
+<p class="doc-where">Editor de la pantalla de pago → <b>Configuración</b> (⚙) → <b>Formulario de dirección</b></p>
 
 <video class="doc-video doc-video-inline" controls playsinline preload="metadata" poster="/docs/locfix-configuracion-inicial/poster-autocompletado.webp"><source src="/docs/locfix-configuracion-inicial/video-autocompletado.mp4" type="video/mp4" /></video>
 
-Elige **LocFix AI** como proveedor y guarda. A partir de ahora las sugerencias que ve el comprador vienen de LocFix, ajustadas a cada país (en Chile, por ejemplo, completan la comuna correcta).
+Activa **Autocompletado de direcciones**, elige **LocFix AI** y guarda. A partir de ahora las sugerencias que ve el comprador vienen de LocFix, ajustadas a cada país (en Chile, por ejemplo, completan la comuna correcta).
 
 ![Elegir LocFix AI como proveedor de autocompletado](/docs/locfix-configuracion-inicial/04-autocompletado.webp)
 
@@ -85,15 +87,17 @@ Así se ve en el checkout: el comprador escribe la calle y elige una dirección 
 3. Edita la key:
    - **Restricciones de API:** *Restringir clave* → solo **Places API** y **Geocoding API**.
    - **Restricciones de aplicaciones:** **Ninguna**.
-4. Copia la key y pégala en el editor del checkout, bloque de autocompletado de LocFix, campo **Api google Maps**. Guarda.
+4. Copia la key. En el editor, en **Configuración (⚙) → Formulario de dirección**, toca **Editar configuración de la app** bajo LocFix AI y pégala en **Api google Maps**. Guarda.
 
 ![Restringir la key a Places API y Geocoding API](/docs/locfix-configuracion-inicial/05-key-servidor.webp)
+
+![Pegar la key en la configuración del autocompletado](/docs/locfix-configuracion-inicial/06-pegar-key.webp)
 
 <div class="doc-callout warn"><b>No la restrinjas por sitio web.</b> LocFix usa esta key desde su servidor, nunca en el navegador del comprador. Con una restricción de «referentes HTTP», Google la rechaza y el autocompletado deja de funcionar.</div>
 
 <h2 id="paso-5"><span class="doc-step">5</span> Muestra un mapa de la dirección <small>opcional</small></h2>
 
-<p class="doc-where">Editor del checkout → Agregar bloque de app → <b>checkout-ui-address-map</b></p>
+<p class="doc-where">Editor de la pantalla de pago → <b>Apps</b> → <b>checkout-ui-address-map</b></p>
 
 <video class="doc-video doc-video-inline" controls playsinline preload="metadata" poster="/docs/locfix-configuracion-inicial/poster-mapa.webp"><source src="/docs/locfix-configuracion-inicial/video-mapa.mp4" type="video/mp4" /></video>
 

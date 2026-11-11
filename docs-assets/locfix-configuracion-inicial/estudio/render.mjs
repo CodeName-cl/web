@@ -22,7 +22,7 @@ const page = await browser.newPage();
 await page.setViewport({ width: 1600, height: 1000, deviceScaleFactor: 1 });
 
 if (mode === 'stills') {
-  const names = ['portada', 'instalacion-poster', '01-inicio', '02-bloque-validacion', '03-sugerencias',
+  const names = ['portada', 'instalacion-poster', '01-inicio', '02-bloque-validacion', '02b-mensajes', '03-sugerencias',
     '04-autocompletado', '05-key-servidor', '05b-key-navegador', '06-pegar-key', '07-mapa', '08-checkout',
     '09-mapa-checkout', 'p-correccion', 'p-autocompletado', 'p-mapa', 'cierre'];
   for (const n of names) {
