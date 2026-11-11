@@ -25,15 +25,15 @@ tags: ["shopify", "locfix", "checkout", "direcciones", "google-maps"]
   </div>
   <div>
     <span class="doc-label">Tiempo y países</span>
-    <p><b>10 minutos</b> · 🇨🇱 Chile · 🇵🇪 Perú · 🇲🇽 México</p>
+    <p><b>2 minutos</b> lo obligatorio, <b>10</b> con autocompletado y mapa · 🇨🇱 Chile · 🇵🇪 Perú · 🇲🇽 México</p>
   </div>
 </div>
 
 <div class="doc-map">
   <a href="#paso-1"><b>1</b> Instalar y elegir plan</a>
   <a href="#paso-2"><b>2</b> Bloque de validación</a>
-  <a href="#paso-3"><b>3</b> Autocompletado</a>
-  <a href="#paso-4"><b>4</b> Key de Google</a>
+  <a href="#paso-3"><b>3</b> Autocompletado <small>opcional</small></a>
+  <a href="#paso-4"><b>4</b> Key de Google <small>para autocompletado y mapa</small></a>
   <a href="#paso-5"><b>5</b> Mapa <small>opcional</small></a>
   <a href="#paso-6"><b>6</b> Probar</a>
 </div>
@@ -64,9 +64,11 @@ Con esto la validación ya funciona: si el comprador escribe *Nunoa*, LocFix la 
 
 ![Mensajes personalizables del bloque de validación](/docs/locfix-configuracion-inicial/02b-mensajes.webp)
 
-<h2 id="paso-3"><span class="doc-step">3</span> Activa LocFix como autocompletado</h2>
+<h2 id="paso-3"><span class="doc-step">3</span> Activa LocFix como autocompletado <small>opcional</small></h2>
 
 <p class="doc-where">Editor de la pantalla de pago → <b>Configuración</b> (⚙) → <b>Formulario de dirección</b></p>
+
+<div class="doc-callout tip"><b>Solo el paso 2 es obligatorio.</b> Con el bloque de validación, LocFix ya corrige la comuna. El autocompletado (pasos 3 y 4) y el mapa (paso 5) son opcionales y necesitan una key de Google.</div>
 
 <video class="doc-video doc-video-inline" controls playsinline preload="metadata" poster="/docs/locfix-configuracion-inicial/poster-autocompletado.webp"><source src="/docs/locfix-configuracion-inicial/video-autocompletado.mp4" type="video/mp4" /></video>
 
@@ -78,7 +80,7 @@ Así se ve en el checkout: el comprador escribe la calle y elige una dirección 
 
 ![Sugerencias de LocFix en el checkout](/docs/locfix-configuracion-inicial/03-sugerencias.webp)
 
-<h2 id="paso-4"><span class="doc-step">4</span> Crea tu API key de Google (servidor)</h2>
+<h2 id="paso-4"><span class="doc-step">4</span> Crea tu API key de Google (servidor) <small>para autocompletado y mapa</small></h2>
 
 <p class="doc-where"><a href="https://console.cloud.google.com/">console.cloud.google.com</a> → APIs y servicios</p>
 
