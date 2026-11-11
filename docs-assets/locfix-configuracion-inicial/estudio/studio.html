@@ -79,6 +79,20 @@ html, body { margin: 0; background: #111; }
 .gcp .chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #dadce0; border-radius: 16px; padding: 5px 12px; margin: 4px 6px 0 0; font-size: 14px; background: #e8f0fe; color: #1967d2; }
 .gcp .btnb { display: inline-block; background: #1a73e8; color: #fff; border-radius: 4px; padding: 9px 22px; font-weight: 500; font-size: 15px; }
 .illus { position: absolute; right: 56px; bottom: 44px; font: 12px var(--mono); color: var(--slate-500); letter-spacing: .04em; }
+/* Compact header (logo + step + title on one line) */
+.hdr { position: absolute; left: 56px; top: 40px; display: flex; align-items: center; gap: 18px; }
+.hdr .logo { font-size: 22px; }
+.hdr .sep { width: 1px; height: 46px; background: var(--slate-300); }
+.hdr .num { width: 46px; height: 46px; font-size: 22px; }
+.hdr .title { font-size: 36px; }
+/* Animation layer */
+.anim .frame { display: block; position: absolute; left: 0; top: 0; opacity: 0; }
+.cursor { position: absolute; left: 0; top: 0; width: 34px; height: 34px; z-index: 50; pointer-events: none; filter: drop-shadow(0 4px 6px rgba(2,6,23,.35)); transform-origin: 4px 3px; }
+.ripple { position: absolute; z-index: 49; border-radius: 50%; border: 4px solid var(--orange); pointer-events: none; opacity: 0; }
+.typebox { position: absolute; background: #fff; border: 1px solid #dedede; border-radius: 5px; padding: 6px 10px; font-family: -apple-system, "Inter", sans-serif; z-index: 5; }
+.typebox .l { font-size: 12px; color: #707070; }
+.typebox .v { font-size: 14px; color: #000; min-height: 18px; }
+.typebox .caret { display: inline-block; width: 1px; height: 15px; background: #000; vertical-align: -2px; margin-left: 1px; }
 </style>
 </head>
 <body>
@@ -296,9 +310,179 @@ html, body { margin: 0; background: #111; }
   <div class="tag" style="left:930px;top:870px">Captura real</div>
 </div>
 
+
+<!-- ============ CIERRE (video) ============ -->
+<div class="frame bg-dark grid" id="cierre">
+  <div style="position:absolute;left:0;right:0;top:330px;text-align:center">
+    <div class="logo" style="font-size:44px;display:inline-block;text-align:left"><span>CODE</span><span>/NAME</span></div>
+    <div style="font-size:60px;font-weight:900;letter-spacing:-.03em;margin-top:36px">Listo: LocFix ya cuida tus despachos</div>
+    <div style="font-family:var(--mono);font-size:24px;color:#fdba74;margin-top:26px">codename.cl/docs/locfix-configuracion-inicial</div>
+    <div style="font-size:22px;color:#cbd5e1;margin-top:14px">¿Dudas? soporte@codename.cl</div>
+  </div>
+</div>
+
 <script>
-const id = new URLSearchParams(location.search).get('f') || 'portada';
-document.getElementById(id).classList.add('on');
+const params = new URLSearchParams(location.search);
+const SHIFT = 60;
+
+// Compact header: logo, step number and title on one line; content moves up.
+document.querySelectorAll('.frame').forEach((f) => {
+  const chip = f.querySelector('.stepchip');
+  const brand = f.querySelector('.brand');
+  if (!chip || !brand) return;
+  const hdr = document.createElement('div');
+  hdr.className = 'hdr';
+  hdr.appendChild(brand.querySelector('.logo').cloneNode(true));
+  const sep = document.createElement('div'); sep.className = 'sep'; hdr.appendChild(sep);
+  while (chip.firstChild) hdr.appendChild(chip.firstChild);
+  chip.remove(); brand.remove();
+  f.appendChild(hdr);
+  f.querySelectorAll(':scope > .win, :scope > .ring, :scope > .callout, :scope > .tag').forEach((el) => {
+    el.style.top = (parseFloat(el.style.top) - SHIFT) + 'px';
+    if (el.classList.contains('win')) {
+      el.style.height = (parseFloat(el.style.height) + SHIFT) + 'px';
+      const shot = el.querySelector('.shot');
+      if (shot) shot.style.height = (parseFloat(shot.style.height) + SHIFT) + 'px';
+      el.querySelectorAll(':scope > div:not(.bar)').forEach((d) => {
+        if (d.style.height && !d.classList.contains('shot')) d.style.height = (parseFloat(d.style.height) + SHIFT) + 'px';
+      });
+    }
+  });
+});
+
+if (!params.get('anim')) {
+  document.getElementById(params.get('f') || 'portada').classList.add('on');
+} else {
+  setupAnimation();
+}
+
+function setupAnimation() {
+  document.body.classList.add('anim');
+  document.body.style.width = '1600px'; document.body.style.height = '1000px';
+  document.body.style.position = 'relative'; document.body.style.overflow = 'hidden';
+
+  const cursor = document.createElement('div');
+  cursor.className = 'cursor';
+  cursor.innerHTML = '<svg viewBox="0 0 24 24" width="34" height="34"><path d="M4 2 L4 20 L9 15.5 L12.5 23 L15.5 21.6 L12 14.2 L19 14.2 Z" fill="#020617" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+  document.body.appendChild(cursor);
+  const ripple = document.createElement('div'); ripple.className = 'ripple'; document.body.appendChild(ripple);
+
+  const el = (id) => document.getElementById(id);
+  const ringsOf = (id) => [...el(id).querySelectorAll(':scope > .ring')];
+  const notesOf = (id) => [...el(id).querySelectorAll(':scope > .callout, :scope > .tag')];
+  const centerOf = (node) => ({ x: parseFloat(node.style.left) + parseFloat(node.style.width) / 2,
+                                y: parseFloat(node.style.top) + parseFloat(node.style.height) / 2 });
+
+  // Typing overlay for the comuna field of the checkout scene.
+  const tb = document.createElement('div');
+  tb.className = 'typebox';
+  Object.assign(tb.style, { left: '363px', top: (545 - SHIFT) + 'px', width: '243px', height: '47px' });
+  tb.innerHTML = '<div class="l">Distrito antiguo</div><div class="v"></div>';
+  el('08-checkout').appendChild(tb);
+
+  // Scenes: duration in s, cursor path (targets by ring index), reveals.
+  // `steps`: [time, action]; actions: move(i | {x,y}), click, show(ring i), note(i), type(text), fix.
+  const scenes = [
+    { id: 'instalacion-poster', dur: 2.6, steps: [] },
+    { id: 'portada', dur: 4.2, steps: [[0.6, 'ring0'], [1.1, 'note0']] },
+    { id: '01-inicio', dur: 5.2, steps: [[0.2, 'from', { x: 1350, y: 900 }], [0.4, 'move', 0, 1.3], [1.8, 'click'], [1.9, 'ring0'], [2.3, 'note0']] },
+    { id: '02-bloque-validacion', dur: 6.2, steps: [[0.2, 'from', { x: 900, y: 800 }], [0.4, 'move', { x: 228, y: 322 }, 1.2], [1.7, 'click'], [2.1, 'move', { x: 190, y: 400 }, 0.8], [3.0, 'click'], [3.1, 'ring0'], [3.4, 'note0'], [4.2, 'note1']] },
+    { id: '04-autocompletado', dur: 5.4, steps: [[0.2, 'from', { x: 1200, y: 850 }], [0.4, 'move', 0, 1.3], [1.8, 'click'], [1.9, 'ring0'], [2.3, 'note0']] },
+    { id: '05-key-servidor', dur: 7.4, steps: [[0.2, 'from', { x: 900, y: 860 }], [0.4, 'move', 0, 1.2], [1.7, 'click'], [1.8, 'ring0'], [2.1, 'note0'], [3.2, 'move', 1, 1.0], [4.3, 'click'], [4.4, 'ring1'], [4.7, 'note1'], [5.3, 'note2']] },
+    { id: '07-mapa', dur: 5.6, steps: [[0.2, 'from', { x: 700, y: 860 }], [0.4, 'move', 0, 1.3], [1.8, 'click'], [1.9, 'ring0'], [2.3, 'note0']] },
+    { id: '03-sugerencias', dur: 6.2, steps: [[0.2, 'from', { x: 760, y: 860 }], [0.4, 'move', 0, 1.1], [1.6, 'click'], [1.7, 'ring0'], [2.4, 'move', 1, 0.9], [3.4, 'click'], [3.5, 'ring1'], [3.8, 'note0'], [4.5, 'note1'], [4.9, 'note2']] },
+    { id: '08-checkout', dur: 8.4, steps: [[0.2, 'from', { x: 760, y: 900 }], [0.4, 'move', { x: 470, y: 568 - SHIFT }, 1.1], [1.6, 'click'], [1.8, 'type', 'Nunoa', 1.2], [3.4, 'fix'], [3.5, 'ring0'], [3.9, 'note0'], [4.6, 'ring1'], [4.9, 'ring2'], [5.2, 'note1'], [5.6, 'note2']] },
+    { id: 'cierre', dur: 4.0, steps: [] },
+  ];
+  const FADE = 0.45;
+  let t0 = 0;
+  scenes.forEach((s) => { s.start = t0; t0 += s.dur; });
+  window.TOTAL = t0;
+
+  const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  const clamp = (x) => Math.max(0, Math.min(1, x));
+
+  function sceneState(s, lt) {
+    // Cursor position: walk the moves up to lt.
+    let pos = null; let visible = false; let clickAge = Infinity; let clickAt = null;
+    const shown = new Set(); let typed = null; let fixed = false;
+    for (const [at, kind, a, b] of s.steps) {
+      if (kind === 'from') { if (lt >= at) { pos = { ...a }; visible = true; } continue; }
+      if (lt < at) continue;
+      if (kind === 'move') {
+        const target = typeof a === 'number' ? centerOf(ringsOf(s.id)[a]) : a;
+        const p = ease(clamp((lt - at) / b));
+        const start = { ...pos };
+        // Gentle arc: control point lifted perpendicular to the path.
+        const mx = (start.x + target.x) / 2 - (target.y - start.y) * 0.12;
+        const my = (start.y + target.y) / 2 + (target.x - start.x) * 0.12;
+        const u = 1 - p;
+        pos = { x: u * u * start.x + 2 * u * p * mx + p * p * target.x,
+                y: u * u * start.y + 2 * u * p * my + p * p * target.y };
+        if (p >= 1) pos = { ...target };
+      } else if (kind === 'click') { clickAge = lt - at; clickAt = { ...pos }; }
+      else if (kind.startsWith('ring')) shown.add(kind);
+      else if (kind.startsWith('note')) shown.add(kind);
+      else if (kind === 'type') { const n = Math.floor(clamp((lt - at) / b) * a.length + 0.0001); typed = a.slice(0, n); }
+      else if (kind === 'fix') fixed = true;
+    }
+    return { pos, visible, clickAge, clickAt, shown, typed, fixed };
+  }
+
+  window.setT = function (t) {
+    let active = null;
+    scenes.forEach((s, i) => {
+      const f = el(s.id);
+      const lt = t - s.start;
+      // Crossfade: fade in during the first FADE seconds (except the first scene).
+      let op = 0;
+      if (lt >= 0 && lt < s.dur + FADE) {
+        op = i === 0 ? 1 : clamp(lt / FADE);
+        if (lt > s.dur) op = 1 - clamp((lt - s.dur) / FADE);
+      }
+      if (lt >= 0 && lt < s.dur) active = { s, lt };
+      f.style.opacity = op;
+      f.style.zIndex = lt >= 0 && lt < s.dur ? 2 : 1;
+      const st = sceneState(s, Math.max(0, lt));
+      ringsOf(s.id).forEach((r, k) => {
+        const key = 'ring' + k;
+        const on = st.shown.has(key);
+        const at = (s.steps.find((x) => x[1] === key) || [Infinity])[0];
+        const p = on ? ease(clamp((lt - at) / 0.35)) : 0;
+        r.style.opacity = s.steps.length ? p : 1;
+        r.style.transform = s.steps.length ? `scale(${1.15 - 0.15 * p})` : 'none';
+      });
+      notesOf(s.id).forEach((n, k) => {
+        const key = 'note' + k;
+        const at = (s.steps.find((x) => x[1] === key) || [Infinity])[0];
+        const p = st.shown.has(key) ? ease(clamp((lt - at) / 0.4)) : 0;
+        n.style.opacity = s.steps.length ? p : 1;
+        n.style.transform = s.steps.length ? `translateY(${(1 - p) * 14}px)` : 'none';
+      });
+      if (s.id === '08-checkout') {
+        tb.style.display = st.fixed ? 'none' : 'block';
+        tb.querySelector('.v').innerHTML = (st.typed || '') + (lt % 1 < 0.55 ? '<span class="caret"></span>' : '');
+      }
+    });
+    // Cursor and click ripple belong to the active scene.
+    if (active) {
+      const st = sceneState(active.s, active.lt);
+      const fadeOut = clamp((active.s.dur - active.lt) / 0.3);
+      if (st.visible && st.pos) {
+        const press = st.clickAge < 0.18 ? 0.86 : 1;
+        cursor.style.opacity = fadeOut;
+        cursor.style.transform = `translate(${st.pos.x - 4}px, ${st.pos.y - 3}px) scale(${press})`;
+      } else cursor.style.opacity = 0;
+      if (st.clickAge < 0.6 && st.clickAt) {
+        const p = st.clickAge / 0.6;
+        const r = 10 + 46 * ease(p);
+        Object.assign(ripple.style, { opacity: String(1 - p), width: 2 * r + 'px', height: 2 * r + 'px',
+          left: st.clickAt.x - r + 'px', top: st.clickAt.y - r + 'px' });
+      } else ripple.style.opacity = 0;
+    } else { cursor.style.opacity = 0; ripple.style.opacity = 0; }
+  };
+  window.setT(0);
+}
 </script>
 </body>
 </html>
