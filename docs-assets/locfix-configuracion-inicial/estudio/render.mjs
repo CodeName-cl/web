@@ -31,6 +31,16 @@ if (mode === 'stills') {
     await page.screenshot({ path: path.join(here, `${n}.png`) });
     console.log('still', n);
   }
+  // Guide images: no header (the article already shows the step title),
+  // cropped from just above the window down to the bottom.
+  const article = ['01-inicio', '02-bloque-validacion', '02b-mensajes', '03-sugerencias', '04-autocompletado',
+    '05-key-servidor', '06-pegar-key', '07-mapa', '08-checkout'];
+  for (const n of article) {
+    await page.goto(`${url}?f=${n}&article=1`, { waitUntil: 'networkidle0' });
+    await page.evaluate(() => document.fonts.ready);
+    await page.screenshot({ path: path.join(here, `art-${n}.png`), clip: { x: 0, y: 118, width: 1600, height: 882 } });
+    console.log('article', n);
+  }
 } else {
   const fps = Number(process.env.FPS || 30);
   const out = path.join(here, `frames-${videoName}`);

@@ -85,6 +85,8 @@ html, body { margin: 0; background: #111; }
 .hdr .sep { width: 1px; height: 46px; background: var(--slate-300); }
 .hdr .num { width: 46px; height: 46px; font-size: 22px; }
 .hdr .title { font-size: 36px; }
+/* Article mode: images inside the guide, whose step heading is already on the page */
+.article .hdr { display: none; }
 /* Animation layer */
 .anim .frame { display: block; position: absolute; left: 0; top: 0; opacity: 0; }
 .cursor { position: absolute; left: 0; top: 0; width: 34px; height: 34px; z-index: 50; pointer-events: none; filter: drop-shadow(0 4px 6px rgba(2,6,23,.35)); transform-origin: 4px 3px; }
@@ -437,6 +439,7 @@ document.querySelectorAll('.frame').forEach((f) => {
 });
 
 if (!params.get('anim')) {
+  if (params.get('article')) document.body.classList.add('article');
   document.getElementById(params.get('f') || 'portada').classList.add('on');
 } else {
   setupAnimation();
