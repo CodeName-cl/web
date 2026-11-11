@@ -28,6 +28,9 @@ const docs = defineCollection({
     }),
     image: z.string(),
     tags: z.array(z.string()).default([]),
+    // Optional explainer video shown above the title (path under /public).
+    video: z.string().optional(),
+    videoPoster: z.string().optional(),
   }),
 });
 

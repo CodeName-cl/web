@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Estudio de imágenes LocFix</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #020617; --slate-900: #0f172a; --slate-700: #334155; --slate-500: #64748b; --slate-300: #cbd5e1; --slate-200: #e2e8f0; --slate-100: #f1f5f9; --slate-50: #f8fafc;
+  --indigo: #6366f1; --indigo-dark: #4f46e5; --orange: #eb5e28; --green: #16a34a;
+  --sans: "Inter", system-ui, sans-serif; --mono: "JetBrains Mono", monospace; --cond: "Archivo Narrow", sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #111; }
+.frame { width: 1600px; height: 1000px; position: relative; overflow: hidden; font-family: var(--sans); display: none; }
+.frame.on { display: block; }
+/* backgrounds */
+.bg-light { background: radial-gradient(1200px 700px at 85% -10%, rgba(99,102,241,.18), transparent 60%), radial-gradient(900px 600px at -10% 110%, rgba(235,94,40,.12), transparent 60%), var(--slate-50); }
+.bg-dark { background: radial-gradient(1000px 700px at 80% 0%, rgba(99,102,241,.35), transparent 60%), radial-gradient(800px 600px at 0% 100%, rgba(235,94,40,.25), transparent 60%), linear-gradient(135deg, #020617, #0f172a 55%, #020617); color: #f1f5f9; }
+.grid::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(148,163,184,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.08) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
+/* brand bits */
+.brand { position: absolute; left: 56px; top: 44px; display: flex; align-items: center; gap: 14px; font-family: var(--mono); font-size: 15px; letter-spacing: .08em; color: var(--slate-500); text-transform: uppercase; }
+.bg-dark .brand { color: #94a3b8; }
+.logo { font-family: var(--sans); font-weight: 900; font-size: 22px; line-height: .9; letter-spacing: -.02em; color: var(--black); }
+.bg-dark .logo { color: #fff; }
+.logo span { display: block; }
+.stepchip { position: absolute; left: 56px; top: 110px; display: flex; align-items: center; gap: 14px; }
+.num { width: 54px; height: 54px; border-radius: 50%; background: var(--orange); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 26px; box-shadow: 0 8px 24px rgba(235,94,40,.35); }
+.kicker { font-family: var(--cond); text-transform: uppercase; letter-spacing: .08em; color: var(--orange); font-weight: 700; font-size: 18px; }
+.title { font-weight: 800; font-size: 40px; letter-spacing: -.02em; color: var(--slate-900); line-height: 1.1; }
+.bg-dark .title { color: #fff; }
+.where { position: absolute; left: 56px; bottom: 44px; font-family: var(--mono); font-size: 17px; color: var(--indigo-dark); background: rgba(99,102,241,.08); border-left: 4px solid var(--indigo); padding: 10px 16px; border-radius: 0 8px 8px 0; }
+/* windows */
+.win { position: absolute; background: #fff; border-radius: 16px; box-shadow: 0 30px 80px rgba(2,6,23,.22), 0 2px 6px rgba(2,6,23,.08); overflow: hidden; border: 1px solid var(--slate-200); }
+.win .bar { height: 40px; background: var(--slate-100); border-bottom: 1px solid var(--slate-200); display: flex; align-items: center; gap: 8px; padding: 0 16px; }
+.win .bar i { width: 12px; height: 12px; border-radius: 50%; background: #e2e8f0; display: inline-block; }
+.win .bar i:nth-child(1) { background: #f87171; } .win .bar i:nth-child(2) { background: #fbbf24; } .win .bar i:nth-child(3) { background: #34d399; }
+.win .bar .url { margin-left: 16px; flex: 1; height: 24px; border-radius: 6px; background: #fff; border: 1px solid var(--slate-200); font: 13px var(--mono); color: var(--slate-500); display: flex; align-items: center; padding: 0 10px; }
+.shot { background-repeat: no-repeat; background-size: 1280px 900px; }
+/* callouts */
+.callout { position: absolute; background: var(--black); color: #fff; border-radius: 14px; padding: 16px 20px; font-size: 20px; line-height: 1.35; box-shadow: 0 16px 40px rgba(2,6,23,.35); max-width: 420px; }
+.callout b { color: #fdba74; }
+.callout small { display: block; color: #94a3b8; font-size: 15px; margin-top: 4px; }
+.ring { position: absolute; border: 4px solid var(--orange); border-radius: 12px; box-shadow: 0 0 0 8px rgba(235,94,40,.18); }
+.arrow { position: absolute; height: 4px; background: var(--orange); transform-origin: 0 50%; border-radius: 2px; }
+.arrow::after { content: ""; position: absolute; right: -2px; top: -8px; border-left: 16px solid var(--orange); border-top: 10px solid transparent; border-bottom: 10px solid transparent; }
+.tag { position: absolute; font: 600 13px var(--mono); letter-spacing: .06em; color: var(--slate-500); text-transform: uppercase; }
+/* Shopify-like admin chrome (illustration) */
+.adm { font-family: -apple-system, "Inter", sans-serif; color: #303030; font-size: 15px; }
+.adm .top { height: 52px; background: #1a1a1a; color: #fff; display: flex; align-items: center; padding: 0 20px; gap: 14px; font-weight: 600; }
+.adm .top .search { flex: 1; max-width: 520px; height: 32px; margin: 0 auto; background: #303030; border-radius: 8px; }
+.adm .side { position: absolute; left: 0; top: 92px; bottom: 0; width: 220px; background: #ebebeb; padding: 14px 10px; font-size: 14px; }
+.adm .side div { padding: 7px 10px; border-radius: 8px; }
+.adm .side .on { background: #fff; font-weight: 600; }
+.adm .main { position: absolute; left: 220px; right: 0; top: 92px; bottom: 0; background: #f1f1f1; padding: 26px 34px; }
+.card { background: #fff; border-radius: 12px; box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 0 0 1px rgba(0,0,0,.05); padding: 18px 20px; }
+.btnp { display: inline-block; background: #303030; color: #fff; border-radius: 8px; padding: 8px 14px; font-weight: 600; font-size: 14px; box-shadow: inset 0 -1px 0 rgba(0,0,0,.4); }
+.btns { display: inline-block; background: #fff; border-radius: 8px; padding: 8px 14px; font-weight: 600; font-size: 14px; box-shadow: 0 0 0 1px #d4d4d4, 0 1px 0 #d4d4d4; }
+.muted { color: #616161; }
+.field { border: 1px solid #8a8a8a; border-radius: 8px; padding: 9px 12px; background: #fdfdfd; font-size: 14px; }
+.lbl { font-size: 13px; margin: 12px 0 5px; }
+.radio { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 10px; border: 1px solid #e3e3e3; margin-top: 10px; }
+.radio .dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #8a8a8a; flex: none; margin-top: 2px; }
+.radio.sel { border-color: #303030; box-shadow: 0 0 0 1px #303030; }
+.radio.sel .dot { border: 6px solid #303030; }
+.check { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 15px; }
+.check .bx { width: 18px; height: 18px; border-radius: 5px; border: 2px solid #8a8a8a; }
+.check .bx.on { background: #303030; border-color: #303030; position: relative; }
+.check .bx.on::after { content: "✓"; color: #fff; font-size: 13px; position: absolute; left: 2px; top: -2px; }
+/* GCP-like */
+.gcp { font-family: "Roboto", "Inter", sans-serif; color: #202124; }
+.gcp .top { height: 56px; background: #fff; border-bottom: 1px solid #dadce0; display: flex; align-items: center; padding: 0 22px; gap: 14px; font-size: 18px; }
+.gcp .top .gl { font-weight: 600; color: #5f6368; }
+.gcp h3 { font-weight: 500; font-size: 22px; margin: 0 0 14px; }
+.gcp .sec { font-size: 16px; font-weight: 500; margin: 22px 0 8px; }
+.gcp .rad { display: flex; align-items: center; gap: 12px; padding: 6px 0; font-size: 15px; }
+.gcp .rad .dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #5f6368; }
+.gcp .rad.sel .dot { border: 5px solid #1a73e8; }
+.gcp .chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #dadce0; border-radius: 16px; padding: 5px 12px; margin: 4px 6px 0 0; font-size: 14px; background: #e8f0fe; color: #1967d2; }
+.gcp .btnb { display: inline-block; background: #1a73e8; color: #fff; border-radius: 4px; padding: 9px 22px; font-weight: 500; font-size: 15px; }
+.illus { position: absolute; right: 56px; bottom: 44px; font: 12px var(--mono); color: var(--slate-500); letter-spacing: .04em; }
+/* Compact header (logo + step + title on one line) */
+.hdr { position: absolute; left: 56px; top: 40px; display: flex; align-items: center; gap: 18px; }
+.hdr .logo { font-size: 22px; }
+.hdr .sep { width: 1px; height: 46px; background: var(--slate-300); }
+.hdr .num { width: 46px; height: 46px; font-size: 22px; }
+.hdr .title { font-size: 36px; }
+/* Animation layer */
+.anim .frame { display: block; position: absolute; left: 0; top: 0; opacity: 0; }
+.cursor { position: absolute; left: 0; top: 0; width: 34px; height: 34px; z-index: 50; pointer-events: none; filter: drop-shadow(0 4px 6px rgba(2,6,23,.35)); transform-origin: 4px 3px; }
+.ripple { position: absolute; z-index: 49; border-radius: 50%; border: 4px solid var(--orange); pointer-events: none; opacity: 0; }
+.typebox { position: absolute; background: #fff; border: 1px solid #dedede; border-radius: 5px; padding: 6px 10px; font-family: -apple-system, "Inter", sans-serif; z-index: 5; }
+.typebox .l { font-size: 12px; color: #707070; }
+.typebox .v { font-size: 14px; color: #000; min-height: 18px; }
+.typebox .caret { display: inline-block; width: 1px; height: 15px; background: #000; vertical-align: -2px; margin-left: 1px; }
+</style>
+</head>
+<body>
+
+<!-- ============ PORTADA ============ -->
+<div class="frame bg-dark grid" id="portada">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· Documentación</div>
+  <div style="position:absolute;left:56px;top:250px;width:640px">
+    <div class="kicker" style="font-size:22px">Guía · 10 minutos</div>
+    <div style="font-size:76px;font-weight:900;letter-spacing:-.03em;line-height:1;margin-top:14px">Configura<br><span style="color:#fdba74">LocFix AI</span><br>en tu checkout</div>
+    <div style="font-size:24px;color:#cbd5e1;margin-top:26px;line-height:1.45">Corrige la comuna, autocompleta direcciones y muestra el mapa de entrega. Chile, Perú y México.</div>
+    <div style="display:flex;gap:10px;margin-top:30px">
+      <span style="border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:8px 16px;font-size:17px">✓ Validación</span>
+      <span style="border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:8px 16px;font-size:17px">✓ Autocompletado</span>
+      <span style="border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:8px 16px;font-size:17px">✓ Mapa</span>
+    </div>
+  </div>
+  <div class="win" style="left:800px;top:150px;width:720px;height:700px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">tutienda.cl/checkout</div></div>
+    <div class="shot" style="height:660px;background-color:#fff;background-image:url(raw-corregido.png);background-position:-118px 0"></div>
+  </div>
+  <div class="ring" style="left:1074px;top:478px;width:257px;height:61px"></div>
+  <div class="callout" style="left:740px;top:600px"><b>«Nunoa» → Ñuñoa</b><small>Corregido antes de pagar</small></div>
+</div>
+
+<!-- ============ POSTER VIDEO ============ -->
+<div class="frame bg-dark grid" id="instalacion-poster">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· Video</div>
+  <div style="position:absolute;left:0;right:0;top:300px;text-align:center">
+    <div class="kicker" style="font-size:22px">Instalación paso a paso · 1 minuto</div>
+    <div style="font-size:84px;font-weight:900;letter-spacing:-.03em;margin-top:18px">LocFix AI en tu checkout</div>
+    <div style="width:132px;height:132px;border-radius:50%;background:var(--orange);margin:56px auto 0;display:grid;place-items:center;box-shadow:0 20px 60px rgba(235,94,40,.5)">
+      <div style="width:0;height:0;border-left:44px solid #fff;border-top:28px solid transparent;border-bottom:28px solid transparent;margin-left:10px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 01 INICIO (ilustración de nuestra pantalla) ============ -->
+<div class="frame bg-light" id="01-inicio">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div class="stepchip"><div class="num">1</div><div><div class="kicker">Paso 1</div><div class="title">Elige tu plan</div></div></div>
+  <div class="win" style="left:56px;top:210px;width:1488px;height:700px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">admin.shopify.com/store/tutienda/apps/locfix-ai</div></div>
+    <div class="shot" style="height:660px;background-color:#fff;background-image:url(real-home.png);background-size:1600px 1000px;background-position:0 0px"></div>
+  </div>
+  <div class="ring" style="left:770px;top:431px;width:658px;height:40px"></div>
+  <div class="callout" style="left:760px;top:860px;max-width:560px">Haz clic en <b>Empezar plan Starter</b> y aprueba el cargo.<small>Si ya tienes plan, el botón dice «Modificar plan»</small></div>
+  <div class="where">Apps → LocFix AI</div>
+  <div class="illus">Captura real · tienda de desarrollo</div>
+</div>
+<!-- ============ 02 BLOQUE VALIDACION (ilustración) ============ -->
+<div class="frame bg-light" id="02-bloque-validacion">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div class="stepchip"><div class="num">2</div><div><div class="kicker">Paso 2</div><div class="title">Agrega el bloque de validación</div></div></div>
+  <div class="win" style="left:56px;top:210px;width:1488px;height:700px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">admin.shopify.com/store/tutienda/settings/checkout/editor</div></div>
+    <div class="shot" style="height:660px;background-color:#fff;background-image:url(real-apps.png);background-size:1600px 1000px;background-position:0 0px"></div>
+  </div>
+  <div class="ring" style="left:66px;top:496px;width:284px;height:62px"></div>
+  <div class="callout" style="left:380px;top:470px;max-width:470px">En <b>Apps</b> busca <b>check-direction</b> y toca <b>⊕</b>. Déjalo bajo <b>Dirección de entrega</b> y haz clic en <b>Guardar</b>.<small>No necesita API key</small></div>
+  <div class="where">Configuración → Pantalla de pago → Editar → Apps</div>
+  <div class="illus">Captura real · tienda de desarrollo</div>
+</div>
+<!-- ============ 02b MENSAJES (real) ============ -->
+<div class="frame bg-light" id="02b-mensajes">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div class="stepchip"><div class="num">3</div><div><div class="kicker">Paso 3 · opcional</div><div class="title">Personaliza los mensajes</div></div></div>
+  <div class="win" style="left:56px;top:210px;width:1488px;height:700px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">admin.shopify.com/store/tutienda/settings/checkout/editor</div></div>
+    <div class="shot" style="height:660px;background-color:#fff;background-image:url(real-validacion.png);background-size:1600px 1000px;background-position:0 0px"></div>
+  </div>
+  <div class="ring" style="left:62px;top:589px;width:272px;height:302px"></div>
+  <div class="ring" style="left:503px;top:744px;width:506px;height:58px;border-color:#6366f1;box-shadow:0 0 0 8px rgba(99,102,241,.15)"></div>
+  <div class="callout" style="left:1070px;top:420px;max-width:440px">En <b>Configuración del bloque</b> cambias cada texto que ve el comprador.<small>Si un campo queda vacío, usa el mensaje por defecto</small></div>
+  <div class="callout" style="left:1070px;top:760px;max-width:440px">Así aparece en el checkout, bajo la dirección.</div>
+  <div class="where">Editor → Dirección de entrega → check-direction-extension</div>
+  <div class="illus">Captura real · tienda de desarrollo</div>
+</div>
+
+<!-- ============ 03 SUGERENCIAS (real) ============ -->
+<div class="frame bg-light" id="03-sugerencias">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div class="stepchip"><div class="num">✓</div><div><div class="kicker">En el checkout</div><div class="title">Sugerencias de direcciones reales</div></div></div>
+  <div class="win" style="left:56px;top:210px;width:820px;height:700px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">tutienda.cl/checkouts</div></div>
+    <div class="shot" style="height:660px;background-color:#fff;background-image:url(raw-autocomplete.png);background-position:-92px -300px"></div>
+  </div>
+  <div class="ring" style="left:101px;top:492px;width:338px;height:61px;border-color:#6366f1;box-shadow:0 0 0 8px rgba(99,102,241,.15)"></div>
+  <div class="ring" style="left:101px;top:584px;width:340px;height:50px"></div>
+  <div class="callout" style="left:930px;top:300px;max-width:560px">El comprador escribe <b>«Av Irarrazaval»</b> y LocFix sugiere direcciones reales con su comuna.<small>Al elegir una, se completan calle y comuna de una vez</small></div>
+  <div class="callout" style="left:930px;top:520px;max-width:560px">Funciona en <b>Chile, Perú y México</b>, ajustado al formulario de cada país.</div>
+  <div class="tag" style="left:930px;top:870px">Captura real</div>
+</div>
+
+<!-- ============ 04 AUTOCOMPLETADO (ilustración) ============ -->
+<div class="frame bg-light" id="04-autocompletado">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div class="stepchip"><div class="num">3</div><div><div class="kicker">Paso 3</div><div class="title">Elige LocFix como autocompletado</div></div></div>
+  <div class="win" style="left:56px;top:210px;width:1488px;height:700px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">admin.shopify.com/store/tutienda/settings/checkout/editor</div></div>
+    <div class="shot" style="height:660px;background-color:#fff;background-image:url(real-autocompletado.png);background-size:1600px 1000px;background-position:0 0px"></div>
+  </div>
+  <div class="ring" style="left:58px;top:747px;width:288px;height:165px"></div>
+  <div class="callout" style="left:380px;top:700px;max-width:500px">En <b>Formulario de dirección</b> activa <b>Autocompletado de direcciones</b>, elige <b>LocFix AI</b> y haz clic en <b>Guardar</b>.</div>
+  <div class="where">Editor → Configuración (⚙) → Formulario de dirección</div>
+  <div class="illus">Captura real · tienda de desarrollo</div>
+</div>
+<!-- ============ 05 KEY SERVIDOR (ilustración GCP) ============ -->
+<div class="frame bg-light" id="05-key-servidor">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div class="stepchip"><div class="num">4</div><div><div class="kicker">Paso 4</div><div class="title">Crea y restringe tu API key de Google</div></div></div>
+  <div class="win gcp" style="left:56px;top:210px;width:1000px;height:700px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">console.cloud.google.com/apis/credentials</div></div>
+    <div class="top"><span class="gl">Google Cloud</span><span style="color:#5f6368;font-size:15px">› APIs y servicios › Credenciales › Editar clave de API</span></div>
+    <div style="padding:26px 34px">
+      <h3>Restricciones de clave de API</h3>
+      <div class="sec">Restricciones de aplicaciones</div>
+      <div class="rad sel" id="r5a"><div class="dot"></div>Ninguna</div>
+      <div class="rad"><div class="dot"></div>Sitios web (referentes HTTP)</div>
+      <div class="rad"><div class="dot"></div>Direcciones IP</div>
+      <div class="sec">Restricciones de API</div>
+      <div class="rad"><div class="dot"></div>No restringir la clave</div>
+      <div class="rad sel"><div class="dot"></div>Restringir clave</div>
+      <div style="margin:6px 0 0 30px" id="r5b"><span class="chip">✓ Places API</span><span class="chip">✓ Geocoding API</span></div>
+      <div style="margin-top:28px"><span class="btnb">Guardar</span></div>
+    </div>
+  </div>
+  <div class="ring" style="left:78px;top:398px;width:170px;height:38px"></div>
+  <div class="ring" style="left:100px;top:614px;width:300px;height:44px"></div>
+  <div class="callout" style="left:1090px;top:330px;max-width:450px"><b>Aplicaciones: Ninguna.</b> LocFix usa la key desde su servidor; si la restringes por sitio web, Google la rechaza.</div>
+  <div class="callout" style="left:1090px;top:560px;max-width:450px"><b>APIs: Places + Geocoding.</b> Solo esas dos.<small>Actívalas antes en APIs y servicios → Biblioteca</small></div>
+  <div class="where">console.cloud.google.com → APIs y servicios → Credenciales</div>
+  <div class="illus">Ilustración</div>
+</div>
+
+<!-- ============ 07 MAPA (ilustración) ============ -->
+<div class="frame bg-light" id="07-mapa">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div class="stepchip"><div class="num">5</div><div><div class="kicker">Paso 5 · opcional</div><div class="title">Activa el mapa de la dirección</div></div></div>
+  <div class="win" style="left:56px;top:210px;width:1488px;height:700px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">admin.shopify.com/store/tutienda/settings/checkout/editor</div></div>
+    <div class="shot" style="height:660px;background-color:#fff;background-image:url(real-mapa.png);background-size:1600px 1000px;background-position:0 -60px"></div>
+  </div>
+  <div class="ring" style="left:60px;top:570px;width:276px;height:365px"></div>
+  <div class="ring" style="left:503px;top:548px;width:506px;height:345px;border-color:#6366f1;box-shadow:0 0 0 8px rgba(99,102,241,.15)"></div>
+  <div class="callout" style="left:1070px;top:430px;max-width:440px">Activa <b>Mostrar mapa de la dirección</b> y pega la key de <b>navegador</b> y la de <b>servidor</b>. <b>Guardar</b>.</div>
+  <div class="callout" style="left:1070px;top:660px;max-width:440px">Así se ve el mapa en el checkout.</div>
+  <div class="where">Editor → Apps → checkout-ui-address-map</div>
+  <div class="illus">Captura real · tienda de desarrollo</div>
+</div>
+<!-- ============ 08 CHECKOUT (real) ============ -->
+<div class="frame bg-light" id="08-checkout">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div class="stepchip"><div class="num">6</div><div><div class="kicker">Paso 6</div><div class="title">Prueba: la comuna se corrige sola</div></div></div>
+  <div class="win" style="left:56px;top:210px;width:820px;height:700px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">tutienda.cl/checkouts</div></div>
+    <div class="shot" style="height:660px;background-color:#fff;background-image:url(raw-corregido.png);background-position:-92px 0"></div>
+  </div>
+  <div class="ring" style="left:356px;top:538px;width:257px;height:61px"></div>
+  <div class="ring" style="left:101px;top:699px;width:512px;height:64px;border-color:#16a34a;box-shadow:0 0 0 8px rgba(22,163,74,.15)"></div>
+  <div class="ring" style="left:101px;top:808px;width:512px;height:80px;border-color:#6366f1;box-shadow:0 0 0 8px rgba(99,102,241,.15)"></div>
+  <div class="callout" style="left:930px;top:300px;max-width:560px">El comprador escribió <b>«Nunoa»</b>. LocFix lo corrigió a <b>Ñuñoa</b> antes de pagar.</div>
+  <div class="callout" style="left:930px;top:470px;max-width:560px">El checkout confirma <b>«Dirección válida»</b> y el envío se calcula para <b>Ñuñoa</b>, no para la comuna mal escrita.</div>
+  <div class="tag" style="left:930px;top:870px">Captura real</div>
+</div>
+
+
+
+<!-- ============ PORTADAS POR VIDEO ============ -->
+<div class="frame bg-dark grid" id="t-correccion">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div style="position:absolute;left:0;right:0;top:330px;text-align:center">
+    <div class="kicker" style="font-size:22px">Video 1 de 3 · Corrección de direcciones</div>
+    <div style="font-size:78px;font-weight:900;letter-spacing:-.03em;margin-top:18px">La comuna, <span style="color:#fdba74">corregida sola</span></div>
+    <div style="font-size:26px;color:#cbd5e1;margin-top:22px">Qué hace y cómo activarlo en 2 pasos</div>
+  </div>
+</div>
+<div class="frame bg-dark grid" id="t-autocompletado">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div style="position:absolute;left:0;right:0;top:330px;text-align:center">
+    <div class="kicker" style="font-size:22px">Video 2 de 3 · Autocompletado</div>
+    <div style="font-size:78px;font-weight:900;letter-spacing:-.03em;margin-top:18px">Direcciones reales <span style="color:#fdba74">mientras escribe</span></div>
+    <div style="font-size:26px;color:#cbd5e1;margin-top:22px">Qué hace y cómo activarlo en 3 pasos</div>
+  </div>
+</div>
+<div class="frame bg-dark grid" id="t-mapa">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div style="position:absolute;left:0;right:0;top:330px;text-align:center">
+    <div class="kicker" style="font-size:22px">Video 3 de 3 · Mapa de entrega</div>
+    <div style="font-size:78px;font-weight:900;letter-spacing:-.03em;margin-top:18px">El punto exacto <span style="color:#fdba74">antes de pagar</span></div>
+    <div style="font-size:26px;color:#cbd5e1;margin-top:22px">Qué hace y cómo activarlo en 2 pasos</div>
+  </div>
+</div>
+
+<!-- ============ 06 PEGAR KEY (ilustración) ============ -->
+<div class="frame bg-light" id="06-pegar-key">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div class="stepchip"><div class="num">4</div><div><div class="kicker">Paso 4</div><div class="title">Pega la key en LocFix</div></div></div>
+  <div class="win" style="left:56px;top:210px;width:1488px;height:700px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">admin.shopify.com/store/tutienda/settings/checkout/editor</div></div>
+    <div class="shot" style="height:660px;background-color:#fff;background-image:url(real-suggest.png);background-size:1600px 1000px;background-position:0 0px"></div>
+  </div>
+  <div class="ring" style="left:60px;top:570px;width:288px;height:62px"></div>
+  <div class="callout" style="left:380px;top:540px;max-width:500px">Toca <b>Editar configuración de la app</b> y pega tu key en <b>Api google Maps</b>. Luego <b>Guardar</b>.<small>La key que creaste en el paso anterior</small></div>
+  <div class="where">Configuración (⚙) → Autocompletado → Editar configuración de la app</div>
+  <div class="illus">Captura real · tienda de desarrollo</div>
+</div>
+<!-- ============ 05b KEY NAVEGADOR (ilustración GCP) ============ -->
+<div class="frame bg-light" id="05b-key-navegador">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div class="stepchip"><div class="num">1</div><div><div class="kicker">Paso 1</div><div class="title">Crea la key de navegador</div></div></div>
+  <div class="win gcp" style="left:56px;top:210px;width:1000px;height:700px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">console.cloud.google.com/apis/credentials</div></div>
+    <div class="top"><span class="gl">Google Cloud</span><span style="color:#5f6368;font-size:15px">› APIs y servicios › Credenciales › Editar clave de API</span></div>
+    <div style="padding:26px 34px">
+      <h3>Restricciones de clave de API</h3>
+      <div class="sec">Restricciones de aplicaciones</div>
+      <div class="rad"><div class="dot"></div>Ninguna</div>
+      <div class="rad sel"><div class="dot"></div>Sitios web (referentes HTTP)</div>
+      <div style="margin:4px 0 0 30px;font-family:var(--mono);font-size:14px;line-height:1.9">https://tutienda.cl/*<br>https://tutienda.myshopify.com/*</div>
+      <div class="sec">Restricciones de API</div>
+      <div class="rad sel"><div class="dot"></div>Restringir clave</div>
+      <div style="margin:6px 0 0 30px"><span class="chip">✓ Maps JavaScript API</span></div>
+      <div style="margin-top:24px"><span class="btnb">Guardar</span></div>
+    </div>
+  </div>
+  <div class="ring" style="left:96px;top:466px;width:330px;height:84px"></div>
+  <div class="ring" style="left:106px;top:618px;width:214px;height:38px"></div>
+  <div class="callout" style="left:1090px;top:330px;max-width:450px"><b>Sitios web:</b> tu dominio y el de myshopify. Esta key sí se ve en el navegador, por eso va restringida.</div>
+  <div class="callout" style="left:1090px;top:560px;max-width:450px"><b>API: Maps JavaScript.</b> La key de servidor (Places + Geocoding) sigue siendo otra.</div>
+  <div class="where">console.cloud.google.com → APIs y servicios → Credenciales</div>
+  <div class="illus">Ilustración</div>
+</div>
+
+<!-- ============ 09 MAPA EN CHECKOUT (captura + ilustración) ============ -->
+<div class="frame bg-light" id="09-mapa-checkout">
+  <div class="brand"><div class="logo"><span>CODE</span><span>/NAME</span></div>· LocFix AI</div>
+  <div class="stepchip"><div class="num">✓</div><div><div class="kicker">En el checkout</div><div class="title">El comprador ve dónde llega su pedido</div></div></div>
+  <div class="win" style="left:56px;top:210px;width:820px;height:700px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">tutienda.cl/checkouts</div></div>
+    <div class="shot" style="height:330px;background-color:#fff;background-image:url(raw-corregido.png);background-position:-92px 0"></div>
+    <div style="padding:6px 51px 0">
+      <div style="font-weight:700;font-size:16px;margin-bottom:8px">Ubicación de tu dirección</div>
+      <div style="height:250px;border-radius:8px;position:relative;background:
+        linear-gradient(90deg, transparent 47%, #fff 47%, #fff 51%, transparent 51%),
+        linear-gradient(0deg, transparent 40%, #fff 40%, #fff 44%, transparent 44%),
+        linear-gradient(30deg, transparent 58%, #fde68a 58%, #fde68a 62%, transparent 62%),
+        #e5ecd9">
+        <div style="position:absolute;left:48%;top:28%;width:34px;height:34px;border-radius:50% 50% 50% 0;background:#ea4335;transform:rotate(-45deg);box-shadow:0 4px 10px rgba(0,0,0,.3)"></div>
+      </div>
+      <div class="muted" style="margin-top:8px;font-size:13px;font-family:-apple-system,Inter,sans-serif">Av. Irarrázaval 3000, Ñuñoa</div>
+    </div>
+  </div>
+  <div class="ring" style="left:96px;top:640px;width:740px;height:304px;border-color:#6366f1;box-shadow:0 0 0 8px rgba(99,102,241,.15)"></div>
+  <div class="callout" style="left:930px;top:300px;max-width:560px">Al completar la dirección aparece el <b>mapa con el punto de entrega</b>. Si el pin está mal, el comprador lo nota antes de pagar.</div>
+  <div class="callout" style="left:930px;top:470px;max-width:560px">Si Google no encuentra el número exacto, avisa <b>«Ubicación aproximada»</b> y aleja el zoom.</div>
+  <div class="tag" style="left:930px;top:870px">Formulario real · mapa ilustrado</div>
+</div>
+
+<!-- ============ APERTURAS POR VIDEO (título + muestra) ============ -->
+<div class="frame bg-dark grid" id="p-correccion">
+    <div style="position:absolute;left:56px;top:250px;width:760px">
+    <div style="display:flex;align-items:center;gap:16px"><div class="logo" style="font-size:20px"><span>CODE</span><span>/NAME</span></div><div style="width:1px;height:40px;background:rgba(255,255,255,.25)"></div><div class="kicker" style="font-size:20px">Video 1 de 3 · Configuración</div></div>
+    <div style="font-size:64px;font-weight:900;letter-spacing:-.03em;line-height:1.04;margin-top:14px">Activa la <span style="color:#fdba74">corrección de direcciones</span></div>
+    <div style="font-size:22px;color:#94a3b8;margin-top:16px">2 pasos + 1 opcional · 2 minutos</div>
+    <div style="margin-top:26px"><div style="display:flex;align-items:center;gap:14px;margin-top:16px;font-size:24px;color:#e2e8f0"><span style="width:38px;height:38px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px;flex:none">1</span>Instala la app y elige tu plan</div><div style="display:flex;align-items:center;gap:14px;margin-top:16px;font-size:24px;color:#e2e8f0"><span style="width:38px;height:38px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px;flex:none">2</span>Agrega el bloque de validación</div><div style="display:flex;align-items:center;gap:14px;margin-top:16px;font-size:24px;color:#e2e8f0"><span style="width:38px;height:38px;border-radius:50%;background:#475569;color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px;flex:none">3</span>Personaliza los mensajes (opcional)</div></div>
+  </div>
+  <div class="win" style="left:880px;top:250px;width:640px;height:600px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">tutienda.cl/checkouts</div></div>
+    <div class="shot" style="height:560px;background-color:#fff;background-image:url(raw-corregido.png);background-position:-118px -20px"></div>
+  </div>
+  <div class="ring" style="left:1154px;top:558px;width:257px;height:61px"></div>
+  <div class="callout" style="left:1010px;top:660px;max-width:380px"><b>«Nunoa» → Ñuñoa</b><small>Así queda tras configurarlo</small></div>
+</div>
+
+<div class="frame bg-dark grid" id="p-autocompletado">
+    <div style="position:absolute;left:56px;top:250px;width:760px">
+    <div style="display:flex;align-items:center;gap:16px"><div class="logo" style="font-size:20px"><span>CODE</span><span>/NAME</span></div><div style="width:1px;height:40px;background:rgba(255,255,255,.25)"></div><div class="kicker" style="font-size:20px">Video 2 de 3 · Configuración</div></div>
+    <div style="font-size:64px;font-weight:900;letter-spacing:-.03em;line-height:1.04;margin-top:14px">Activa el <span style="color:#fdba74">autocompletado</span></div>
+    <div style="font-size:22px;color:#94a3b8;margin-top:16px">3 pasos · 5 minutos</div>
+    <div style="margin-top:26px"><div style="display:flex;align-items:center;gap:14px;margin-top:16px;font-size:24px;color:#e2e8f0"><span style="width:38px;height:38px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px;flex:none">1</span>Elige LocFix como autocompletado</div><div style="display:flex;align-items:center;gap:14px;margin-top:16px;font-size:24px;color:#e2e8f0"><span style="width:38px;height:38px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px;flex:none">2</span>Crea tu key de Google (servidor)</div><div style="display:flex;align-items:center;gap:14px;margin-top:16px;font-size:24px;color:#e2e8f0"><span style="width:38px;height:38px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px;flex:none">3</span>Pégala en LocFix</div></div>
+  </div>
+  <div class="win" style="left:880px;top:250px;width:640px;height:420px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">tutienda.cl/checkouts</div></div>
+    <div class="shot" style="height:380px;background-color:#fff;background-image:url(raw-autocomplete.png);background-position:-118px -520px"></div>
+  </div>
+  <div class="ring" style="left:899px;top:404px;width:338px;height:50px"></div>
+  <div class="callout" style="left:1010px;top:700px;max-width:380px"><b>Sugerencias reales</b><small>Así queda tras configurarlo</small></div>
+</div>
+
+<div class="frame bg-dark grid" id="p-mapa">
+    <div style="position:absolute;left:56px;top:250px;width:760px">
+    <div style="display:flex;align-items:center;gap:16px"><div class="logo" style="font-size:20px"><span>CODE</span><span>/NAME</span></div><div style="width:1px;height:40px;background:rgba(255,255,255,.25)"></div><div class="kicker" style="font-size:20px">Video 3 de 3 · Configuración</div></div>
+    <div style="font-size:64px;font-weight:900;letter-spacing:-.03em;line-height:1.04;margin-top:14px">Activa el <span style="color:#fdba74">mapa de entrega</span></div>
+    <div style="font-size:22px;color:#94a3b8;margin-top:16px">2 pasos · 3 minutos</div>
+    <div style="margin-top:26px"><div style="display:flex;align-items:center;gap:14px;margin-top:16px;font-size:24px;color:#e2e8f0"><span style="width:38px;height:38px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px;flex:none">1</span>Crea la key de navegador</div><div style="display:flex;align-items:center;gap:14px;margin-top:16px;font-size:24px;color:#e2e8f0"><span style="width:38px;height:38px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-weight:800;font-size:19px;flex:none">2</span>Activa el bloque y pega las keys</div></div>
+  </div>
+  <div class="win" style="left:880px;top:250px;width:640px;height:474px">
+    <div class="bar"><i></i><i></i><i></i><div class="url">tutienda.cl/checkouts</div></div>
+    <div class="shot" style="height:434px;background-color:#fff;background-image:url(real-mapa.png);background-size:2048px 1280px;background-position:-580px -458px"></div>
+  </div>
+  <div class="callout" style="left:1010px;top:720px;max-width:380px"><b>Mapa del punto de entrega</b><small>Así queda tras configurarlo</small></div>
+</div>
+
+<!-- ============ CIERRE (video) ============ -->
+<div class="frame bg-dark grid" id="cierre">
+  <div style="position:absolute;left:0;right:0;top:330px;text-align:center">
+    <div class="logo" style="font-size:44px;display:inline-block;text-align:left"><span>CODE</span><span>/NAME</span></div>
+    <div id="cierre-title" style="font-size:60px;font-weight:900;letter-spacing:-.03em;margin-top:36px">Listo: LocFix ya cuida tus despachos</div>
+    <div id="cierre-url" style="font-family:var(--mono);font-size:24px;color:#fdba74;margin-top:26px">codename.cl/docs/locfix-configuracion-inicial</div>
+    <div style="font-size:22px;color:#cbd5e1;margin-top:14px">¿Dudas? soporte@codename.cl</div>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const SHIFT = 60;
+
+// Compact header: logo, step number and title on one line; content moves up.
+document.querySelectorAll('.frame').forEach((f) => {
+  const chip = f.querySelector('.stepchip');
+  const brand = f.querySelector('.brand');
+  if (!chip || !brand) return;
+  const hdr = document.createElement('div');
+  hdr.className = 'hdr';
+  hdr.appendChild(brand.querySelector('.logo').cloneNode(true));
+  const sep = document.createElement('div'); sep.className = 'sep'; hdr.appendChild(sep);
+  while (chip.firstChild) hdr.appendChild(chip.firstChild);
+  chip.remove(); brand.remove();
+  f.appendChild(hdr);
+  f.querySelectorAll(':scope > .win, :scope > .ring, :scope > .callout, :scope > .tag').forEach((el) => {
+    el.style.top = (parseFloat(el.style.top) - SHIFT) + 'px';
+    if (el.classList.contains('win')) {
+      el.style.height = (parseFloat(el.style.height) + SHIFT) + 'px';
+      const shot = el.querySelector('.shot');
+      if (shot) shot.style.height = (parseFloat(shot.style.height) + SHIFT) + 'px';
+      el.querySelectorAll(':scope > div:not(.bar)').forEach((d) => {
+        if (d.style.height && !d.classList.contains('shot')) d.style.height = (parseFloat(d.style.height) + SHIFT) + 'px';
+      });
+    }
+  });
+});
+
+if (!params.get('anim')) {
+  document.getElementById(params.get('f') || 'portada').classList.add('on');
+} else {
+  setupAnimation();
+}
+
+function setupAnimation() {
+  document.body.classList.add('anim');
+  document.body.style.width = '1600px'; document.body.style.height = '1000px';
+  document.body.style.position = 'relative'; document.body.style.overflow = 'hidden';
+
+  const cursor = document.createElement('div');
+  cursor.className = 'cursor';
+  cursor.innerHTML = '<svg viewBox="0 0 24 24" width="34" height="34"><path d="M4 2 L4 20 L9 15.5 L12.5 23 L15.5 21.6 L12 14.2 L19 14.2 Z" fill="#020617" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+  document.body.appendChild(cursor);
+  const ripple = document.createElement('div'); ripple.className = 'ripple'; document.body.appendChild(ripple);
+
+  const el = (id) => document.getElementById(id);
+  const ringsOf = (id) => [...el(id).querySelectorAll(':scope > .ring')];
+  const notesOf = (id) => [...el(id).querySelectorAll(':scope > .callout, :scope > .tag')];
+  const centerOf = (node) => ({ x: parseFloat(node.style.left) + parseFloat(node.style.width) / 2,
+                                y: parseFloat(node.style.top) + parseFloat(node.style.height) / 2 });
+
+  // Typing overlay for the comuna field of the checkout scene.
+  const tb = document.createElement('div');
+  tb.className = 'typebox';
+  Object.assign(tb.style, { left: '363px', top: (545 - SHIFT) + 'px', width: '243px', height: '47px' });
+  tb.innerHTML = '<div class="l">Distrito antiguo</div><div class="v"></div>';
+  el('08-checkout').appendChild(tb);
+
+  // Scenes: duration in s, cursor path (targets by ring index), reveals.
+  // `steps`: [time, action]; actions: move(i | {x,y}), click, show(ring i), note(i), type(text), fix.
+  // One timeline per video (?anim=<name>). `num`/`kicker` renumber a frame's
+  // step for that video; `closing` sets the end card.
+  const S = SHIFT;
+  const VIDEOS = {
+    completo: { closing: ['Listo: LocFix ya cuida tus despachos', 'codename.cl/docs/locfix-configuracion-inicial'], scenes: [
+      { id: 'instalacion-poster', dur: 2.6, steps: [] },
+      { id: 'portada', dur: 4.2, steps: [[0.6, 'ring0'], [1.1, 'note0']] },
+      { id: '01-inicio', dur: 5.2, steps: [[0.2, 'from', { x: 1350, y: 900 }], [0.4, 'move', 0, 1.3], [1.8, 'click'], [1.9, 'ring0'], [2.3, 'note0']] },
+      { id: '02-bloque-validacion', dur: 5.6, steps: [[0.2, 'from', { x: 900, y: 800 }], [0.4, 'move', 0, 1.3], [1.8, 'click'], [1.9, 'ring0'], [2.3, 'note0']] },
+      { id: '04-autocompletado', dur: 5.4, steps: [[0.2, 'from', { x: 1200, y: 850 }], [0.4, 'move', 0, 1.3], [1.8, 'click'], [1.9, 'ring0'], [2.3, 'note0']] },
+      { id: '05-key-servidor', dur: 7.4, steps: [[0.2, 'from', { x: 900, y: 860 }], [0.4, 'move', 0, 1.2], [1.7, 'click'], [1.8, 'ring0'], [2.1, 'note0'], [3.2, 'move', 1, 1.0], [4.3, 'click'], [4.4, 'ring1'], [4.7, 'note1']] },
+      { id: '07-mapa', dur: 6.4, steps: [[0.2, 'from', { x: 700, y: 860 }], [0.4, 'move', 0, 1.3], [1.8, 'click'], [1.9, 'ring0'], [2.3, 'note0'], [3.4, 'ring1'], [3.8, 'note1']] },
+      { id: '03-sugerencias', dur: 6.2, steps: [[0.2, 'from', { x: 760, y: 860 }], [0.4, 'move', 0, 1.1], [1.6, 'click'], [1.7, 'ring0'], [2.4, 'move', 1, 0.9], [3.4, 'click'], [3.5, 'ring1'], [3.8, 'note0'], [4.5, 'note1'], [4.9, 'note2']] },
+      { id: '08-checkout', dur: 8.4, steps: [[0.2, 'from', { x: 760, y: 900 }], [0.4, 'move', { x: 470, y: 568 - S }, 1.1], [1.6, 'click'], [1.8, 'type', 'Nunoa', 1.2], [3.4, 'fix'], [3.5, 'ring0'], [3.9, 'note0'], [4.6, 'ring1'], [4.9, 'ring2'], [5.2, 'note1'], [5.6, 'note2']] },
+      { id: 'cierre', dur: 4.0, steps: [] },
+    ] },
+    correccion: { closing: ['Listo: corrección de direcciones activada', 'codename.cl/docs/locfix-configuracion-inicial#paso-2'], scenes: [
+      { id: 'p-correccion', dur: 4.6, steps: [[0.8, 'ring0'], [1.2, 'note0']] },
+      { id: '01-inicio', dur: 5.2, num: '1', kicker: 'Paso 1', steps: [[0.2, 'from', { x: 1350, y: 900 }], [0.4, 'move', 0, 1.3], [1.8, 'click'], [1.9, 'ring0'], [2.3, 'note0']] },
+      { id: '02-bloque-validacion', dur: 5.8, num: '2', kicker: 'Paso 2', steps: [[0.2, 'from', { x: 900, y: 800 }], [0.4, 'move', 0, 1.3], [1.8, 'click'], [1.9, 'ring0'], [2.3, 'note0']] },
+      { id: '02b-mensajes', dur: 6.6, num: '3', kicker: 'Paso 3 · opcional', steps: [[0.2, 'from', { x: 900, y: 860 }], [0.4, 'move', 0, 1.3], [1.8, 'click'], [1.9, 'ring0'], [2.3, 'note0'], [3.4, 'ring1'], [3.8, 'note1']] },
+      { id: 'cierre', dur: 3.4, steps: [] },
+    ] },
+    autocompletado: { closing: ['Listo: autocompletado activado', 'codename.cl/docs/locfix-configuracion-inicial#paso-3'], scenes: [
+      { id: 'p-autocompletado', dur: 4.6, steps: [[0.8, 'ring0'], [1.2, 'note0']] },
+      { id: '04-autocompletado', dur: 5.4, num: '1', kicker: 'Paso 1', steps: [[0.2, 'from', { x: 1200, y: 850 }], [0.4, 'move', 0, 1.3], [1.8, 'click'], [1.9, 'ring0'], [2.3, 'note0']] },
+      { id: '05-key-servidor', dur: 7.2, num: '2', kicker: 'Paso 2', steps: [[0.2, 'from', { x: 900, y: 860 }], [0.4, 'move', 0, 1.2], [1.7, 'click'], [1.8, 'ring0'], [2.1, 'note0'], [3.2, 'move', 1, 1.0], [4.3, 'click'], [4.4, 'ring1'], [4.7, 'note1']] },
+      { id: '06-pegar-key', dur: 5.4, num: '3', kicker: 'Paso 3', steps: [[0.2, 'from', { x: 700, y: 860 }], [0.4, 'move', 0, 1.3], [1.8, 'click'], [1.9, 'ring0'], [2.3, 'note0']] },
+      { id: 'cierre', dur: 3.4, steps: [] },
+    ] },
+    mapa: { closing: ['Listo: mapa de entrega activado', 'codename.cl/docs/locfix-configuracion-inicial#paso-5'], scenes: [
+      { id: 'p-mapa', dur: 4.6, steps: [[1.0, 'note0']] },
+      { id: '05b-key-navegador', dur: 7.2, num: '1', kicker: 'Paso 1', steps: [[0.2, 'from', { x: 900, y: 860 }], [0.4, 'move', 0, 1.2], [1.7, 'click'], [1.8, 'ring0'], [2.1, 'note0'], [3.2, 'move', 1, 1.0], [4.3, 'click'], [4.4, 'ring1'], [4.7, 'note1']] },
+      { id: '07-mapa', dur: 6.6, num: '2', kicker: 'Paso 2', steps: [[0.2, 'from', { x: 700, y: 860 }], [0.4, 'move', 0, 1.3], [1.8, 'click'], [1.9, 'ring0'], [2.3, 'note0'], [3.4, 'ring1'], [3.8, 'note1']] },
+      { id: 'cierre', dur: 3.4, steps: [] },
+    ] },
+  };
+  const video = VIDEOS[params.get('anim')] || VIDEOS.completo;
+  const scenes = video.scenes;
+  // Only this video's frames take part; renumber steps and set the end card.
+  const used = new Set(scenes.map((sc) => sc.id));
+  document.querySelectorAll('.frame').forEach((f) => { if (!used.has(f.id)) f.style.display = 'none'; });
+  scenes.forEach((sc) => {
+    const f = el(sc.id);
+    if (sc.num) { const n = f.querySelector('.hdr .num'); if (n) n.textContent = sc.num; }
+    if (sc.kicker) { const k = f.querySelector('.hdr .kicker'); if (k) k.textContent = sc.kicker; }
+  });
+  el('cierre-title').textContent = video.closing[0];
+  el('cierre-url').textContent = video.closing[1];
+  const FADE = 0.45;
+  let t0 = 0;
+  scenes.forEach((s) => { s.start = t0; t0 += s.dur; });
+  window.TOTAL = t0;
+
+  const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  const clamp = (x) => Math.max(0, Math.min(1, x));
+
+  function sceneState(s, lt) {
+    // Cursor position: walk the moves up to lt.
+    let pos = null; let visible = false; let clickAge = Infinity; let clickAt = null;
+    const shown = new Set(); let typed = null; let fixed = false;
+    for (const [at, kind, a, b] of s.steps) {
+      if (kind === 'from') { if (lt >= at) { pos = { ...a }; visible = true; } continue; }
+      if (lt < at) continue;
+      if (kind === 'move') {
+        const target = typeof a === 'number' ? centerOf(ringsOf(s.id)[a]) : a;
+        const p = ease(clamp((lt - at) / b));
+        const start = { ...pos };
+        // Gentle arc: control point lifted perpendicular to the path.
+        const mx = (start.x + target.x) / 2 - (target.y - start.y) * 0.12;
+        const my = (start.y + target.y) / 2 + (target.x - start.x) * 0.12;
+        const u = 1 - p;
+        pos = { x: u * u * start.x + 2 * u * p * mx + p * p * target.x,
+                y: u * u * start.y + 2 * u * p * my + p * p * target.y };
+        if (p >= 1) pos = { ...target };
+      } else if (kind === 'click') { clickAge = lt - at; clickAt = { ...pos }; }
+      else if (kind.startsWith('ring')) shown.add(kind);
+      else if (kind.startsWith('note')) shown.add(kind);
+      else if (kind === 'type') { const n = Math.floor(clamp((lt - at) / b) * a.length + 0.0001); typed = a.slice(0, n); }
+      else if (kind === 'fix') fixed = true;
+    }
+    return { pos, visible, clickAge, clickAt, shown, typed, fixed };
+  }
+
+  window.setT = function (t) {
+    let active = null;
+    scenes.forEach((s, i) => {
+      const f = el(s.id);
+      const lt = t - s.start;
+      // Crossfade: fade in during the first FADE seconds (except the first scene).
+      let op = 0;
+      if (lt >= 0 && lt < s.dur + FADE) {
+        op = i === 0 ? 1 : clamp(lt / FADE);
+        if (lt > s.dur) op = 1 - clamp((lt - s.dur) / FADE);
+      }
+      if (lt >= 0 && lt < s.dur) active = { s, lt };
+      f.style.opacity = op;
+      f.style.zIndex = lt >= 0 && lt < s.dur ? 2 : 1;
+      const st = sceneState(s, Math.max(0, lt));
+      ringsOf(s.id).forEach((r, k) => {
+        const key = 'ring' + k;
+        const on = st.shown.has(key);
+        const at = (s.steps.find((x) => x[1] === key) || [Infinity])[0];
+        const p = on ? ease(clamp((lt - at) / 0.35)) : 0;
+        r.style.opacity = s.steps.length ? p : 1;
+        r.style.transform = s.steps.length ? `scale(${1.15 - 0.15 * p})` : 'none';
+      });
+      notesOf(s.id).forEach((n, k) => {
+        const key = 'note' + k;
+        const at = (s.steps.find((x) => x[1] === key) || [Infinity])[0];
+        const p = st.shown.has(key) ? ease(clamp((lt - at) / 0.4)) : 0;
+        n.style.opacity = s.steps.length ? p : 1;
+        n.style.transform = s.steps.length ? `translateY(${(1 - p) * 14}px)` : 'none';
+      });
+      if (s.id === '08-checkout') {
+        tb.style.display = st.fixed ? 'none' : 'block';
+        tb.querySelector('.v').innerHTML = (st.typed || '') + (lt % 1 < 0.55 ? '<span class="caret"></span>' : '');
+      }
+    });
+    // Cursor and click ripple belong to the active scene.
+    if (active) {
+      const st = sceneState(active.s, active.lt);
+      const fadeOut = clamp((active.s.dur - active.lt) / 0.3);
+      if (st.visible && st.pos) {
+        const press = st.clickAge < 0.18 ? 0.86 : 1;
+        cursor.style.opacity = fadeOut;
+        cursor.style.transform = `translate(${st.pos.x - 4}px, ${st.pos.y - 3}px) scale(${press})`;
+      } else cursor.style.opacity = 0;
+      if (st.clickAge < 0.6 && st.clickAt) {
+        const p = st.clickAge / 0.6;
+        const r = 10 + 46 * ease(p);
+        Object.assign(ripple.style, { opacity: String(1 - p), width: 2 * r + 'px', height: 2 * r + 'px',
+          left: st.clickAt.x - r + 'px', top: st.clickAt.y - r + 'px' });
+      } else ripple.style.opacity = 0;
+    } else { cursor.style.opacity = 0; ripple.style.opacity = 0; }
+  };
+  window.setT(0);
+}
+</script>
+</body>
+</html>
