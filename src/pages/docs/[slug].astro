@@ -211,6 +211,7 @@ const dateFormatted = post.data.date.toLocaleDateString("es-CL", {
     border-radius: 4px;
   }
   .article-content ol { list-style: decimal; padding-left: 1.4rem; }
+  .article-content a:has(> img) { display: block; cursor: zoom-in; }
   .article-content img { border-radius: var(--border-radius); box-shadow: var(--shadow-lg); border: 1px solid var(--rule-soft); }
   @media (max-width: 720px) {
     .article-content .doc-summary { grid-template-columns: 1fr; }
