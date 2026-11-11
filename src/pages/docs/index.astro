@@ -11,6 +11,8 @@ const posts = (await getCollection("docs")).sort(
   title="Documentación de las Aplicaciones de Shopify | Codename"
   description="Encuentra guías y tutoriales para aprovechar al máximo las aplicaciones de Shopify de Codename. Configuración, optimización y soluciones rápidas."
   canonicalUrl="https://codename.cl/docs"
+  // Docs exist only in Spanish: the /en redirect would land on a 404.
+  langRedirect={false}
 >
   <Fragment slot="structured-data">
     <script
