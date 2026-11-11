@@ -50,6 +50,8 @@ Al abrir la app verás tu plan. Haz clic en **Empezar plan Starter** y aprueba e
 
 <p class="doc-where">Configuración → Checkout → Personalizar → paso <b>Información</b></p>
 
+<video class="doc-video doc-video-inline" controls playsinline preload="metadata" poster="/docs/locfix-configuracion-inicial/poster-correccion.webp"><source src="/docs/locfix-configuracion-inicial/video-correccion.mp4" type="video/mp4" /></video>
+
 1. Bajo la dirección de despacho, haz clic en **Agregar bloque de app**.
 2. Elige **check-direction-extension** (validación de dirección de LocFix).
 3. Haz clic en **Guardar**.
@@ -63,6 +65,8 @@ Con esto la validación ya funciona: si el comprador escribe *Nunoa*, LocFix la 
 <h2 id="paso-3"><span class="doc-step">3</span> Activa LocFix como autocompletado</h2>
 
 <p class="doc-where">Configuración → Checkout → <b>Autocompletado de direcciones</b></p>
+
+<video class="doc-video doc-video-inline" controls playsinline preload="metadata" poster="/docs/locfix-configuracion-inicial/poster-autocompletado.webp"><source src="/docs/locfix-configuracion-inicial/video-autocompletado.mp4" type="video/mp4" /></video>
 
 Elige **LocFix AI** como proveedor y guarda. A partir de ahora las sugerencias que ve el comprador vienen de LocFix, ajustadas a cada país (en Chile, por ejemplo, completan la comuna correcta).
 
@@ -90,6 +94,8 @@ Así se ve en el checkout: el comprador escribe la calle y elige una dirección 
 <h2 id="paso-5"><span class="doc-step">5</span> Muestra un mapa de la dirección <small>opcional</small></h2>
 
 <p class="doc-where">Editor del checkout → Agregar bloque de app → <b>checkout-ui-address-map</b></p>
+
+<video class="doc-video doc-video-inline" controls playsinline preload="metadata" poster="/docs/locfix-configuracion-inicial/poster-mapa.webp"><source src="/docs/locfix-configuracion-inicial/video-mapa.mp4" type="video/mp4" /></video>
 
 El mapa ayuda al comprador a confirmar dónde llega su pedido. Necesita **una segunda key**, de navegador:
 
