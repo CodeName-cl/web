@@ -27,6 +27,8 @@ const dateFormatted = post.data.date.toLocaleDateString("es-CL", {
   ogImage={`https://codename.cl${post.data.image}`}
   ogType="article"
   canonicalUrl={`https://codename.cl/docs/${post.id}`}
+  // Docs exist only in Spanish: the /en redirect would land on a 404.
+  langRedirect={false}
 >
   <Fragment slot="structured-data">
     <script
