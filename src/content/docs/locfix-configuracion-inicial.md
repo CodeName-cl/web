@@ -1,7 +1,7 @@
 ---
 title: "Configuración inicial de LocFix AI"
 description: "Activa LocFix AI en el checkout de Shopify en 10 minutos: corrige la comuna, autocompleta direcciones con Google y muestra un mapa de entrega. Chile, Perú y México."
-date: 2026-11-10
+date: 2026-11-11
 author:
   name: "Ricardo Silva"
   url: "https://www.linkedin.com/in/rickyoncode"
