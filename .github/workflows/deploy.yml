@@ -52,6 +52,10 @@ jobs:
           # Remove all tracked files
           git rm -rf . > /dev/null 2>&1 || true
 
+          # And every untracked file too (node_modules, .astro, dist from the
+          # build): master has no .gitignore, so `git add -A` would commit them.
+          git clean -fdx > /dev/null
+
           # Copy built static files
           cp -r /tmp/dist-output/. .
 
