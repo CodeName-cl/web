@@ -1,0 +1,384 @@
+---
+/**
+ * Landing de LocFix con variantes por etapa de campaña:
+ *   general → /locfix (sin fechas)
+ *   black   → /locfix/black (Black Friday, 27–30 nov)
+ *   navidad → /locfix/navidad (desde el 1 dic)
+ * Solo cambian los textos de COPY; estructura, formulario y medición son iguales.
+ */
+import LandingLayout from "@layouts/LandingLayout.astro";
+import LeadForm from "@components/landing/LeadForm.astro";
+import ProductVideo from "@components/landing/ProductVideo.astro";
+import { campaign, products, withUtm } from "../../config/landings";
+
+type Variant = "general" | "black" | "navidad";
+interface Props { variant?: Variant }
+const { variant = "general" } = Astro.props;
+
+const COPY = {
+  general: {
+    path: "/locfix",
+    title: "LocFix · Que tus paquetes no vuelvan por una comuna mal escrita",
+    description: "LocFix corrige la comuna en el checkout de Shopify Plus y sugiere direcciones mientras tu cliente escribe. Menos paquetes devueltos al centro de distribución.",
+    seasonPill: null as string | null,
+    h1: ["Que tus paquetes no ", "vuelvan", " por una comuna mal escrita"],
+    sub: "",
+    problemLead: "",
+    formTitle: "Veamos cuántos paquetes estás recuperando",
+    timingFaq: null as null | { q: string; a: string },
+    finalTitle: "Que cada paquete llegue a la primera",
+    finalLead: "Deja la comuna corregida antes de tu próximo peak de ventas.",
+  },
+  black: {
+    path: "/locfix/black",
+    title: "LocFix · Que en Black Friday ningún paquete vuelva por una comuna mal escrita",
+    description: "Black Friday multiplica tus pedidos y las direcciones mal escritas. LocFix corrige la comuna en el checkout de Shopify Plus y sugiere direcciones mientras tu cliente escribe.",
+    seasonPill: "Black Friday · 27 al 30 de noviembre",
+    h1: ["Que en Black Friday ningún paquete ", "vuelva", " por una comuna mal escrita"],
+    sub: "Black Friday multiplica tus pedidos, y con ellos las direcciones mal escritas. ",
+    problemLead: "Con cientos de pedidos en un fin de semana, nadie alcanza a revisar direcciones a mano antes de despachar. ",
+    formTitle: "Déjalo funcionando antes del 27 de noviembre",
+    timingFaq: {
+      q: "¿Alcanzo a tenerlo antes de Black Friday?",
+      a: "La instalación es desde la Shopify App Store y el chat de bienvenida te guía en la configuración. Si prefieres, agenda una demo y lo configuramos juntos antes del 27 de noviembre.",
+    },
+    finalTitle: "Que tu Black Friday se despache bien a la primera",
+    finalLead: "Activa la corrección de comuna antes del 27 de noviembre.",
+  },
+  navidad: {
+    path: "/locfix/navidad",
+    title: "LocFix · Que ningún regalo vuelva por una comuna mal escrita",
+    description: "En diciembre, un paquete devuelto es un regalo que no llega antes del 24. LocFix corrige la comuna en el checkout de Shopify Plus y sugiere direcciones mientras tu cliente escribe.",
+    seasonPill: "Temporada de Navidad",
+    h1: ["Que ningún regalo ", "vuelva", " por una comuna mal escrita"],
+    sub: "En diciembre, un paquete devuelto es un regalo que no llega antes del 24. ",
+    problemLead: "En diciembre, además, el reenvío puede llegar después de Navidad. ",
+    formTitle: "Déjalo listo antes del peak de diciembre",
+    timingFaq: {
+      q: "¿Alcanzo a tenerlo antes de Navidad?",
+      a: "La instalación es desde la Shopify App Store y el chat de bienvenida te guía en la configuración. Si prefieres, agenda una demo y lo configuramos juntos.",
+    },
+    finalTitle: "Que esta Navidad cada paquete llegue a la primera",
+    finalLead: "Diciembre es el mes con más despachos del año. Deja la comuna corregida antes del peak.",
+  },
+}[variant];
+
+const p = products.locfix;
+const install = withUtm(p.installUrl, "lcf");
+const schedule = campaign.scheduleUrl || "#contacto";
+const scheduleExternal = Boolean(campaign.scheduleUrl);
+const scheduleAttrs = scheduleExternal ? { target: "_blank", rel: "noopener" } : {};
+
+const baseFaqs = [
+  {
+    q: "¿Por qué LocFix funciona solo en Shopify Plus?",
+    a: "Porque corrige la dirección dentro del checkout, y Shopify solo permite extensiones de checkout en el plan Plus. En otros planes no es posible instalarla.",
+  },
+  {
+    q: "¿Necesito una API key de Google Maps?",
+    a: "Solo para el autocompletado de direcciones. La corrección de comuna funciona sin ella. Si no tienes API key o no sabes cómo crearla, el plan con configuración asistida incluye que lo hagamos contigo.",
+  },
+  {
+    q: "¿Cuánto cuesta la API de Google Maps?",
+    a: "Google cobra por uso según su propia tabla de precios, y el cobro es directo entre tu tienda y Google. En la demo te ayudamos a estimar cuánto sería con tu volumen de pedidos.",
+  },
+  {
+    q: "¿Cuánto toma la instalación?",
+    a: "Apenas instalas, un chat de bienvenida te guía paso a paso por la configuración. Si prefieres, lo hacemos juntos en una reunión.",
+  },
+  {
+    q: "¿Funciona con mi courier?",
+    a: "Sí. LocFix deja la comuna escrita tal como la esperan los couriers chilenos (Chilexpress, Starken, Blue Express y otros), así que no depende de cuál uses.",
+  },
+  {
+    q: "¿Sirve para Perú o México?",
+    a: "Nuestro foco es Chile, pero también trabajamos con tiendas en Perú y México. Cuéntanos en la demo y lo revisamos con tu caso.",
+  },
+];
+const faqs = COPY.timingFaq ? [COPY.timingFaq, ...baseFaqs] : baseFaqs;
+---
+
+<LandingLayout
+  title={COPY.title}
+  description={COPY.description}
+  product="lcf"
+  productName={p.name}
+  icon={p.icon}
+  canonicalUrl={`https://codename.cl${COPY.path}`}
+  primaryCta={{ label: "Agendar una demo", href: schedule, track: "schedule_click" }}
+>
+  <!-- 1. Hero -->
+  <section class="hero" data-hide-sticky>
+    <div class="lp-wrap hero-grid">
+      <div>
+        <div class="pills">
+          <span class="pill warn">Exclusivo para tiendas Shopify Plus</span>
+          {COPY.seasonPill && (
+            <span class="pill" data-countdown={variant === "navidad" ? "" : undefined}>{COPY.seasonPill}</span>
+          )}
+        </div>
+        <h1>{COPY.h1[0]}<em>{COPY.h1[1]}</em>{COPY.h1[2]}</h1>
+        <p class="hero-sub">
+          {COPY.sub}LocFix corrige la comuna en el checkout —«Las Conde» pasa a «Las Condes»— y sugiere la
+          dirección mientras tu cliente escribe. El courier recibe la dirección bien a la primera.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href={schedule} {...scheduleAttrs} data-track="schedule_click" data-loc="hero">
+            Agendar una demo
+          </a>
+          <a class="btn btn-ghost" href={install} target="_blank" rel="noopener" data-track="install_click" data-loc="hero">
+            Instalar en Shopify
+          </a>
+        </div>
+        <p class="hero-note">
+          ★ {p.rating.value} en la Shopify App Store · {p.rating.count} reseñas · Hecho en Chile
+        </p>
+      </div>
+
+      <div class="checkout-demo" aria-hidden="true">
+        <div class="cd-label">Checkout · Dirección de envío</div>
+        <div class="cd-field">
+          <span class="cd-k">Comuna</span>
+          <span class="cd-typed">Las Conde</span>
+        </div>
+        <div class="cd-arrow">LocFix corrige ↓</div>
+        <div class="cd-field ok">
+          <span class="cd-k">Comuna</span>
+          <span>Las Condes <b>✓</b></span>
+        </div>
+        <div class="cd-field">
+          <span class="cd-k">Dirección</span>
+          <span>Av. Apoquindo 3…</span>
+        </div>
+        <ul class="cd-suggest">
+          <li>Av. Apoquindo 3000, Las Condes</li>
+          <li>Av. Apoquindo 3400, Las Condes</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- El dolor -->
+  <section class="lp-section">
+    <div class="lp-wrap">
+      <span class="kicker">El problema</span>
+      <h2>Cada comuna mal escrita es un paquete que va y vuelve</h2>
+      <p class="lp-lead">
+        {COPY.problemLead}El cliente escribe «Providensia» o «Maipu», el courier no logra entregar y el paquete viaja de vuelta
+        al centro de distribución. Ese ida y vuelta lo pagan la tienda y el courier, y el cliente se queda esperando.
+      </p>
+      <div class="journey">
+        <div class="j-step"><span>1</span>Comuna mal escrita en el checkout</div>
+        <div class="j-step"><span>2</span>El paquete sale a reparto</div>
+        <div class="j-step bad"><span>3</span>No se puede entregar</div>
+        <div class="j-step bad"><span>4</span>Vuelve al centro de distribución</div>
+        <div class="j-step bad"><span>5</span>Corrección manual y reenvío pagado de nuevo</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Video -->
+  <section class="lp-section dark">
+    <div class="lp-wrap video-wrap">
+      <span class="kicker">Míralo funcionando</span>
+      <h2>LocFix en un checkout real</h2>
+      <ProductVideo url={p.videoUrl} poster={p.videoPoster} title="LocFix en un checkout real" />
+    </div>
+  </section>
+
+  <!-- 3. Cómo funciona -->
+  <section class="lp-section alt">
+    <div class="lp-wrap">
+      <span class="kicker">Cómo funciona</span>
+      <h2>Listo en 3 pasos</h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="step-n">01</div>
+          <h3>Instala en tu tienda Plus</h3>
+          <p>Desde la Shopify App Store. Un chat de bienvenida te acompaña en la configuración desde el primer minuto.</p>
+        </div>
+        <div class="card">
+          <div class="step-n">02</div>
+          <h3>Se activa en tu checkout</h3>
+          <p>LocFix revisa la comuna que escribe el cliente y la corrige contra las 346 comunas de Chile.</p>
+        </div>
+        <div class="card">
+          <div class="step-n">03</div>
+          <h3>Suma el autocompletado</h3>
+          <p>Con tu API key de Google Maps, LocFix sugiere la dirección completa mientras el cliente escribe.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Beneficios -->
+  <section class="lp-section">
+    <div class="lp-wrap">
+      <span class="kicker">Lo que ganas</span>
+      <h2>Menos devoluciones, cero planillas</h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="stat">346</div>
+          <h3>Comunas reconocidas</h3>
+          <p>Con tildes, nombres compuestos y de origen indígena. LocFix entiende lo que el cliente quiso escribir.</p>
+        </div>
+        <div class="card">
+          <div class="stat">0</div>
+          <h3>Correcciones a mano</h3>
+          <p>Los pedidos llegan con la comuna bien escrita a tu integración de despacho. Tu equipo deja de corregir antes de imprimir etiquetas.</p>
+        </div>
+        <div class="card">
+          <div class="stat">★ {p.rating.value}</div>
+          <h3>Valorada por tiendas chilenas</h3>
+          <p>{p.rating.count} reseñas en la Shopify App Store.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Precio + API key -->
+  <section class="lp-section alt" id="precio">
+    <div class="lp-wrap price-grid">
+      <div>
+        <span class="kicker">Autocompletado y precio</span>
+        <h2>¿No tienes API key de Google Maps? La configuramos contigo</h2>
+        <p class="lp-lead">
+          El autocompletado de direcciones usa Google Maps, así que necesita una API key a nombre de tu tienda.
+          Crearla toma unos minutos, pero si nunca lo has hecho puede ser engorroso. Con el plan de configuración
+          asistida, lo dejamos funcionando juntos.
+        </p>
+        <p class="api-link">
+          ¿Prefieres hacerlo tú? <a href="/docs/como-obtener-api-key-google-maps-shopify" target="_blank" rel="noopener">Sigue nuestra guía paso a paso</a>.
+        </p>
+      </div>
+      <div class="price-card">
+        <span class="badge">Configuración asistida</span>
+        <div class="amount">USD {p.pricing.assistedMonthlyUsd}<small> /mes</small></div>
+        <ul>
+          <li>Corrección automática de comuna en el checkout</li>
+          <li>Autocompletado de direcciones con Google Maps</li>
+          <li>Te ayudamos a crear y conectar tu API key</li>
+          <li>Soporte en español por chat</li>
+        </ul>
+        <a class="btn btn-primary" style="width:100%" href={schedule} {...scheduleAttrs} data-track="schedule_click" data-loc="pricing">
+          Agendar una demo
+        </a>
+        <p class="plus-note">Requiere Shopify Plus.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Formulario -->
+  <LeadForm
+    product="lcf"
+    title={COPY.formTitle}
+    intro="Cuéntanos de tu tienda y te mostramos LocFix funcionando en un checkout como el tuyo."
+    requiresPlus
+    qualifier={{
+      name: "api_key",
+      label: "¿Tienes API key de Google Maps?",
+      options: [
+        { value: "si", label: "Sí" },
+        { value: "no", label: "No" },
+        { value: "no-se", label: "No sé" },
+      ],
+    }}
+    installUrl={install}
+    thanks={{
+      title: "¡Gracias! Te contactamos pronto.",
+      body: "Alguien del equipo te escribe para coordinar la demo. Si quieres, agenda directamente o instala LocFix y el chat de bienvenida te guía.",
+    }}
+    noPlus={{
+      title: "Gracias por tu interés",
+      body: "LocFix funciona solo en tiendas Shopify Plus, porque trabaja dentro del checkout. Guardamos tus datos y te escribiremos con alternativas para tu tienda.",
+    }}
+  />
+
+  <!-- 7. FAQ -->
+  <section class="lp-section">
+    <div class="lp-wrap">
+      <span class="kicker">Preguntas frecuentes</span>
+      <h2>Lo que nos preguntan antes de instalar</h2>
+      <div class="faq">
+        {faqs.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Cierre -->
+  <section class="lp-section dark" data-hide-sticky>
+    <div class="lp-wrap final-cta">
+      <h2>{COPY.finalTitle}</h2>
+      <p class="lp-lead">{COPY.finalLead}</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href={schedule} {...scheduleAttrs} data-track="schedule_click" data-loc="final">
+          Agendar una demo
+        </a>
+        <a class="btn btn-ghost" href={install} target="_blank" rel="noopener" data-track="install_click" data-loc="final">
+          Instalar en Shopify
+        </a>
+      </div>
+      <p class="hero-note">Requiere Shopify Plus.</p>
+    </div>
+  </section>
+
+  {variant === "navidad" && (
+    <script is:inline>
+      // Cuenta regresiva a Navidad (hora de Chile)
+      document.querySelectorAll("[data-countdown]").forEach(function (el) {
+        var days = Math.ceil((Date.parse("2026-12-25T03:00:00Z") - Date.now()) / 86400000);
+        if (days > 1) el.textContent = "Quedan " + days + " días para Navidad";
+        else if (days === 1) el.textContent = "Mañana es Navidad";
+      });
+    </script>
+  )}
+</LandingLayout>
+
+<style>
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* Mock de checkout en el hero */
+  .checkout-demo {
+    background: #fff; color: var(--s900); border-radius: 16px; padding: 20px;
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6); max-width: 440px; width: 100%; justify-self: center;
+  }
+  .cd-label { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--s500); margin-bottom: 12px; }
+  .cd-field { display: flex; flex-direction: column; border: 2px solid var(--s200); border-radius: 10px; padding: 8px 12px; margin-bottom: 10px; }
+  .cd-k { font-size: 0.75rem; color: var(--s500); }
+  .cd-typed { text-decoration: underline wavy #dc2626; text-underline-offset: 4px; }
+  .cd-field.ok { border-color: var(--green); background: #f0fdf4; }
+  .cd-field.ok b { color: var(--green); }
+  .cd-arrow { font-size: 0.8125rem; font-weight: 700; color: var(--indigo); margin: -2px 0 8px 4px; }
+  .cd-suggest { list-style: none; border: 1px solid var(--s200); border-radius: 10px; margin-top: -4px; overflow: hidden; font-size: 0.875rem; }
+  .cd-suggest li { padding: 8px 12px; }
+  .cd-suggest li + li { border-top: 1px solid var(--s100); }
+  .cd-suggest li:first-child { background: var(--indigo-wash); }
+
+  /* Recorrido del paquete */
+  .journey { display: grid; gap: 10px; margin-top: 32px; }
+  @media (min-width: 900px) { .journey { grid-template-columns: repeat(5, 1fr); } }
+  .j-step { display: flex; gap: 12px; align-items: center; padding: 16px; border-radius: 12px; background: var(--s50); border: 1px solid var(--s200); font-weight: 600; color: var(--s900); }
+  @media (min-width: 900px) { .j-step { flex-direction: column; align-items: flex-start; } }
+  .j-step span { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--s900); color: #fff; font-size: 0.8125rem; }
+  .j-step.bad { background: #fff7ed; border-color: #fed7aa; }
+  .j-step.bad span { background: var(--orange); }
+
+  .video-wrap { max-width: 880px; }
+  .video-wrap h2 { margin-bottom: 24px; }
+
+  .price-grid { display: grid; gap: 32px; align-items: center; }
+  @media (min-width: 900px) { .price-grid { grid-template-columns: 1.2fr 1fr; gap: 64px; } }
+  .price-grid .price-card { margin-top: 0; }
+  .api-link { margin-top: 16px; }
+  .api-link a { color: var(--indigo); font-weight: 600; }
+  .plus-note { margin-top: 12px; text-align: center; font-size: 0.875rem; color: var(--s500); }
+
+  .final-cta { text-align: center; }
+  .final-cta .lp-lead { margin: 0 auto 24px; }
+  .final-cta .btn-row { justify-content: center; }
+</style>

@@ -1,0 +1,25 @@
+---
+/** Video del producto: acepta YouTube, Vimeo o un .mp4. Vacío = placeholder. */
+interface Props { url: string; title: string; poster?: string }
+const { url, title, poster } = Astro.props;
+
+function embedUrl(u: string): string | null {
+  const yt = u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]{11})/);
+  if (yt) return `https://www.youtube-nocookie.com/embed/${yt[1]}?rel=0&modestbranding=1`;
+  const vm = u.match(/vimeo\.com\/(\d+)/);
+  if (vm) return `https://player.vimeo.com/video/${vm[1]}?dnt=1`;
+  return null;
+}
+const isFile = /\.(mp4|webm)(\?|$)/i.test(url);
+const embed = url && !isFile ? embedUrl(url) : null;
+---
+
+<div class="video">
+  {isFile ? (
+    <video src={url} poster={poster} controls playsinline preload="metadata" aria-label={title}></video>
+  ) : embed ? (
+    <iframe src={embed} title={title} loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
+  ) : (
+    <div class="video-placeholder">Video del producto<br />(pendiente: videoUrl en src/config/landings.ts)</div>
+  )}
+</div>

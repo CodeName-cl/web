@@ -1,0 +1,17 @@
+---
+/** Redirige a otra URL conservando los parámetros (UTMs) de la visita. */
+interface Props { to: string }
+const { to } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={to} />
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <script is:inline define:vars={{ to }}>location.replace(to + location.search + location.hash);</script>
+    <title>Redirigiendo…</title>
+  </head>
+  <body><a href={to}>Continuar a {to}</a></body>
+</html>
