@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="es"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>LocFix · Que tus paquetes no vuelvan por una comuna mal escrita</title><meta name="description" content="LocFix corrige la comuna en el checkout de Shopify Plus y sugiere direcciones mientras tu cliente escribe. Menos paquetes devueltos al centro de distribución."><link rel="canonical" href="https://codename.cl/locfix"><meta property="og:title" content="LocFix · Que tus paquetes no vuelvan por una comuna mal escrita"><meta property="og:description" content="LocFix corrige la comuna en el checkout de Shopify Plus y sugiere direcciones mientras tu cliente escribe. Menos paquetes devueltos al centro de distribución."><meta property="og:image" content="https://codename.cl/logo.png"><meta property="og:type" content="website"><meta property="og:url" content="https://codename.cl/locfix"><meta property="og:locale" content="es_CL"><meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.ico" type="image/x-icon"><meta name="theme-color" content="#020617"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"><!-- UTMs + helper de eventos (antes de GTM para que el primer push los tenga) --><script>(function(){const product = "lcf";
+
+      (function () {
+        var KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+        var params = new URLSearchParams(location.search);
+        var utm = {};
+        try { utm = JSON.parse(sessionStorage.getItem("landing_utm") || "{}"); } catch (e) {}
+        var fresh = KEYS.some(function (k) { return params.get(k); });
+        if (fresh) {
+          utm = {};
+          KEYS.forEach(function (k) { if (params.get(k)) utm[k] = params.get(k); });
+          try { sessionStorage.setItem("landing_utm", JSON.stringify(utm)); } catch (e) {}
+        }
+        window.landingUtm = utm;
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(Object.assign({ landing_product: product }, utm));
+
+        var META = {
+          form_submit: ["track", "Lead"],
+          chat_start: ["track", "Contact"],
+          schedule_click: ["track", "Schedule"],
+          install_click: ["trackCustom", "InstallClick"],
+        };
+        window.landingTrack = function (name, extra) {
+          var data = Object.assign({ product: product }, utm, extra || {});
+          window.dataLayer.push(Object.assign({ event: name }, data));
+          var m = META[name];
+          if (m && typeof window.fbq === "function") window.fbq(m[0], m[1], data);
+        };
+      })();
+    })();</script><script>(function(){const gtmId = "GTM-5CWP9SPQ";
+
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0], j = d.createElement(s);
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", gtmId);
+    })();</script><link rel="stylesheet" href="/_astro/black.DBkBXT07.css"></head> <body> <noscript> <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CWP9SPQ" height="0" width="0" style="display:none;visibility:hidden"></iframe> </noscript> <header class="lp-top"> <div class="lp-wrap lp-top-inner"> <span class="lp-brand"> <img src="/images/icons/Lockfix.webp?1" alt="" width="32" height="32"> <span>LocFix AI</span> </span> <a class="btn btn-sm btn-primary" href="https://calendar.app.google/Ta8whVSJjQnzwsB18" data-track="schedule_click"> Agendar una demo </a> </div> </header> <main>   <section class="hero" data-hide-sticky data-astro-cid-biqrgpqo> <div class="lp-wrap hero-grid" data-astro-cid-biqrgpqo> <div data-astro-cid-biqrgpqo> <div class="pills" data-astro-cid-biqrgpqo> <span class="pill warn" data-astro-cid-biqrgpqo>Exclusivo para tiendas Shopify Plus</span>  </div> <h1 data-astro-cid-biqrgpqo>Que tus paquetes no <em data-astro-cid-biqrgpqo>vuelvan</em> por una comuna mal escrita</h1> <p class="hero-sub" data-astro-cid-biqrgpqo> LocFix corrige la comuna en el checkout —«Las Conde» pasa a «Las Condes»— y sugiere la
+          dirección mientras tu cliente escribe. El courier recibe la dirección bien a la primera.
+</p> <div class="btn-row" data-astro-cid-biqrgpqo> <a class="btn btn-primary" href="https://calendar.app.google/Ta8whVSJjQnzwsB18" target="_blank" rel="noopener" data-track="schedule_click" data-loc="hero" data-astro-cid-biqrgpqo>
+Agendar una demo
+</a> <a class="btn btn-ghost" href="https://apps.shopify.com/validador-de-direcciones?utm_source=landing&utm_medium=web&utm_campaign=navidad-2026-lcf" target="_blank" rel="noopener" data-track="install_click" data-loc="hero" data-astro-cid-biqrgpqo>
+Instalar en Shopify
+</a> </div> <p class="hero-note" data-astro-cid-biqrgpqo>
+★ 4.8 en la Shopify App Store · 156 reseñas · Hecho en Chile
+</p> </div> <div class="checkout-demo" aria-hidden="true" data-astro-cid-biqrgpqo> <div class="cd-label" data-astro-cid-biqrgpqo>Checkout · Dirección de envío</div> <div class="cd-field" data-astro-cid-biqrgpqo> <span class="cd-k" data-astro-cid-biqrgpqo>Comuna</span> <span class="cd-typed" data-astro-cid-biqrgpqo>Las Conde</span> </div> <div class="cd-arrow" data-astro-cid-biqrgpqo>LocFix corrige ↓</div> <div class="cd-field ok" data-astro-cid-biqrgpqo> <span class="cd-k" data-astro-cid-biqrgpqo>Comuna</span> <span data-astro-cid-biqrgpqo>Las Condes <b data-astro-cid-biqrgpqo>✓</b></span> </div> <div class="cd-field" data-astro-cid-biqrgpqo> <span class="cd-k" data-astro-cid-biqrgpqo>Dirección</span> <span data-astro-cid-biqrgpqo>Av. Apoquindo 3…</span> </div> <ul class="cd-suggest" data-astro-cid-biqrgpqo> <li data-astro-cid-biqrgpqo>Av. Apoquindo 3000, Las Condes</li> <li data-astro-cid-biqrgpqo>Av. Apoquindo 3400, Las Condes</li> </ul> </div> </div> </section>  <section class="lp-section" data-astro-cid-biqrgpqo> <div class="lp-wrap" data-astro-cid-biqrgpqo> <span class="kicker" data-astro-cid-biqrgpqo>El problema</span> <h2 data-astro-cid-biqrgpqo>Cada comuna mal escrita es un paquete que va y vuelve</h2> <p class="lp-lead" data-astro-cid-biqrgpqo> El cliente escribe «Providensia» o «Maipu», el courier no logra entregar y el paquete viaja de vuelta
+        al centro de distribución. Ese ida y vuelta lo pagan la tienda y el courier, y el cliente se queda esperando.
+</p> <div class="journey" data-astro-cid-biqrgpqo> <div class="j-step" data-astro-cid-biqrgpqo><span data-astro-cid-biqrgpqo>1</span>Comuna mal escrita en el checkout</div> <div class="j-step" data-astro-cid-biqrgpqo><span data-astro-cid-biqrgpqo>2</span>El paquete sale a reparto</div> <div class="j-step bad" data-astro-cid-biqrgpqo><span data-astro-cid-biqrgpqo>3</span>No se puede entregar</div> <div class="j-step bad" data-astro-cid-biqrgpqo><span data-astro-cid-biqrgpqo>4</span>Vuelve al centro de distribución</div> <div class="j-step bad" data-astro-cid-biqrgpqo><span data-astro-cid-biqrgpqo>5</span>Corrección manual y reenvío pagado de nuevo</div> </div> </div> </section>  <section class="lp-section dark" data-astro-cid-biqrgpqo> <div class="lp-wrap video-wrap" data-astro-cid-biqrgpqo> <span class="kicker" data-astro-cid-biqrgpqo>Míralo funcionando</span> <h2 data-astro-cid-biqrgpqo>LocFix en un checkout real</h2> <div class="video"> <video src="/videos/locfix-en-un-checkout.mp4" poster="/videos/locfix-en-un-checkout.jpg" controls playsinline preload="metadata" aria-label="LocFix en un checkout real"></video> </div> </div> </section>  <section class="lp-section alt" data-astro-cid-biqrgpqo> <div class="lp-wrap" data-astro-cid-biqrgpqo> <span class="kicker" data-astro-cid-biqrgpqo>Cómo funciona</span> <h2 data-astro-cid-biqrgpqo>Listo en 3 pasos</h2> <div class="grid-3" data-astro-cid-biqrgpqo> <div class="card" data-astro-cid-biqrgpqo> <div class="step-n" data-astro-cid-biqrgpqo>01</div> <h3 data-astro-cid-biqrgpqo>Instala en tu tienda Plus</h3> <p data-astro-cid-biqrgpqo>Desde la Shopify App Store. Un chat de bienvenida te acompaña en la configuración desde el primer minuto.</p> </div> <div class="card" data-astro-cid-biqrgpqo> <div class="step-n" data-astro-cid-biqrgpqo>02</div> <h3 data-astro-cid-biqrgpqo>Se activa en tu checkout</h3> <p data-astro-cid-biqrgpqo>LocFix revisa la comuna que escribe el cliente y la corrige contra las 346 comunas de Chile.</p> </div> <div class="card" data-astro-cid-biqrgpqo> <div class="step-n" data-astro-cid-biqrgpqo>03</div> <h3 data-astro-cid-biqrgpqo>Suma el autocompletado</h3> <p data-astro-cid-biqrgpqo>Con tu API key de Google Maps, LocFix sugiere la dirección completa mientras el cliente escribe.</p> </div> </div> </div> </section>  <section class="lp-section" data-astro-cid-biqrgpqo> <div class="lp-wrap" data-astro-cid-biqrgpqo> <span class="kicker" data-astro-cid-biqrgpqo>Lo que ganas</span> <h2 data-astro-cid-biqrgpqo>Menos devoluciones, cero planillas</h2> <div class="grid-3" data-astro-cid-biqrgpqo> <div class="card" data-astro-cid-biqrgpqo> <div class="stat" data-astro-cid-biqrgpqo>346</div> <h3 data-astro-cid-biqrgpqo>Comunas reconocidas</h3> <p data-astro-cid-biqrgpqo>Con tildes, nombres compuestos y de origen indígena. LocFix entiende lo que el cliente quiso escribir.</p> </div> <div class="card" data-astro-cid-biqrgpqo> <div class="stat" data-astro-cid-biqrgpqo>0</div> <h3 data-astro-cid-biqrgpqo>Correcciones a mano</h3> <p data-astro-cid-biqrgpqo>Los pedidos llegan con la comuna bien escrita a tu integración de despacho. Tu equipo deja de corregir antes de imprimir etiquetas.</p> </div> <div class="card" data-astro-cid-biqrgpqo> <div class="stat" data-astro-cid-biqrgpqo>★ 4.8</div> <h3 data-astro-cid-biqrgpqo>Valorada por tiendas chilenas</h3> <p data-astro-cid-biqrgpqo>156 reseñas en la Shopify App Store.</p> </div> </div> </div> </section>  <section class="lp-section alt" id="precio" data-astro-cid-biqrgpqo> <div class="lp-wrap price-grid" data-astro-cid-biqrgpqo> <div data-astro-cid-biqrgpqo> <span class="kicker" data-astro-cid-biqrgpqo>Autocompletado y precio</span> <h2 data-astro-cid-biqrgpqo>¿No tienes API key de Google Maps? La configuramos contigo</h2> <p class="lp-lead" data-astro-cid-biqrgpqo>
+El autocompletado de direcciones usa Google Maps, así que necesita una API key a nombre de tu tienda.
+          Crearla toma unos minutos, pero si nunca lo has hecho puede ser engorroso. Con el plan de configuración
+          asistida, lo dejamos funcionando juntos.
+</p> <p class="api-link" data-astro-cid-biqrgpqo>
+¿Prefieres hacerlo tú? <a href="/docs/como-obtener-api-key-google-maps-shopify" target="_blank" rel="noopener" data-astro-cid-biqrgpqo>Sigue nuestra guía paso a paso</a>.
+</p> </div> <div class="price-card" data-astro-cid-biqrgpqo> <span class="badge" data-astro-cid-biqrgpqo>Configuración asistida</span> <div class="amount" data-astro-cid-biqrgpqo>USD 35<small data-astro-cid-biqrgpqo> /mes</small></div> <ul data-astro-cid-biqrgpqo> <li data-astro-cid-biqrgpqo>Corrección automática de comuna en el checkout</li> <li data-astro-cid-biqrgpqo>Autocompletado de direcciones con Google Maps</li> <li data-astro-cid-biqrgpqo>Te ayudamos a crear y conectar tu API key</li> <li data-astro-cid-biqrgpqo>Soporte en español por chat</li> </ul> <a class="btn btn-primary" style="width:100%" href="https://calendar.app.google/Ta8whVSJjQnzwsB18" target="_blank" rel="noopener" data-track="schedule_click" data-loc="pricing" data-astro-cid-biqrgpqo>
+Agendar una demo
+</a> <p class="plus-note" data-astro-cid-biqrgpqo>Requiere Shopify Plus.</p> </div> </div> </section>  <section id="contacto" class="lp-section alt" data-hide-sticky data-astro-cid-2t4um5qc> <div class="lp-wrap lead-grid" data-astro-cid-2t4um5qc> <div data-astro-cid-2t4um5qc> <span class="kicker" data-astro-cid-2t4um5qc>Hablemos</span> <h2 data-astro-cid-2t4um5qc>Veamos cuántos paquetes estás recuperando</h2> <p class="lp-lead" data-astro-cid-2t4um5qc>Cuéntanos de tu tienda y te mostramos LocFix funcionando en un checkout como el tuyo.</p> <p class="lead-aside" data-astro-cid-2t4um5qc>
+¿Prefieres conversar? Usa el chat de la esquina: te responde una persona del equipo.
+</p> </div> <div class="lead-box" data-astro-cid-2t4um5qc> <form id="leadForm" novalidate data-product="lcf" data-endpoint data-requires-plus="1" data-qualifier-label="¿Tienes API key de Google Maps?" data-astro-cid-2t4um5qc> <div class="field" data-astro-cid-2t4um5qc> <label for="lf-name" data-astro-cid-2t4um5qc>Nombre</label> <input id="lf-name" name="name" type="text" autocomplete="name" required data-astro-cid-2t4um5qc> </div> <div class="field" data-astro-cid-2t4um5qc> <label for="lf-email" data-astro-cid-2t4um5qc>Email</label> <input id="lf-email" name="email" type="email" autocomplete="email" inputmode="email" required data-astro-cid-2t4um5qc> </div> <div class="field" data-astro-cid-2t4um5qc> <label for="lf-store" data-astro-cid-2t4um5qc>URL de tu tienda</label> <input id="lf-store" name="store_url" type="text" inputmode="url" placeholder="mitienda.cl o mitienda.myshopify.com" required data-astro-cid-2t4um5qc> </div> <fieldset class="field" data-astro-cid-2t4um5qc> <legend data-astro-cid-2t4um5qc>¿Tu tienda está en Shopify Plus?</legend> <div class="chips" data-astro-cid-2t4um5qc> <label class="chip" data-astro-cid-2t4um5qc> <input type="radio" name="shopify_plus" value="si" required data-astro-cid-2t4um5qc> <span data-astro-cid-2t4um5qc>Sí</span> </label><label class="chip" data-astro-cid-2t4um5qc> <input type="radio" name="shopify_plus" value="no" required data-astro-cid-2t4um5qc> <span data-astro-cid-2t4um5qc>No</span> </label><label class="chip" data-astro-cid-2t4um5qc> <input type="radio" name="shopify_plus" value="no-se" required data-astro-cid-2t4um5qc> <span data-astro-cid-2t4um5qc>No sé</span> </label> </div> </fieldset> <fieldset class="field" data-astro-cid-2t4um5qc> <legend data-astro-cid-2t4um5qc>¿Tienes API key de Google Maps?</legend> <div class="chips" data-astro-cid-2t4um5qc> <label class="chip" data-astro-cid-2t4um5qc> <input type="radio" name="qualifier" value="si" required data-astro-cid-2t4um5qc> <span data-astro-cid-2t4um5qc>Sí</span> </label><label class="chip" data-astro-cid-2t4um5qc> <input type="radio" name="qualifier" value="no" required data-astro-cid-2t4um5qc> <span data-astro-cid-2t4um5qc>No</span> </label><label class="chip" data-astro-cid-2t4um5qc> <input type="radio" name="qualifier" value="no-se" required data-astro-cid-2t4um5qc> <span data-astro-cid-2t4um5qc>No sé</span> </label> </div> </fieldset> <!-- Campo trampa para bots: oculto para personas --> <div class="hp" aria-hidden="true" data-astro-cid-2t4um5qc> <label for="lf-website" data-astro-cid-2t4um5qc>No completar</label> <input id="lf-website" name="website" type="text" tabindex="-1" autocomplete="off" data-astro-cid-2t4um5qc> </div> <p class="form-error" role="alert" hidden data-astro-cid-2t4um5qc>Revisa los campos marcados.</p> <button type="submit" class="btn btn-primary" data-astro-cid-2t4um5qc>Enviar</button> <p class="form-legal" data-astro-cid-2t4um5qc>Usamos tus datos solo para contactarte sobre LocFix.</p> </form> <div class="form-done" data-state="ok" hidden tabindex="-1" data-astro-cid-2t4um5qc> <h3 data-astro-cid-2t4um5qc>¡Gracias! Te contactamos pronto.</h3> <p data-astro-cid-2t4um5qc>Alguien del equipo te escribe para coordinar la demo. Si quieres, agenda directamente o instala LocFix y el chat de bienvenida te guía.</p> <div class="btn-row" data-astro-cid-2t4um5qc> <a class="btn btn-primary" href="https://calendar.app.google/Ta8whVSJjQnzwsB18" target="_blank" rel="noopener" data-track="schedule_click" data-loc="form_thanks" data-astro-cid-2t4um5qc>
+Agendar una reunión
+</a> <a class="btn btn-ghost" href="https://apps.shopify.com/validador-de-direcciones?utm_source=landing&utm_medium=web&utm_campaign=navidad-2026-lcf" target="_blank" rel="noopener" data-track="install_click" data-loc="form_thanks" data-astro-cid-2t4um5qc>
+Instalar en Shopify
+</a> </div> </div> <div class="form-done" data-state="no-plus" hidden tabindex="-1" data-astro-cid-2t4um5qc> <h3 data-astro-cid-2t4um5qc>Gracias por tu interés</h3> <p data-astro-cid-2t4um5qc>LocFix funciona solo en tiendas Shopify Plus, porque trabaja dentro del checkout. Guardamos tus datos y te escribiremos con alternativas para tu tienda.</p> </div> </div> </div> </section> <script>
+  (function () {
+    var form = document.getElementById("leadForm");
+    if (!form) return;
+    var err = form.querySelector(".form-error");
+
+    function normalizeStore(v) {
+      v = (v || "").trim().toLowerCase();
+      if (!v) return "";
+      if (!/^https?:\/\//.test(v)) v = "https://" + v;
+      return v.replace(/\/+$/, "");
+    }
+
+    function validate() {
+      var ok = true;
+      form.querySelectorAll("input[required][type=text], input[required][type=email]").forEach(function (i) {
+        var bad = !i.value.trim() || (i.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(i.value.trim()));
+        i.setAttribute("aria-invalid", bad ? "true" : "false");
+        if (bad) ok = false;
+      });
+      ["shopify_plus", "qualifier"].forEach(function (n) {
+        var fs = form.querySelector('input[name="' + n + '"]').closest("fieldset");
+        var bad = !form.querySelector('input[name="' + n + '"]:checked');
+        fs.classList.toggle("invalid", bad);
+        if (bad) ok = false;
+      });
+      return ok;
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!validate()) {
+        err.hidden = false;
+        var first = form.querySelector('[aria-invalid="true"], fieldset.invalid input');
+        if (first) first.focus();
+        return;
+      }
+      err.hidden = true;
+      var fd = new FormData(form);
+      var plus = fd.get("shopify_plus");
+      var payload = Object.assign(
+        {
+          product: form.dataset.product,
+          name: String(fd.get("name")).trim(),
+          email: String(fd.get("email")).trim(),
+          store_url: normalizeStore(fd.get("store_url")),
+          shopify_plus: plus,
+          qualifier: { question: form.dataset.qualifierLabel, answer: fd.get("qualifier") },
+          landing_url: location.origin + location.pathname,
+          referrer: document.referrer || "",
+          submitted_at: new Date().toISOString(),
+          website: String(fd.get("website") || ""),
+        },
+        window.landingUtm || {}
+      );
+
+      var btn = form.querySelector("button[type=submit]");
+      btn.disabled = true;
+      btn.textContent = "Enviando…";
+
+      var endpoint = form.dataset.endpoint;
+      var send = endpoint
+        ? fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(payload),
+            keepalive: true,
+          }).catch(function () {})
+        : Promise.resolve(console.warn("[landing] leadEndpoint vacío; payload:", payload));
+
+      window.landingTrack("form_submit", {
+        shopify_plus: plus,
+        qualifier: payload.qualifier.answer,
+      });
+
+      send.finally(function () {
+        var state = form.dataset.requiresPlus === "1" && plus === "no" ? "no-plus" : "ok";
+        var box = form.parentElement.querySelector('.form-done[data-state="' + state + '"]');
+        form.hidden = true;
+        box.hidden = false;
+        box.focus();
+      });
+    });
+  })();
+</script>   <section class="lp-section" data-astro-cid-biqrgpqo> <div class="lp-wrap" data-astro-cid-biqrgpqo> <span class="kicker" data-astro-cid-biqrgpqo>Preguntas frecuentes</span> <h2 data-astro-cid-biqrgpqo>Lo que nos preguntan antes de instalar</h2> <div class="faq" data-astro-cid-biqrgpqo> <details data-astro-cid-biqrgpqo> <summary data-astro-cid-biqrgpqo>¿Por qué LocFix funciona solo en Shopify Plus?</summary> <p data-astro-cid-biqrgpqo>Porque corrige la dirección dentro del checkout, y Shopify solo permite extensiones de checkout en el plan Plus. En otros planes no es posible instalarla.</p> </details><details data-astro-cid-biqrgpqo> <summary data-astro-cid-biqrgpqo>¿Necesito una API key de Google Maps?</summary> <p data-astro-cid-biqrgpqo>Solo para el autocompletado de direcciones. La corrección de comuna funciona sin ella. Si no tienes API key o no sabes cómo crearla, el plan con configuración asistida incluye que lo hagamos contigo.</p> </details><details data-astro-cid-biqrgpqo> <summary data-astro-cid-biqrgpqo>¿Cuánto cuesta la API de Google Maps?</summary> <p data-astro-cid-biqrgpqo>Google cobra por uso según su propia tabla de precios, y el cobro es directo entre tu tienda y Google. En la demo te ayudamos a estimar cuánto sería con tu volumen de pedidos.</p> </details><details data-astro-cid-biqrgpqo> <summary data-astro-cid-biqrgpqo>¿Cuánto toma la instalación?</summary> <p data-astro-cid-biqrgpqo>Apenas instalas, un chat de bienvenida te guía paso a paso por la configuración. Si prefieres, lo hacemos juntos en una reunión.</p> </details><details data-astro-cid-biqrgpqo> <summary data-astro-cid-biqrgpqo>¿Funciona con mi courier?</summary> <p data-astro-cid-biqrgpqo>Sí. LocFix deja la comuna escrita tal como la esperan los couriers chilenos (Chilexpress, Starken, Blue Express y otros), así que no depende de cuál uses.</p> </details><details data-astro-cid-biqrgpqo> <summary data-astro-cid-biqrgpqo>¿Sirve para Perú o México?</summary> <p data-astro-cid-biqrgpqo>Nuestro foco es Chile, pero también trabajamos con tiendas en Perú y México. Cuéntanos en la demo y lo revisamos con tu caso.</p> </details> </div> </div> </section>  <section class="lp-section dark" data-hide-sticky data-astro-cid-biqrgpqo> <div class="lp-wrap final-cta" data-astro-cid-biqrgpqo> <h2 data-astro-cid-biqrgpqo>Que cada paquete llegue a la primera</h2> <p class="lp-lead" data-astro-cid-biqrgpqo>Deja la comuna corregida antes de tu próximo peak de ventas.</p> <div class="btn-row" data-astro-cid-biqrgpqo> <a class="btn btn-primary" href="https://calendar.app.google/Ta8whVSJjQnzwsB18" target="_blank" rel="noopener" data-track="schedule_click" data-loc="final" data-astro-cid-biqrgpqo>
+Agendar una demo
+</a> <a class="btn btn-ghost" href="https://apps.shopify.com/validador-de-direcciones?utm_source=landing&utm_medium=web&utm_campaign=navidad-2026-lcf" target="_blank" rel="noopener" data-track="install_click" data-loc="final" data-astro-cid-biqrgpqo>
+Instalar en Shopify
+</a> </div> <p class="hero-note" data-astro-cid-biqrgpqo>Requiere Shopify Plus.</p> </div> </section>  </main> <footer class="lp-footer"> <div class="lp-wrap"> <p> LocFix AI es una app de <a href="https://codename.cl" target="_blank" rel="noopener">Codename</a>,
+          partner de Shopify en Chile.
+</p> <p><a href="/policies/privacy.html">Política de privacidad</a></p> </div> </footer> <!-- CTA fija en el teléfono (la mayoría del tráfico viene de IG/TikTok) --> <div class="lp-sticky" aria-hidden="true"> <a class="btn btn-primary" href="https://calendar.app.google/Ta8whVSJjQnzwsB18" data-track="schedule_click" tabindex="-1"> Agendar una demo </a> </div> <script>
+      (function () {
+        var utm = window.landingUtm || {};
+        // Propaga los UTMs de la visita a los enlaces salientes (App Store / agenda)
+        document.querySelectorAll("a[data-track]").forEach(function (a) {
+          if (!/^https?:/.test(a.getAttribute("href") || "")) return;
+          try {
+            var u = new URL(a.href);
+            Object.keys(utm).forEach(function (k) { u.searchParams.set(k, utm[k]); });
+            a.href = u.toString();
+          } catch (e) {}
+        });
+        document.addEventListener("click", function (e) {
+          var a = e.target.closest && e.target.closest("[data-track]");
+          if (a) window.landingTrack(a.getAttribute("data-track"), { cta_location: a.getAttribute("data-loc") || "" });
+        });
+        // Oculta la CTA fija mientras el hero o el formulario están en pantalla
+        var sticky = document.querySelector(".lp-sticky");
+        var watch = document.querySelectorAll("[data-hide-sticky]");
+        if (sticky && "IntersectionObserver" in window && watch.length) {
+          var visible = new Set();
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) { en.isIntersecting ? visible.add(en.target) : visible.delete(en.target); });
+            sticky.classList.toggle("is-on", visible.size === 0);
+          });
+          watch.forEach(function (el) { io.observe(el); });
+        }
+      })();
+    </script>  </body> </html>  
