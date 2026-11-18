@@ -1,0 +1,253 @@
+---
+/**
+ * Formulario de lead compartido por las landings.
+ *
+ * Payload enviado (POST a campaign.leadEndpoint, cuerpo JSON con Content-Type
+ * text/plain para que Google Apps Script lo acepte sin preflight CORS;
+ * ver scripts/leads-apps-script.gs):
+ * {
+ *   product: "ps" | "lcf",
+ *   name, email, store_url,
+ *   shopify_plus: "si" | "no" | "no-se",
+ *   qualifier: { question, answer },
+ *   utm_source?, utm_medium?, utm_campaign?, utm_content?, utm_term?,
+ *   landing_url, referrer, submitted_at (ISO)
+ * }
+ */
+import { campaign } from "../../config/landings";
+
+interface Option { value: string; label: string }
+interface Props {
+  product: string;
+  title: string;
+  intro: string;
+  qualifier: { name: string; label: string; options: Option[] };
+  /** Si es true, quien responde "no" a Shopify Plus ve noPlusMessage y no se le ofrece instalar. */
+  requiresPlus?: boolean;
+  installUrl: string;
+  thanks: { title: string; body: string };
+  noPlus?: { title: string; body: string };
+}
+
+const { product, title, intro, qualifier, requiresPlus = false, installUrl, thanks, noPlus } = Astro.props;
+const { leadEndpoint, scheduleUrl } = campaign;
+const plusOptions: Option[] = [
+  { value: "si", label: "Sí" },
+  { value: "no", label: "No" },
+  { value: "no-se", label: "No sé" },
+];
+---
+
+<section id="contacto" class="lp-section alt" data-hide-sticky>
+  <div class="lp-wrap lead-grid">
+    <div>
+      <span class="kicker">Hablemos</span>
+      <h2>{title}</h2>
+      <p class="lp-lead">{intro}</p>
+      <p class="lead-aside">
+        ¿Prefieres conversar? Usa el chat de la esquina: te responde una persona del equipo.
+      </p>
+    </div>
+
+    <div class="lead-box">
+      <form
+        id="leadForm"
+        novalidate
+        data-product={product}
+        data-endpoint={leadEndpoint}
+        data-requires-plus={requiresPlus ? "1" : "0"}
+        data-qualifier-label={qualifier.label}
+      >
+        <div class="field">
+          <label for="lf-name">Nombre</label>
+          <input id="lf-name" name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="lf-email">Email</label>
+          <input id="lf-email" name="email" type="email" autocomplete="email" inputmode="email" required />
+        </div>
+        <div class="field">
+          <label for="lf-store">URL de tu tienda</label>
+          <input id="lf-store" name="store_url" type="text" inputmode="url" placeholder="mitienda.cl o mitienda.myshopify.com" required />
+        </div>
+
+        <fieldset class="field">
+          <legend>¿Tu tienda está en Shopify Plus?</legend>
+          <div class="chips">
+            {plusOptions.map((o) => (
+              <label class="chip">
+                <input type="radio" name="shopify_plus" value={o.value} required />
+                <span>{o.label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend>{qualifier.label}</legend>
+          <div class="chips">
+            {qualifier.options.map((o) => (
+              <label class="chip">
+                <input type="radio" name="qualifier" value={o.value} required />
+                <span>{o.label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <!-- Campo trampa para bots: oculto para personas -->
+        <div class="hp" aria-hidden="true">
+          <label for="lf-website">No completar</label>
+          <input id="lf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <p class="form-error" role="alert" hidden>Revisa los campos marcados.</p>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        <p class="form-legal">Usamos tus datos solo para contactarte sobre {product === "lcf" ? "LocFix" : "Product Sentinel"}.</p>
+      </form>
+
+      <div class="form-done" data-state="ok" hidden tabindex="-1">
+        <h3>{thanks.title}</h3>
+        <p>{thanks.body}</p>
+        <div class="btn-row">
+          {scheduleUrl && (
+            <a class="btn btn-primary" href={scheduleUrl} target="_blank" rel="noopener" data-track="schedule_click" data-loc="form_thanks">
+              Agendar una reunión
+            </a>
+          )}
+          <a class="btn btn-ghost" href={installUrl} target="_blank" rel="noopener" data-track="install_click" data-loc="form_thanks">
+            Instalar en Shopify
+          </a>
+        </div>
+      </div>
+
+      {noPlus && (
+        <div class="form-done" data-state="no-plus" hidden tabindex="-1">
+          <h3>{noPlus.title}</h3>
+          <p>{noPlus.body}</p>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var form = document.getElementById("leadForm");
+    if (!form) return;
+    var err = form.querySelector(".form-error");
+
+    function normalizeStore(v) {
+      v = (v || "").trim().toLowerCase();
+      if (!v) return "";
+      if (!/^https?:\/\//.test(v)) v = "https://" + v;
+      return v.replace(/\/+$/, "");
+    }
+
+    function validate() {
+      var ok = true;
+      form.querySelectorAll("input[required][type=text], input[required][type=email]").forEach(function (i) {
+        var bad = !i.value.trim() || (i.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(i.value.trim()));
+        i.setAttribute("aria-invalid", bad ? "true" : "false");
+        if (bad) ok = false;
+      });
+      ["shopify_plus", "qualifier"].forEach(function (n) {
+        var fs = form.querySelector('input[name="' + n + '"]').closest("fieldset");
+        var bad = !form.querySelector('input[name="' + n + '"]:checked');
+        fs.classList.toggle("invalid", bad);
+        if (bad) ok = false;
+      });
+      return ok;
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!validate()) {
+        err.hidden = false;
+        var first = form.querySelector('[aria-invalid="true"], fieldset.invalid input');
+        if (first) first.focus();
+        return;
+      }
+      err.hidden = true;
+      var fd = new FormData(form);
+      var plus = fd.get("shopify_plus");
+      var payload = Object.assign(
+        {
+          product: form.dataset.product,
+          name: String(fd.get("name")).trim(),
+          email: String(fd.get("email")).trim(),
+          store_url: normalizeStore(fd.get("store_url")),
+          shopify_plus: plus,
+          qualifier: { question: form.dataset.qualifierLabel, answer: fd.get("qualifier") },
+          landing_url: location.origin + location.pathname,
+          referrer: document.referrer || "",
+          submitted_at: new Date().toISOString(),
+          website: String(fd.get("website") || ""),
+        },
+        window.landingUtm || {}
+      );
+
+      var btn = form.querySelector("button[type=submit]");
+      btn.disabled = true;
+      btn.textContent = "Enviando…";
+
+      var endpoint = form.dataset.endpoint;
+      var send = endpoint
+        ? fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(payload),
+            keepalive: true,
+          }).catch(function () {})
+        : Promise.resolve(console.warn("[landing] leadEndpoint vacío; payload:", payload));
+
+      window.landingTrack("form_submit", {
+        shopify_plus: plus,
+        qualifier: payload.qualifier.answer,
+      });
+
+      send.finally(function () {
+        var state = form.dataset.requiresPlus === "1" && plus === "no" ? "no-plus" : "ok";
+        var box = form.parentElement.querySelector('.form-done[data-state="' + state + '"]');
+        form.hidden = true;
+        box.hidden = false;
+        box.focus();
+      });
+    });
+  })();
+</script>
+
+<style>
+  .lead-grid { display: grid; gap: 32px; }
+  @media (min-width: 900px) { .lead-grid { grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: start; } }
+  .lead-aside { margin-top: 16px; font-size: 0.9375rem; color: var(--s500); }
+  .lead-box { background: #fff; border: 1px solid var(--s200); border-radius: 16px; padding: 24px; box-shadow: 0 10px 30px -12px rgba(2, 6, 23, 0.12); }
+  @media (min-width: 768px) { .lead-box { padding: 32px; } }
+  .field { border: 0; margin-bottom: 18px; }
+  .field label, .field legend { display: block; font-weight: 600; font-size: 0.9375rem; color: var(--s900); margin-bottom: 8px; }
+  .field input[type="text"], .field input[type="email"] {
+    width: 100%; min-height: 48px; padding: 12px 14px;
+    font: inherit; font-size: 16px; color: var(--s900);
+    border: 2px solid var(--s200); border-radius: 12px; background: #fff;
+  }
+  .field input:focus { outline: none; border-color: var(--indigo); box-shadow: 0 0 0 4px var(--indigo-wash); }
+  .field input[aria-invalid="true"] { border-color: #dc2626; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { position: relative; margin: 0; font-weight: 500 !important; }
+  .chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .chip span {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 10px 16px;
+    border: 2px solid var(--s200); border-radius: 999px; color: var(--s700); background: #fff;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .chip input:checked + span { border-color: var(--indigo); background: var(--indigo-wash); color: var(--s900); font-weight: 600; }
+  .chip input:focus-visible + span { outline: 2px solid var(--indigo); outline-offset: 2px; }
+  fieldset.invalid .chip span { border-color: #fca5a5; }
+  .form-error { color: #dc2626; font-weight: 600; margin-bottom: 12px; }
+  #leadForm .btn { width: 100%; margin-top: 4px; }
+  .form-legal { margin-top: 12px; font-size: 0.8125rem; color: var(--s400); text-align: center; }
+  .form-done { outline: none; }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .form-done h3 { font-size: 1.375rem; margin-bottom: 8px; }
+  .form-done p { color: var(--s500); margin-bottom: 20px; }
+</style>

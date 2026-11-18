@@ -1,0 +1,390 @@
+---
+/**
+ * Layout para landings de campaña: sin la navegación de la web general,
+ * con GTM + píxel de Meta y un helper de eventos compartido.
+ *
+ * Eventos que emite (dataLayer + Meta):
+ *   form_submit   → Meta "Lead"
+ *   chat_start    → Meta "Contact"
+ *   install_click → Meta custom "InstallClick"
+ *   schedule_click→ Meta "Schedule"
+ * Cada evento incluye product y los UTMs de la visita.
+ */
+import { campaign } from "../config/landings";
+
+interface Props {
+  title: string;
+  description: string;
+  product: string; // "ps" | "lcf"
+  productName: string;
+  icon: string;
+  canonicalUrl: string;
+  ogImage?: string;
+  primaryCta: { label: string; href: string; track: string };
+  /** Favicon propio del producto (por defecto, el de Codename). */
+  favicon?: string;
+  /** Logo en texto en dos pesos, ej. ["Product", "Sentinel"] → **Product**Sentinel. */
+  wordmark?: [string, string];
+}
+
+const {
+  title,
+  description,
+  product,
+  productName,
+  icon,
+  canonicalUrl,
+  ogImage = "https://codename.cl/logo.png",
+  primaryCta,
+  favicon,
+  wordmark,
+} = Astro.props;
+const { gtmId, metaPixelId, chatScriptSrc } = campaign;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content="es_CL" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {favicon
+      ? <link rel="icon" href={favicon} type={favicon.endsWith(".svg") ? "image/svg+xml" : undefined} />
+      : <link rel="icon" href="/favicon.ico" type="image/x-icon" />}
+    <meta name="theme-color" content="#020617" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- UTMs + helper de eventos (antes de GTM para que el primer push los tenga) -->
+    <script is:inline define:vars={{ product }}>
+      (function () {
+        var KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+        var params = new URLSearchParams(location.search);
+        var utm = {};
+        try { utm = JSON.parse(sessionStorage.getItem("landing_utm") || "{}"); } catch (e) {}
+        var fresh = KEYS.some(function (k) { return params.get(k); });
+        if (fresh) {
+          utm = {};
+          KEYS.forEach(function (k) { if (params.get(k)) utm[k] = params.get(k); });
+          try { sessionStorage.setItem("landing_utm", JSON.stringify(utm)); } catch (e) {}
+        }
+        window.landingUtm = utm;
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(Object.assign({ landing_product: product }, utm));
+
+        var META = {
+          form_submit: ["track", "Lead"],
+          chat_start: ["track", "Contact"],
+          schedule_click: ["track", "Schedule"],
+          install_click: ["trackCustom", "InstallClick"],
+        };
+        window.landingTrack = function (name, extra) {
+          var data = Object.assign({ product: product }, utm, extra || {});
+          window.dataLayer.push(Object.assign({ event: name }, data));
+          var m = META[name];
+          if (m && typeof window.fbq === "function") window.fbq(m[0], m[1], data);
+        };
+      })();
+    </script>
+
+    <script is:inline define:vars={{ gtmId }}>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0], j = d.createElement(s);
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", gtmId);
+    </script>
+
+    {metaPixelId && (
+      <script is:inline define:vars={{ metaPixelId }}>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', metaPixelId);
+        fbq('track', 'PageView');
+      </script>
+    )}
+
+    <slot name="head" />
+  </head>
+  <body>
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe>
+    </noscript>
+
+    <header class="lp-top">
+      <div class="lp-wrap lp-top-inner">
+        <span class="lp-brand">
+          <img src={icon} alt="" width="32" height="32" />
+          {wordmark
+            ? <span class="lp-wordmark">{wordmark[0]}<span>{wordmark[1]}</span></span>
+            : <span>{productName}</span>}
+        </span>
+        <a class="btn btn-sm btn-primary" href={primaryCta.href} data-track={primaryCta.track}>
+          {primaryCta.label}
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="lp-footer">
+      <div class="lp-wrap">
+        <p>
+          {productName} es una app de <a href="https://codename.cl" target="_blank" rel="noopener">Codename</a>,
+          partner de Shopify en Chile.
+        </p>
+        <p><a href="/policies/privacy.html">Política de privacidad</a></p>
+      </div>
+    </footer>
+
+    <!-- CTA fija en el teléfono (la mayoría del tráfico viene de IG/TikTok) -->
+    <div class="lp-sticky" aria-hidden="true">
+      <a class="btn btn-primary" href={primaryCta.href} data-track={primaryCta.track} tabindex="-1">
+        {primaryCta.label}
+      </a>
+    </div>
+
+    <script is:inline>
+      (function () {
+        var utm = window.landingUtm || {};
+        // Propaga los UTMs de la visita a los enlaces salientes (App Store / agenda)
+        document.querySelectorAll("a[data-track]").forEach(function (a) {
+          if (!/^https?:/.test(a.getAttribute("href") || "")) return;
+          try {
+            var u = new URL(a.href);
+            Object.keys(utm).forEach(function (k) { u.searchParams.set(k, utm[k]); });
+            a.href = u.toString();
+          } catch (e) {}
+        });
+        document.addEventListener("click", function (e) {
+          var a = e.target.closest && e.target.closest("[data-track]");
+          if (a) window.landingTrack(a.getAttribute("data-track"), { cta_location: a.getAttribute("data-loc") || "" });
+        });
+        // Oculta la CTA fija mientras el hero o el formulario están en pantalla
+        var sticky = document.querySelector(".lp-sticky");
+        var watch = document.querySelectorAll("[data-hide-sticky]");
+        if (sticky && "IntersectionObserver" in window && watch.length) {
+          var visible = new Set();
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) { en.isIntersecting ? visible.add(en.target) : visible.delete(en.target); });
+            sticky.classList.toggle("is-on", visible.size === 0);
+          });
+          watch.forEach(function (el) { io.observe(el); });
+        }
+      })();
+    </script>
+
+    {chatScriptSrc && <script is:inline async src={chatScriptSrc}></script>}
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --ink: #020617;
+    --ink-2: #0f172a;
+    --indigo: #6366f1;
+    --indigo-wash: rgba(99, 102, 241, 0.08);
+    --orange: #eb5e28;
+    --orange-2: #f97316;
+    --green: #16a34a;
+    --s50: #f8fafc;
+    --s100: #f1f5f9;
+    --s200: #e2e8f0;
+    --s300: #cbd5e1;
+    --s400: #94a3b8;
+    --s500: #64748b;
+    --s700: #334155;
+    --s900: #0f172a;
+    --radius: 12px;
+    --radius-lg: 16px;
+    --sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --cond: "Archivo Narrow", var(--sans);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--s700);
+    background: #fff;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, video, iframe { max-width: 100%; display: block; }
+  a { color: inherit; }
+  h1, h2, h3 { color: var(--s900); letter-spacing: -0.03em; line-height: 1.1; }
+  h1 { font-size: clamp(2rem, 7vw, 3.5rem); font-weight: 800; }
+  h2 { font-size: clamp(1.625rem, 4.5vw, 2.5rem); font-weight: 800; margin-bottom: 12px; }
+  h3 { font-size: 1.125rem; font-weight: 700; letter-spacing: -0.02em; }
+  :focus-visible { outline: 2px solid var(--indigo); outline-offset: 2px; }
+
+  .lp-wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 768px) { .lp-wrap { padding: 0 32px; } }
+
+  .lp-section { padding: 64px 0; }
+  @media (min-width: 768px) { .lp-section { padding: 96px 0; } }
+  .lp-section.alt { background: var(--s50); }
+  .lp-section.dark { background: var(--ink); color: #cbd5e1; }
+  .lp-section.dark h2, .lp-section.dark h3 { color: #fff; }
+  .lp-lead { font-size: 1.0625rem; color: var(--s500); max-width: 620px; }
+  .lp-section.dark .lp-lead { color: var(--s400); }
+  .kicker {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 52px;
+    padding: 14px 24px;
+    border-radius: var(--radius);
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    text-align: center;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--orange), var(--orange-2));
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(235, 94, 40, 0.3);
+  }
+  .btn-primary:hover { box-shadow: 0 8px 24px rgba(235, 94, 40, 0.4); }
+  .btn-ghost { border-color: var(--s300); color: var(--s900); background: #fff; }
+  .btn-ghost:hover { border-color: var(--s900); }
+  .dark .btn-ghost, .hero .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,0.3); }
+  .dark .btn-ghost:hover, .hero .btn-ghost:hover { border-color: #fff; }
+  .btn-sm { min-height: 40px; padding: 8px 16px; font-size: 0.875rem; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  @media (max-width: 479px) { .btn-row .btn { flex: 1 1 100%; } }
+
+  /* Top bar */
+  .lp-top {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(2, 6, 23, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .lp-top-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 12px; }
+  .lp-brand { display: inline-flex; align-items: center; gap: 10px; color: #fff; font-weight: 700; }
+  .lp-brand img { border-radius: 8px; }
+
+  /* Hero */
+  .hero { background: radial-gradient(1200px 500px at 80% -10%, rgba(99,102,241,0.25), transparent 60%), var(--ink); color: #cbd5e1; padding: 40px 0 56px; }
+  @media (min-width: 768px) { .hero { padding: 80px 0 96px; } }
+  .hero h1 { color: #fff; margin: 12px 0 16px; }
+  .hero h1 em { font-style: normal; color: var(--orange-2); }
+  .hero-sub { font-size: 1.125rem; color: #cbd5e1; max-width: 560px; margin-bottom: 24px; }
+  .hero-grid { display: grid; gap: 40px; align-items: center; }
+  @media (min-width: 960px) { .hero-grid { grid-template-columns: 1.1fr 1fr; } }
+  .hero-note { margin-top: 16px; font-size: 0.875rem; color: var(--s400); }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border-radius: 999px;
+    font-size: 0.8125rem; font-weight: 600;
+    background: rgba(255,255,255,0.08); color: #fff;
+    border: 1px solid rgba(255,255,255,0.14);
+  }
+  .pill.warn { background: rgba(235,94,40,0.15); border-color: rgba(235,94,40,0.5); color: #fed7aa; }
+
+  /* Video */
+  .video {
+    position: relative; aspect-ratio: 16 / 9; width: 100%;
+    border-radius: var(--radius-lg); overflow: hidden;
+    background: var(--ink-2); border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6);
+  }
+  .video iframe, .video video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video-placeholder { position: absolute; inset: 0; display: grid; place-items: center; color: var(--s400); font-family: var(--mono); font-size: 0.8125rem; text-align: center; padding: 16px; }
+
+  /* Steps / cards */
+  .grid-3 { display: grid; gap: 16px; margin-top: 32px; }
+  @media (min-width: 768px) { .grid-3 { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+  .card { background: #fff; border: 1px solid var(--s200); border-radius: var(--radius-lg); padding: 24px; }
+  .dark .card { background: var(--ink-2); border-color: rgba(255,255,255,0.08); }
+  .card p { margin-top: 8px; color: var(--s500); }
+  .dark .card p { color: var(--s400); }
+  .step-n { font-family: var(--cond); font-size: 2.5rem; font-weight: 700; line-height: 1; color: var(--indigo); margin-bottom: 12px; }
+  .stat { font-family: var(--cond); font-size: 2.75rem; font-weight: 700; line-height: 1; color: var(--orange); margin-bottom: 8px; }
+
+  /* Pricing */
+  .price-card { max-width: 480px; margin-top: 32px; background: #fff; border: 2px solid var(--s900); border-radius: var(--radius-lg); padding: 28px; }
+  .price-card .amount { font-family: var(--cond); font-size: 3.5rem; font-weight: 700; color: var(--s900); line-height: 1; margin: 12px 0 4px; }
+  .price-card .amount small { font-family: var(--sans); font-size: 1rem; font-weight: 500; color: var(--s500); }
+  .price-card .old { text-decoration: line-through; color: var(--s400); font-weight: 600; }
+  .price-card ul { list-style: none; margin: 20px 0 24px; display: grid; gap: 10px; }
+  .price-card li { padding-left: 28px; position: relative; }
+  .price-card li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 800; }
+  .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; background: var(--orange); color: #fff; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.02em; }
+
+  /* FAQ */
+  .faq { margin-top: 32px; max-width: 760px; border-top: 1px solid var(--s200); }
+  .faq details { border-bottom: 1px solid var(--s200); }
+  .faq summary { cursor: pointer; list-style: none; padding: 20px 32px 20px 0; position: relative; font-weight: 700; color: var(--s900); }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; position: absolute; right: 4px; top: 16px; font-size: 1.5rem; font-weight: 400; color: var(--s500); }
+  .faq details[open] summary::after { content: "–"; }
+  .faq details p { padding: 0 0 20px; color: var(--s500); }
+
+  /* Footer */
+  .lp-footer { background: var(--ink); color: var(--s400); font-size: 0.875rem; padding: 32px 0 112px; }
+  .lp-footer p + p { margin-top: 6px; }
+  .lp-footer a { color: #fff; }
+  @media (min-width: 768px) { .lp-footer { padding-bottom: 32px; } }
+
+  .lp-wordmark { font-weight: 700; letter-spacing: -0.02em; }
+  .lp-wordmark span { font-weight: 400; }
+
+  /* Sticky CTA (mobile only) */
+  .lp-sticky {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, rgba(255,255,255,1) 70%, rgba(255,255,255,0));
+    transform: translateY(110%); transition: transform 0.25s ease;
+  }
+  .lp-sticky .btn { width: 100%; }
+  .lp-sticky.is-on { transform: translateY(0); }
+  @media (min-width: 768px) { .lp-sticky { display: none; } }
+</style>
