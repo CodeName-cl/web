@@ -184,6 +184,26 @@ Instalar en Shopify
       })();
     </script>  <script async src="https://chat.codename.cl/widget.js" data-workspace="ws_codename" data-space="2cf286a3-d7a8-4b27-862a-868237a155ce"></script> <script>(function(){const chatKey = "codename.chat.ws_codename.2cf286a3-d7a8-4b27-862a-868237a155ce";
 
+          // Color de marca (naranja de las CTA): el widget usa Shadow DOM abierto y no
+          // tiene opción de tema, así que le agregamos una hoja que pisa su morado.
+          (function () {
+            var css = ".bubble{background:#eb5e28;box-shadow:0 8px 24px rgba(235,94,40,.3)}.bubble .dot{box-shadow:0 0 0 2px #eb5e28}"
+              + "input:focus,textarea:focus{outline-color:rgba(235,94,40,.18);border-color:#eb5e28}button.primary{background:#eb5e28}"
+              + "button.primary:hover{background:#d24f1d}.msg.visitor{background:#eb5e28}.drop-active{outline-color:#eb5e28}";
+            function theme() {
+              var host = document.querySelector("[data-codename-chat]");
+              if (!host || !host.shadowRoot) return false;
+              var st = document.createElement("style");
+              st.textContent = css;
+              host.shadowRoot.appendChild(st);
+              return true;
+            }
+            if (!theme()) {
+              var mo = new MutationObserver(function () { if (theme()) mo.disconnect(); });
+              mo.observe(document.body, { childList: true });
+            }
+          })();
+
           // chat_start: el widget no emite eventos. Cuando el visitante deja su correo,
           // el widget guarda la sesión en localStorage; detectamos esa clave nueva.
           (function () {
