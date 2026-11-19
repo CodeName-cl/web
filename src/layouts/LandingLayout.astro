@@ -230,6 +230,34 @@ const hasChat = Boolean(chat?.workspace && chat?.space);
             }
           })();
 
+          // Abrir el chat sin esperar al visitante (cerrado, tiende a ignorarse).
+          // Escritorio: se abre solo a los 8 s. Teléfono: el panel taparía la página,
+          // así que mostramos un aviso junto a la burbuja que lo abre al tocarlo.
+          // Una vez por sesión, y nunca si ya tiene una conversación.
+          (function () {
+            var KEY = "chat_nudged";
+            try { if (sessionStorage.getItem(KEY) || localStorage.getItem(chatKey)) return; } catch (e) { return; }
+            function root() { var h = document.querySelector("[data-codename-chat]"); return h && h.shadowRoot; }
+            function isOpen() { var r = root(); return !!(r && r.querySelector(".panel")); }
+            function open() { var r = root(), b = r && r.querySelector(".bubble"); if (b && !isOpen()) b.click(); }
+            function done() { try { sessionStorage.setItem(KEY, "1"); } catch (e) {} }
+            setTimeout(function () {
+              if (!root() || isOpen()) return done();
+              done();
+              if (matchMedia("(min-width: 768px)").matches) return open();
+              var tip = document.createElement("div");
+              tip.className = "chat-nudge";
+              tip.innerHTML = '<button type="button" class="chat-nudge-open">¿Dudas? Escríbenos</button>'
+                + '<button type="button" class="chat-nudge-x" aria-label="Cerrar aviso">×</button>';
+              document.body.appendChild(tip);
+              tip.querySelector(".chat-nudge-open").onclick = function () { tip.remove(); open(); };
+              tip.querySelector(".chat-nudge-x").onclick = function () { tip.remove(); };
+              document.addEventListener("click", function (e) {
+                if (e.target.closest && e.target.closest("[data-codename-chat]")) tip.remove();
+              });
+            }, 8000);
+          })();
+
           // chat_start: el widget no emite eventos. Cuando el visitante deja su correo,
           // el widget guarda la sesión en localStorage; detectamos esa clave nueva.
           (function () {
@@ -433,6 +461,20 @@ const hasChat = Boolean(chat?.workspace && chat?.space);
   .lp-sticky .btn { width: 100%; }
   .lp-sticky.is-on { transform: translateY(0); }
   @media (min-width: 768px) { .lp-sticky { display: none; } }
+
+  /* Aviso junto a la burbuja del chat (solo teléfono) */
+  .chat-nudge {
+    position: fixed; right: 76px; bottom: calc(26px + var(--chat-lift, 0px)); z-index: 2147483645;
+    display: flex; align-items: center; gap: 2px; padding: 4px 4px 4px 14px;
+    background: #fff; border: 1px solid #E3E8EE; border-radius: 999px;
+    box-shadow: 0 8px 24px rgba(11, 27, 43, .14); transition: bottom .3s ease;
+    animation: chat-nudge-in .35s ease;
+  }
+  .chat-nudge button { border: 0; background: none; cursor: pointer; font: inherit; }
+  .chat-nudge-open { font-size: 14px; font-weight: 600; color: #d24f1d; padding: 6px 0; }
+  .chat-nudge-x { width: 28px; height: 28px; font-size: 18px; line-height: 1; color: #8A99A8; }
+  @keyframes chat-nudge-in { from { opacity: 0; transform: translateY(8px); } }
+  @media (prefers-reduced-motion: reduce) { .chat-nudge { animation: none; } }
 
   /* Contenedor de la burbuja de chat.codename.cl: fijo y sin alto, para poder
      subirlo (con su panel) cuando la CTA fija está visible en el teléfono. */

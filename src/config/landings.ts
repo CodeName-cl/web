@@ -14,11 +14,11 @@ export const campaign = {
   /** TODO: ID del píxel de Meta. Vacío = no se carga el píxel. */
   metaPixelId: "",
   /**
-   * TODO: URL /exec de la aplicación web de Google Apps Script que guarda cada
-   * lead en el Google Sheet (código e instrucciones en scripts/leads-apps-script.gs).
+   * Aplicación web de Google Apps Script que guarda cada lead en el Google Sheet
+   * "Leads campaña Navidad 2026" (código en scripts/leads-apps-script.gs).
    * Vacío = solo se registra el evento y se muestra el mensaje de gracias.
    */
-  leadEndpoint: "",
+  leadEndpoint: "https://script.google.com/macros/s/AKfycbznpkaag95wVwCcjZRoPF2UwNbFMUba15Mq6zxP3XnykorZqfofA2zKM-V5Bgc1PlhV/exec",
   /** Agenda de citas de Google Calendar (demo / reunión). */
   scheduleUrl: "https://calendar.app.google/Ta8whVSJjQnzwsB18",
   /** Widget de chat.codename.cl. Cada producto usa su propio space (products.*.chat). */
