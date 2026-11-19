@@ -21,12 +21,8 @@ export const campaign = {
   leadEndpoint: "",
   /** Agenda de citas de Google Calendar (demo / reunión). */
   scheduleUrl: "https://calendar.app.google/Ta8whVSJjQnzwsB18",
-  /**
-   * TODO: script del widget de chat que ya usan las apps. Se inyecta tal
-   * cual al final del <body>. El widget debe llamar a
-   * window.landingTrack("chat_start") cuando el usuario inicia la conversación.
-   */
-  chatScriptSrc: "",
+  /** Widget de chat.codename.cl. Cada producto usa su propio space (products.*.chat). */
+  chatWidgetSrc: "https://chat.codename.cl/widget.js",
 };
 
 export const products = {
@@ -38,6 +34,11 @@ export const products = {
     /** Video "LocFix en un checkout real" (52 s, 1080p). Miniatura en videoPoster. */
     videoUrl: "/videos/locfix-en-un-checkout.mp4",
     videoPoster: "/videos/locfix-en-un-checkout.jpg",
+    /**
+     * TODO: space de LocFix en chat.codename.cl (dashboard → Espacios → la clave bajo
+     * el nombre es el space; el workspace es el del equipo). Vacío = sin chat.
+     */
+    chat: { workspace: "ws_codename", space: "2cf286a3-d7a8-4b27-862a-868237a155ce" },
     rating: { value: "4.8", count: 156 },
     pricing: {
       assistedMonthlyUsd: 35,
