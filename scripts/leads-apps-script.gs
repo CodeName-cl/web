@@ -93,3 +93,8 @@ function clean_(v) {
 function json_(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
 }
+
+/** Ejecútala una vez desde el editor para autorizar los permisos y crear la hoja "Leads". */
+function autorizar() {
+  sheet_();
+}
