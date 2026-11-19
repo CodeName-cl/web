@@ -38,7 +38,7 @@
         j.src = "https://www.googletagmanager.com/gtm.js?id=" + i;
         f.parentNode.insertBefore(j, f);
       })(window, document, "script", "dataLayer", gtmId);
-    })();</script><link rel="stylesheet" href="/_astro/black.DBkBXT07.css"></head> <body> <noscript> <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CWP9SPQ" height="0" width="0" style="display:none;visibility:hidden"></iframe> </noscript> <header class="lp-top"> <div class="lp-wrap lp-top-inner"> <span class="lp-brand"> <img src="/images/icons/Lockfix.webp?1" alt="" width="32" height="32"> <span>LocFix AI</span> </span> <a class="btn btn-sm btn-primary" href="https://calendar.app.google/Ta8whVSJjQnzwsB18" data-track="schedule_click"> Agendar una demo </a> </div> </header> <main>   <section class="hero" data-hide-sticky data-astro-cid-biqrgpqo> <div class="lp-wrap hero-grid" data-astro-cid-biqrgpqo> <div data-astro-cid-biqrgpqo> <div class="pills" data-astro-cid-biqrgpqo> <span class="pill warn" data-astro-cid-biqrgpqo>Exclusivo para tiendas Shopify Plus</span> <span class="pill" data-countdown data-astro-cid-biqrgpqo>Temporada de Navidad</span> </div> <h1 data-astro-cid-biqrgpqo>Que ningún regalo <em data-astro-cid-biqrgpqo>vuelva</em> por una comuna mal escrita</h1> <p class="hero-sub" data-astro-cid-biqrgpqo> En diciembre, un paquete devuelto es un regalo que no llega antes del 24. LocFix corrige la comuna en el checkout —«Las Conde» pasa a «Las Condes»— y sugiere la
+    })();</script><link rel="stylesheet" href="/_astro/black.DMg7B8V-.css"></head> <body> <noscript> <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CWP9SPQ" height="0" width="0" style="display:none;visibility:hidden"></iframe> </noscript> <header class="lp-top"> <div class="lp-wrap lp-top-inner"> <span class="lp-brand"> <img src="/images/icons/Lockfix.webp?1" alt="" width="32" height="32"> <span>LocFix AI</span> </span> <a class="btn btn-sm btn-primary" href="https://calendar.app.google/Ta8whVSJjQnzwsB18" data-track="schedule_click"> Agendar una demo </a> </div> </header> <main>   <section class="hero" data-hide-sticky data-astro-cid-biqrgpqo> <div class="lp-wrap hero-grid" data-astro-cid-biqrgpqo> <div data-astro-cid-biqrgpqo> <div class="pills" data-astro-cid-biqrgpqo> <span class="pill warn" data-astro-cid-biqrgpqo>Exclusivo para tiendas Shopify Plus</span> <span class="pill" data-countdown data-astro-cid-biqrgpqo>Temporada de Navidad</span> </div> <h1 data-astro-cid-biqrgpqo>Que ningún regalo <em data-astro-cid-biqrgpqo>vuelva</em> por una comuna mal escrita</h1> <p class="hero-sub" data-astro-cid-biqrgpqo> En diciembre, un paquete devuelto es un regalo que no llega antes del 24. LocFix corrige la comuna en el checkout —«Las Conde» pasa a «Las Condes»— y sugiere la
           dirección mientras tu cliente escribe. El courier recibe la dirección bien a la primera.
 </p> <div class="btn-row" data-astro-cid-biqrgpqo> <a class="btn btn-primary" href="https://calendar.app.google/Ta8whVSJjQnzwsB18" target="_blank" rel="noopener" data-track="schedule_click" data-loc="hero" data-astro-cid-biqrgpqo>
 Agendar una demo
@@ -183,8 +183,26 @@ Instalar en Shopify
           var io = new IntersectionObserver(function (entries) {
             entries.forEach(function (en) { en.isIntersecting ? visible.add(en.target) : visible.delete(en.target); });
             sticky.classList.toggle("is-on", visible.size === 0);
+            // Sube la burbuja del chat para que no quede tapada por la CTA fija
+            document.documentElement.style.setProperty("--chat-lift", visible.size === 0 ? sticky.offsetHeight + "px" : "0px");
           });
           watch.forEach(function (el) { io.observe(el); });
         }
       })();
-    </script>  </body> </html>  
+    </script>  <script async src="https://chat.codename.cl/widget.js" data-workspace="ws_codename" data-space="2cf286a3-d7a8-4b27-862a-868237a155ce"></script> <script>(function(){const chatKey = "codename.chat.ws_codename.2cf286a3-d7a8-4b27-862a-868237a155ce";
+
+          // chat_start: el widget no emite eventos. Cuando el visitante deja su correo,
+          // el widget guarda la sesión en localStorage; detectamos esa clave nueva.
+          (function () {
+            function has() { try { return !!localStorage.getItem(chatKey); } catch (e) { return false; } }
+            var started = has();
+            document.addEventListener("click", function (e) {
+              if (started || !(e.target.closest && e.target.closest("[data-codename-chat]"))) return;
+              var n = 0;
+              var t = setInterval(function () {
+                if (has()) { started = true; clearInterval(t); window.landingTrack("chat_start"); }
+                else if (++n > 20) clearInterval(t);
+              }, 500);
+            });
+          })();
+        })();</script>  </body> </html>  
