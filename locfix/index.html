@@ -38,7 +38,7 @@
         j.src = "https://www.googletagmanager.com/gtm.js?id=" + i;
         f.parentNode.insertBefore(j, f);
       })(window, document, "script", "dataLayer", gtmId);
-    })();</script><link rel="stylesheet" href="/_astro/black.CbTWVkkh.css"></head> <body> <noscript> <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CWP9SPQ" height="0" width="0" style="display:none;visibility:hidden"></iframe> </noscript> <header class="lp-top"> <div class="lp-wrap lp-top-inner"> <span class="lp-brand"> <img src="/images/icons/Lockfix.webp?1" alt="" width="32" height="32"> <span>LocFix AI</span> </span> <a class="btn btn-sm btn-primary" href="https://calendar.app.google/Ta8whVSJjQnzwsB18" data-track="schedule_click"> Agendar una demo </a> </div> </header> <main>   <section class="hero" data-hide-sticky data-astro-cid-biqrgpqo> <div class="lp-wrap hero-grid" data-astro-cid-biqrgpqo> <div data-astro-cid-biqrgpqo> <div class="pills" data-astro-cid-biqrgpqo> <span class="pill warn" data-astro-cid-biqrgpqo>Exclusivo para tiendas Shopify Plus</span>  </div> <h1 data-astro-cid-biqrgpqo>Que tus paquetes no <em data-astro-cid-biqrgpqo>vuelvan</em> por una comuna mal escrita</h1> <p class="hero-sub" data-astro-cid-biqrgpqo> LocFix corrige la comuna en el checkout —«Las Conde» pasa a «Las Condes»— y sugiere la
+    })();</script><link rel="stylesheet" href="/_astro/black.B4b_jpMa.css"></head> <body> <noscript> <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CWP9SPQ" height="0" width="0" style="display:none;visibility:hidden"></iframe> </noscript> <header class="lp-top"> <div class="lp-wrap lp-top-inner"> <span class="lp-brand"> <img src="/images/icons/Lockfix.webp?1" alt="" width="32" height="32"> <span>LocFix AI</span> </span> <a class="btn btn-sm btn-primary" href="https://calendar.app.google/Ta8whVSJjQnzwsB18" data-track="schedule_click"> Agendar una demo </a> </div> </header> <main>   <section class="hero" data-hide-sticky data-astro-cid-biqrgpqo> <div class="lp-wrap hero-grid" data-astro-cid-biqrgpqo> <div data-astro-cid-biqrgpqo> <div class="pills" data-astro-cid-biqrgpqo> <span class="pill warn" data-astro-cid-biqrgpqo>Exclusivo para tiendas Shopify Plus</span>  </div> <h1 data-astro-cid-biqrgpqo>Que tus paquetes no <em data-astro-cid-biqrgpqo>vuelvan</em> por una comuna mal escrita</h1> <p class="hero-sub" data-astro-cid-biqrgpqo> LocFix corrige la comuna en el checkout —«Las Conde» pasa a «Las Condes»— y sugiere la
           dirección mientras tu cliente escribe. El courier recibe la dirección bien a la primera.
 </p> <div class="btn-row" data-astro-cid-biqrgpqo> <a class="btn btn-primary" href="https://calendar.app.google/Ta8whVSJjQnzwsB18" target="_blank" rel="noopener" data-track="schedule_click" data-loc="hero" data-astro-cid-biqrgpqo>
 Agendar una demo
@@ -152,7 +152,7 @@ Agendar una demo
 Instalar en Shopify
 </a> </div> <p class="hero-note" data-astro-cid-biqrgpqo>Requiere Shopify Plus.</p> </div> </section>  </main> <footer class="lp-footer"> <div class="lp-wrap"> <p> LocFix AI es una app de <a href="https://codename.cl" target="_blank" rel="noopener">Codename</a>,
           partner de Shopify en Chile.
-</p> <p><a href="/policies/privacy.html">Política de privacidad</a></p> </div> </footer> <!-- CTA fija en el teléfono (la mayoría del tráfico viene de IG/TikTok) --> <div class="lp-sticky" aria-hidden="true"> <a class="btn btn-primary" href="https://calendar.app.google/Ta8whVSJjQnzwsB18" data-track="schedule_click" tabindex="-1"> Agendar una demo </a> </div> <script>
+</p> <p><a href="/policies/privacy.html">Política de privacidad</a></p> </div> </footer> <script>
       (function () {
         var utm = window.landingUtm || {};
         // Propaga los UTMs de la visita a los enlaces salientes (App Store / agenda)
@@ -168,21 +168,11 @@ Instalar en Shopify
           var a = e.target.closest && e.target.closest("[data-track]");
           if (a) window.landingTrack(a.getAttribute("data-track"), { cta_location: a.getAttribute("data-loc") || "" });
         });
-        // Oculta la CTA fija mientras el hero o el formulario están en pantalla
-        var sticky = document.querySelector(".lp-sticky");
-        var watch = document.querySelectorAll("[data-hide-sticky]");
-        if (sticky && "IntersectionObserver" in window && watch.length) {
-          var visible = new Set();
-          var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (en) { en.isIntersecting ? visible.add(en.target) : visible.delete(en.target); });
-            sticky.classList.toggle("is-on", visible.size === 0);
-            // Sube la burbuja del chat para que no quede tapada por la CTA fija
-            document.documentElement.style.setProperty("--chat-lift", visible.size === 0 ? sticky.offsetHeight + "px" : "0px");
-          });
-          watch.forEach(function (el) { io.observe(el); });
-        }
       })();
-    </script>  <script async src="https://chat.codename.cl/widget.js" data-workspace="ws_codename" data-space="2cf286a3-d7a8-4b27-862a-868237a155ce"></script> <script>(function(){const chatKey = "codename.chat.ws_codename.2cf286a3-d7a8-4b27-862a-868237a155ce";
+    </script> <!-- Barra de contacto/chat fija en el teléfono (la mayoría del tráfico viene de IG/TikTok) --> <script src="/landing/chat-bar.js?v=1"></script> <script>(function(){const barOpts = {"product":"lcf","endpoint":"https://script.google.com/macros/s/AKfycbznpkaag95wVwCcjZRoPF2UwNbFMUba15Mq6zxP3XnykorZqfofA2zKM-V5Bgc1PlhV/exec","chatKey":"codename.chat.ws_codename.2cf286a3-d7a8-4b27-862a-868237a155ce","hideOver":"#contacto"};
+
+      window.initChatBar(barOpts);
+    })();</script>  <script async src="https://chat.codename.cl/widget.js" data-workspace="ws_codename" data-space="2cf286a3-d7a8-4b27-862a-868237a155ce"></script> <script>(function(){const chatKey = "codename.chat.ws_codename.2cf286a3-d7a8-4b27-862a-868237a155ce";
 
           // Color de marca (naranja de las CTA): el widget usa Shadow DOM abierto y no
           // tiene opción de tema, así que le agregamos una hoja que pisa su morado.
@@ -204,31 +194,18 @@ Instalar en Shopify
             }
           })();
 
-          // Abrir el chat sin esperar al visitante (cerrado, tiende a ignorarse).
-          // Escritorio: se abre solo a los 8 s. Teléfono: el panel taparía la página,
-          // así que mostramos un aviso junto a la burbuja que lo abre al tocarlo.
+          // Escritorio: el chat se abre solo a los 8 s (cerrado, tiende a ignorarse).
+          // En el teléfono la entrada es la barra de chat (/landing/chat-bar.js).
           // Una vez por sesión, y nunca si ya tiene una conversación.
           (function () {
             var KEY = "chat_nudged";
+            if (!matchMedia("(min-width: 768px)").matches) return;
             try { if (sessionStorage.getItem(KEY) || localStorage.getItem(chatKey)) return; } catch (e) { return; }
-            function root() { var h = document.querySelector("[data-codename-chat]"); return h && h.shadowRoot; }
-            function isOpen() { var r = root(); return !!(r && r.querySelector(".panel")); }
-            function open() { var r = root(), b = r && r.querySelector(".bubble"); if (b && !isOpen()) b.click(); }
-            function done() { try { sessionStorage.setItem(KEY, "1"); } catch (e) {} }
             setTimeout(function () {
-              if (!root() || isOpen()) return done();
-              done();
-              if (matchMedia("(min-width: 768px)").matches) return open();
-              var tip = document.createElement("div");
-              tip.className = "chat-nudge";
-              tip.innerHTML = '<button type="button" class="chat-nudge-open">¿Dudas? Escríbenos</button>'
-                + '<button type="button" class="chat-nudge-x" aria-label="Cerrar aviso">×</button>';
-              document.body.appendChild(tip);
-              tip.querySelector(".chat-nudge-open").onclick = function () { tip.remove(); open(); };
-              tip.querySelector(".chat-nudge-x").onclick = function () { tip.remove(); };
-              document.addEventListener("click", function (e) {
-                if (e.target.closest && e.target.closest("[data-codename-chat]")) tip.remove();
-              });
+              try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
+              var h = document.querySelector("[data-codename-chat]"), r = h && h.shadowRoot;
+              var b = r && r.querySelector(".bubble");
+              if (b && !r.querySelector(".panel")) b.click();
             }, 8000);
           })();
 
