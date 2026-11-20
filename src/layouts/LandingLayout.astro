@@ -167,13 +167,6 @@ const hasChat = Boolean(chat?.workspace && chat?.space);
       </div>
     </footer>
 
-    <!-- CTA fija en el teléfono (la mayoría del tráfico viene de IG/TikTok) -->
-    <div class="lp-sticky" aria-hidden="true">
-      <a class="btn btn-primary" href={primaryCta.href} data-track={primaryCta.track} tabindex="-1">
-        {primaryCta.label}
-      </a>
-    </div>
-
     <script is:inline>
       (function () {
         var utm = window.landingUtm || {};
@@ -190,20 +183,23 @@ const hasChat = Boolean(chat?.workspace && chat?.space);
           var a = e.target.closest && e.target.closest("[data-track]");
           if (a) window.landingTrack(a.getAttribute("data-track"), { cta_location: a.getAttribute("data-loc") || "" });
         });
-        // Oculta la CTA fija mientras el hero o el formulario están en pantalla
-        var sticky = document.querySelector(".lp-sticky");
-        var watch = document.querySelectorAll("[data-hide-sticky]");
-        if (sticky && "IntersectionObserver" in window && watch.length) {
-          var visible = new Set();
-          var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (en) { en.isIntersecting ? visible.add(en.target) : visible.delete(en.target); });
-            sticky.classList.toggle("is-on", visible.size === 0);
-            // Sube la burbuja del chat para que no quede tapada por la CTA fija
-            document.documentElement.style.setProperty("--chat-lift", visible.size === 0 ? sticky.offsetHeight + "px" : "0px");
-          });
-          watch.forEach(function (el) { io.observe(el); });
-        }
       })();
+    </script>
+
+    <!-- Barra de contacto/chat fija en el teléfono (la mayoría del tráfico viene de IG/TikTok) -->
+    <script is:inline src="/landing/chat-bar.js?v=1"></script>
+    <script
+      is:inline
+      define:vars={{
+        barOpts: {
+          product,
+          endpoint: campaign.leadEndpoint,
+          chatKey: hasChat ? `codename.chat.${chat!.workspace}.${chat!.space}` : "",
+          hideOver: "#contacto",
+        },
+      }}
+    >
+      window.initChatBar(barOpts);
     </script>
 
     {hasChat && (
@@ -230,31 +226,18 @@ const hasChat = Boolean(chat?.workspace && chat?.space);
             }
           })();
 
-          // Abrir el chat sin esperar al visitante (cerrado, tiende a ignorarse).
-          // Escritorio: se abre solo a los 8 s. Teléfono: el panel taparía la página,
-          // así que mostramos un aviso junto a la burbuja que lo abre al tocarlo.
+          // Escritorio: el chat se abre solo a los 8 s (cerrado, tiende a ignorarse).
+          // En el teléfono la entrada es la barra de chat (/landing/chat-bar.js).
           // Una vez por sesión, y nunca si ya tiene una conversación.
           (function () {
             var KEY = "chat_nudged";
+            if (!matchMedia("(min-width: 768px)").matches) return;
             try { if (sessionStorage.getItem(KEY) || localStorage.getItem(chatKey)) return; } catch (e) { return; }
-            function root() { var h = document.querySelector("[data-codename-chat]"); return h && h.shadowRoot; }
-            function isOpen() { var r = root(); return !!(r && r.querySelector(".panel")); }
-            function open() { var r = root(), b = r && r.querySelector(".bubble"); if (b && !isOpen()) b.click(); }
-            function done() { try { sessionStorage.setItem(KEY, "1"); } catch (e) {} }
             setTimeout(function () {
-              if (!root() || isOpen()) return done();
-              done();
-              if (matchMedia("(min-width: 768px)").matches) return open();
-              var tip = document.createElement("div");
-              tip.className = "chat-nudge";
-              tip.innerHTML = '<button type="button" class="chat-nudge-open">¿Dudas? Escríbenos</button>'
-                + '<button type="button" class="chat-nudge-x" aria-label="Cerrar aviso">×</button>';
-              document.body.appendChild(tip);
-              tip.querySelector(".chat-nudge-open").onclick = function () { tip.remove(); open(); };
-              tip.querySelector(".chat-nudge-x").onclick = function () { tip.remove(); };
-              document.addEventListener("click", function (e) {
-                if (e.target.closest && e.target.closest("[data-codename-chat]")) tip.remove();
-              });
+              try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
+              var h = document.querySelector("[data-codename-chat]"), r = h && h.shadowRoot;
+              var b = r && r.querySelector(".bubble");
+              if (b && !r.querySelector(".panel")) b.click();
             }, 8000);
           })();
 
@@ -443,38 +426,43 @@ const hasChat = Boolean(chat?.workspace && chat?.space);
   .faq details p { padding: 0 0 20px; color: var(--s500); }
 
   /* Footer */
-  .lp-footer { background: var(--ink); color: var(--s400); font-size: 0.875rem; padding: 32px 0 112px; }
+  .lp-footer { background: var(--ink); color: var(--s400); font-size: 0.875rem; padding: 32px 0 calc(32px + var(--cbar-h, 0px)); }
   .lp-footer p + p { margin-top: 6px; }
   .lp-footer a { color: #fff; }
-  @media (min-width: 768px) { .lp-footer { padding-bottom: 32px; } }
 
   .lp-wordmark { font-weight: 700; letter-spacing: -0.02em; }
   .lp-wordmark span { font-weight: 400; }
 
-  /* Sticky CTA (mobile only) */
-  .lp-sticky {
+  /* Barra de contacto/chat (solo teléfono): /landing/chat-bar.js */
+  .cbar {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
-    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-    background: linear-gradient(to top, rgba(255,255,255,1) 70%, rgba(255,255,255,0));
-    transform: translateY(110%); transition: transform 0.25s ease;
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+    background: var(--ink-2); color: #fff; border-top: 1px solid rgba(255,255,255,.08);
+    border-radius: 18px 18px 0 0; box-shadow: 0 -10px 30px rgba(2, 6, 23, .25);
+    transform: translateY(110%); transition: transform .25s ease;
   }
-  .lp-sticky .btn { width: 100%; }
-  .lp-sticky.is-on { transform: translateY(0); }
-  @media (min-width: 768px) { .lp-sticky { display: none; } }
-
-  /* Aviso junto a la burbuja del chat (solo teléfono) */
-  .chat-nudge {
-    position: fixed; right: 76px; bottom: calc(26px + var(--chat-lift, 0px)); z-index: 2147483645;
-    display: flex; align-items: center; gap: 2px; padding: 4px 4px 4px 14px;
-    background: #fff; border: 1px solid #E3E8EE; border-radius: 999px;
-    box-shadow: 0 8px 24px rgba(11, 27, 43, .14); transition: bottom .3s ease;
-    animation: chat-nudge-in .35s ease;
+  .cbar.is-on { transform: none; }
+  @media (min-width: 768px) { .cbar { display: none; } }
+  .cbar-head { display: flex; align-items: center; gap: 12px; }
+  .cbar-head > div { flex: 1; min-width: 0; }
+  .cbar-icon {
+    flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px;
+    background: rgba(235, 94, 40, .14); color: var(--orange);
   }
-  .chat-nudge button { border: 0; background: none; cursor: pointer; font: inherit; }
-  .chat-nudge-open { font-size: 14px; font-weight: 600; color: #d24f1d; padding: 6px 0; }
-  .chat-nudge-x { width: 28px; height: 28px; font-size: 18px; line-height: 1; color: #8A99A8; }
-  @keyframes chat-nudge-in { from { opacity: 0; transform: translateY(8px); } }
-  @media (prefers-reduced-motion: reduce) { .chat-nudge { animation: none; } }
+  .cbar-title { margin: 0; font-size: 1rem; font-weight: 700; line-height: 1.25; }
+  .cbar-sub { margin: 2px 0 0; font-size: .8125rem; color: var(--s300); }
+  .cbar-form { display: flex; gap: 8px; margin-top: 12px; }
+  .cbar-input {
+    flex: 1; min-width: 0; min-height: 48px; padding: 0 14px; border: 1.5px solid transparent; border-radius: 12px;
+    background: #fff; color: var(--ink); font: inherit; font-size: 16px;
+  }
+  .cbar-input:focus { outline: none; border-color: var(--orange); }
+  .cbar-input[aria-invalid="true"] { border-color: #f87171; }
+  .cbar-send {
+    flex: none; min-height: 48px; padding: 0 18px; border: 0; border-radius: 12px; cursor: pointer;
+    background: var(--orange); color: #fff; font: inherit; font-weight: 600; font-size: 15px;
+  }
+  .cbar-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
   /* Contenedor de la burbuja de chat.codename.cl: fijo y sin alto, para poder
      subirlo (con su panel) cuando la CTA fija está visible en el teléfono. */
