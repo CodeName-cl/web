@@ -20,7 +20,7 @@ export const campaign = {
    */
   leadEndpoint: "https://script.google.com/macros/s/AKfycbznpkaag95wVwCcjZRoPF2UwNbFMUba15Mq6zxP3XnykorZqfofA2zKM-V5Bgc1PlhV/exec",
   /** Agenda de citas de Google Calendar (demo / reunión). */
-  scheduleUrl: "https://calendar.app.google/Ta8whVSJjQnzwsB18",
+  scheduleUrl: "https://calendar.app.google/mbWZvPPwqKrt9QBa8",
   /** Widget de chat.codename.cl. Cada producto usa su propio space (products.*.chat). */
   chatWidgetSrc: "https://chat.codename.cl/widget.js",
 };
