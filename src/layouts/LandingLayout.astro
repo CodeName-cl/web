@@ -42,7 +42,7 @@ const {
   wordmark,
   chat,
 } = Astro.props;
-const { gtmId, metaPixelId, chatWidgetSrc } = campaign;
+const { gtmId, metaPixelId, clarityId, chatWidgetSrc } = campaign;
 const hasChat = Boolean(chat?.workspace && chat?.space);
 ---
 
@@ -125,6 +125,19 @@ const hasChat = Boolean(chat?.workspace && chat?.space);
         document,'script','https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', metaPixelId);
         fbq('track', 'PageView');
+      </script>
+    )}
+
+    {clarityId && (
+      <script is:inline define:vars={{ clarityId, product }}>
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", clarityId);
+        // Etiquetas para filtrar las grabaciones por producto y landing en Clarity.
+        window.clarity("set", "product", product);
+        window.clarity("set", "landing", location.pathname);
       </script>
     )}
 
