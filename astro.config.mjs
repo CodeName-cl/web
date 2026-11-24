@@ -4,7 +4,12 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://codename.cl",
   trailingSlash: "never",
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // /product-sentinel/* solo redirige a productsentinel.com: no van al sitemap.
+      filter: (page) => !page.includes("/product-sentinel/"),
+    }),
+  ],
   redirects: {
     // The old API-key guide named the wrong APIs (Maps Embed); its content now
     // lives in step 4 of the LocFix setup guide.
