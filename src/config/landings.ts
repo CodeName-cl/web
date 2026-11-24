@@ -13,6 +13,8 @@ export const campaign = {
   gtmId: "GTM-5CWP9SPQ",
   /** TODO: ID del píxel de Meta. Vacío = no se carga el píxel. */
   metaPixelId: "",
+  /** Microsoft Clarity (grabaciones de sesión y mapas de calor). Vacío = sin Clarity. */
+  clarityId: "zioogkx40d",
   /**
    * Aplicación web de Google Apps Script que guarda cada lead en el Google Sheet
    * "Leads campaña Navidad 2026" (código en scripts/leads-apps-script.gs).
