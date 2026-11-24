@@ -1,7 +1,9 @@
 ---
 /** Redirige a otra URL conservando los parámetros (UTMs) de la visita. */
 interface Props { to: string }
-const { to } = Astro.props;
+import { withSlash } from "../../utils/seo.mjs";
+const { to: raw } = Astro.props;
+const to = withSlash(raw);
 ---
 <!doctype html>
 <html lang="es">

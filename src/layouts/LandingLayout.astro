@@ -11,6 +11,7 @@
  * Cada evento incluye product y los UTMs de la visita.
  */
 import { campaign } from "../config/landings";
+import { withSlash } from "../utils/seo.mjs";
 
 interface Props {
   title: string;
@@ -35,7 +36,7 @@ const {
   product,
   productName,
   icon,
-  canonicalUrl,
+  canonicalUrl: rawCanonical,
   ogImage = "https://codename.cl/logo.png",
   primaryCta,
   favicon,
@@ -43,6 +44,7 @@ const {
   chat,
 } = Astro.props;
 const { gtmId, metaPixelId, clarityId, chatWidgetSrc } = campaign;
+const canonicalUrl = withSlash(rawCanonical);
 const hasChat = Boolean(chat?.workspace && chat?.space);
 ---
 

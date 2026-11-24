@@ -3,6 +3,7 @@ import type { Lang } from "@i18n/ui";
 import { useTranslations } from "@i18n/utils";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
+import { withSlash } from "../utils/seo.mjs";
 
 interface Props {
   title: string;
@@ -29,6 +30,10 @@ const {
   langRedirect = true,
 } = Astro.props;
 
+const canonical = withSlash(canonicalUrl ?? Astro.url.href);
+const altEs = withSlash(alternateEs);
+const altEn = withSlash(alternateEn);
+
 const t = useTranslations(lang);
 const desc = description || t("meta.description");
 ---
@@ -46,7 +51,7 @@ const desc = description || t("meta.description");
     <meta property="og:description" content={desc} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:type" content={ogType} />
-    <meta property="og:url" content={canonicalUrl ?? Astro.url.href} />
+    <meta property="og:url" content={canonical} />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -54,10 +59,10 @@ const desc = description || t("meta.description");
     <meta name="twitter:description" content={desc} />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="canonical" href={canonicalUrl ?? Astro.url.href} />
+    <link rel="canonical" href={canonical} />
 
-    {alternateEs && <link rel="alternate" hreflang="es" href={alternateEs} />}
-    {alternateEn && <link rel="alternate" hreflang="en" href={alternateEn} />}
+    {altEs && <link rel="alternate" hreflang="es" href={altEs} />}
+    {altEn && <link rel="alternate" hreflang="en" href={altEn} />}
 
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
